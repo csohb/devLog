@@ -2,7 +2,8 @@
     import {link} from 'svelte-spa-router'
 </script>
 
-<header>
+<header class="header">
+<div class="inner">
     <h1>
         <a href="/">Devlog</a>
     </h1>
@@ -12,4 +13,5 @@
         <a href="/story" use:link>Story</a>
         <a href="/contact" use:link>Contact</a>
     </nav>
+</div>
 </header>

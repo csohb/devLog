@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-const TBNameCareer = "Career"
+const TBNameCareer = "CAREER"
 
 type TBCareer struct {
 	gorm.Model

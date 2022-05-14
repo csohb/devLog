@@ -18,7 +18,17 @@ func ConnectForMariaDB(dsn string) (*gorm.DB, error) {
 }
 
 func ConnectForTest() (*gorm.DB, error) {
-	dsn := "csohb:password@tcp(127.0.0.1:3306)/devLog?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root:Jenoayo12!@tcp(127.0.0.1:3306)/devlog?charset=utf8mb4&parseTime=True&loc=Local"
+	mysql, err := gorm.Open(mysql.Open(dsn))
+	if err != nil {
+		logrus.WithError(err).Error("DB Connect error")
+		panic(err)
+	}
+	return mysql, nil
+}
+
+func ConnectForYJ() (*gorm.DB, error) {
+	dsn := "rladudwl210:kk5371826@tcp(uws7-111.cafe24.com:3306)/rladudwl210?charset=utf8mb4&parseTime=True&loc=Local"
 	mysql, err := gorm.Open(mysql.Open(dsn))
 	if err != nil {
 		logrus.WithError(err).Error("DB Connect error")

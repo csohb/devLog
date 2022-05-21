@@ -40,7 +40,7 @@ func main() {
 	defer e.Close()
 
 	// db connect
-	db, err := conn.ConnectForTest()
+	db, err := conn.ConnectForYJ()
 	if err != nil {
 		logrus.WithError(err).Error("db connect failed. ")
 		os.Exit(-1)

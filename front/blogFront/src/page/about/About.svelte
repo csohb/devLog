@@ -6,8 +6,10 @@ import Header from "../../components/Header.svelte";
 </script>
 
 <Header />
-<main>
-    about
+<main class="sub-page">
+  <section>
+      about
+  </section> 
 </main>
 
 <Footer />

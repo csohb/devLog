@@ -1,9 +1,14 @@
 <script lang="ts">
+    import { createEventDispatcher, onMount } from 'svelte';
     import {link} from 'svelte-spa-router'
+
+    const dispatcher = createEventDispatcher()
+
+    export let colorClass:boolean = false
 
     let toggleEl:HTMLElement
     let navbarEl:HTMLElement
-
+    let headerEl:HTMLElement
     let isToggle:boolean = false
 
     function toggleBtn():void{
@@ -18,9 +23,28 @@
         }
     }
 
+    $: console.log('class:',colorClass)
+    
+    onMount(()=>{
+        dispatcher('headerH', headerEl.clientHeight)
+    })
+
+    function headerBackgroundHandler(color: boolean){
+       if(headerEl){
+        if(color){
+            headerEl.classList.add('bg') 
+        }else{
+            headerEl.classList.remove('bg')
+        }
+       }
+    }
+
+    $: headerBackgroundHandler(colorClass)
+
+
 </script>
 
-<header class="header">
+<header class="header" bind:this={headerEl}>
 <div class="inner">
     <h1>
         <a href="/">Devlog</a>

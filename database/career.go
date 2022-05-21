@@ -9,6 +9,7 @@ const TBNameCareer = "CAREER"
 
 type TBCareer struct {
 	gorm.Model
+	UserID      string    `gorm:"column:user_id;type:varchar(20);comment:유저 아이디"`
 	CompanyName string    `gorm:"column:company_name;type:varchar(50);comment:회사이름"`
 	StartDate   time.Time `gorm:"column:start_date;type:datetime;comment:입사일"`
 	EndDate     time.Time `gorm:"column:end_date;type:datetime;comment:퇴사일"`

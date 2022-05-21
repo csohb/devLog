@@ -1,7 +1,7 @@
 package context
 
 import (
-	"devLog/server/common"
+	"devLog/common/api_context"
 	"devLog/server/config"
 	"github.com/go-resty/resty/v2"
 	"github.com/labstack/echo/v4"
@@ -11,14 +11,14 @@ import (
 )
 
 type Context struct {
-	*common.Context
+	*api_context.Context
 	Config     *config.Config
 	DB         *gorm.DB
 	httpClient *resty.Client
 	AuthInfo   AuthHandler
 }
 
-func (c Context) GetAuthHandler() common.AuthInterface {
+func (c Context) GetAuthHandler() api_context.AuthInterface {
 	return c.AuthInfo.GetHandler()
 }
 
@@ -46,10 +46,11 @@ func (a *AuthHandler) Create(c echo.Context, data interface{}) error {
 	return nil
 }
 
-func (a *AuthHandler) GetHandler() common.AuthInterface {
+func (a *AuthHandler) GetHandler() api_context.AuthInterface {
 	return a
 }
 
+/*
 func InitContext(e *echo.Echo, logger *logrus.Logger, db *gorm.DB, client *resty.Client, cfg *config.Config) {
 	e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
@@ -64,4 +65,19 @@ func InitContext(e *echo.Echo, logger *logrus.Logger, db *gorm.DB, client *resty
 		}
 	})
 	common.EnableTransactionLog(e, logger)
+}*/
+
+func InitContext(e *echo.Echo, logger *logrus.Logger, db *gorm.DB, client *resty.Client, cfg *config.Config) {
+	e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+		return func(context echo.Context) error {
+			ctx := &Context{
+				Context:    api_context.NewContext(context, logger),
+				DB:         db,
+				httpClient: client,
+				Config:     cfg,
+			}
+			return next(ctx)
+		}
+	})
+	api_context.EnableTransactionLog(e, logger)
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"devLog/database/conn"
+	"devLog/server/apis"
 	"devLog/server/apis/context"
 	"devLog/server/config"
 	"flag"
@@ -39,7 +40,7 @@ func main() {
 	defer e.Close()
 
 	// db connect
-	db, err := conn.ConnectForYJ()
+	db, err := conn.ConnectForTest()
 	if err != nil {
 		logrus.WithError(err).Error("db connect failed. ")
 		os.Exit(-1)
@@ -57,7 +58,8 @@ func main() {
 		MaxAge:           0,
 	}))
 
-	//grp := e.Group("/api/v1")
+	grp := e.Group("/api/v1")
+	apis.RoutingForDevLog(grp)
 	request := resty.New()
 	context.InitContext(e, logrus.StandardLogger(), db, request, cfg)
 

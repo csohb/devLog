@@ -33,7 +33,7 @@
   color: #1d0d5c;
 }
 
-.header > h1 {
+.header  h1 {
   line-height: 32px;
 }
 
@@ -50,15 +50,21 @@
   padding-right: 0;
 }
 
+.navbar-menu li a {
+color: #551A8B;
+}
+
 .navbar-menu li:hover a {
   color: #694cde;
 }
+
+
 
 /* 햄버거 버튼 */
 
 .navbar-toggleBtn {
   position: fixed;
-  top: 14px;
+  top: 22px;
   right: 20px;
   cursor: pointer;
   border: none;
@@ -203,6 +209,12 @@
   100% {
     transform: translate(-50%, 200%);
   }
+}
+
+.footer {
+  padding: 71px 0;
+  background-color: #141517;
+  color: #fff;
 }
 
 @media screen and (max-width: 1205px) {

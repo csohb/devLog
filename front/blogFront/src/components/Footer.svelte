@@ -1,5 +1,7 @@
 <script lang="ts"></script>
 
-<footer>
-    footer
+<footer class="footer">
+    <div class="inner">
+        <h2>DEVLOG</h2>
+    </div>
 </footer>

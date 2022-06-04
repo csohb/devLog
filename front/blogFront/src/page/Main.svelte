@@ -3,6 +3,8 @@ import Header from "../components/Header.svelte"
 import Footer from "../components/Footer.svelte"
 import About from "../components/main/About.svelte"
 import Branding from "../components/main/Branding.svelte";
+import Story from "../components/main/Story.svelte";
+import Blog from "../components/main/Blog.svelte"
 
 
 let y: number = 0
@@ -35,6 +37,12 @@ $: navColorHandler(y, headerH, screenH)
     </section>
     <section class="main-about">
         <About />
+    </section>
+    <section class="main-story">
+        <Story />
+    </section>
+    <section class="main-blog">
+        <Blog />
     </section>
 </main>
 <Footer />

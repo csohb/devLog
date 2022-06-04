@@ -38,7 +38,7 @@ func (app *ServiceProfileList) Service() *api_context.CommonResponse {
 		var dev string
 		switch v.Introduce.Developer {
 		case "F":
-			dev = "Front Developer"
+			dev = "Frontend Developer"
 		case "B":
 			dev = "Backend Developer"
 		}

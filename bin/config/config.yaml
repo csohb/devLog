@@ -24,9 +24,9 @@ server:
   ssl_crt:
 
 web:
-  base_url:
-  app:
-  public_path:
+  base_url: "http://localhost:8080"
+  app: "index.template.html"
+  public_path: "/Users/csohb/GolandProjects/devLog/front/blogFront/public"
   session_timeout:
   download_directory:
 

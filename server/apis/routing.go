@@ -9,7 +9,10 @@ import (
 func RoutingForDevLog(grp *echo.Group) {
 	// main page
 	grp.GET("/introduce/:id", mainpage.ProcessIntroduce)
+	grp.GET("/main/introduce", mainpage.ProcessProfileList)
 
 	// career
 	grp.POST("/career/save", career.ProcessSaveCareer)
+	grp.DELETE("/career/delete", career.ProcessDeleteCareer)
+	grp.PUT("/career/update", career.ProcessUpdateCareer)
 }

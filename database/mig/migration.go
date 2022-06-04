@@ -12,5 +12,5 @@ func main() {
 		panic(err)
 	}
 
-	db.AutoMigrate(&database.TBUser{}, &database.TBCareer{}, &database.TBProject{}, &database.TBTech{})
+	db.AutoMigrate(&database.TBUser{}, &database.TBCareer{}, &database.TBProject{}, &database.TBTech{}, &database.TBIntroduce{})
 }

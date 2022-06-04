@@ -212,6 +212,8 @@ color: #551A8B;
 }
 
 .footer {
+  position: relative;
+  z-index: 1;
   padding: 71px 0;
   background-color: #141517;
   color: #fff;

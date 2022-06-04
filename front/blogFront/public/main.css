@@ -109,11 +109,82 @@
   color: #808080;
 }
 
+.main-stroy-wrap {
+  position: relative;
+}
+
 .main-story {
   position: relative;
   z-index: 1;
   background-color: #fff;
 }
+
+.main-story-item {
+  width: 100%;
+  cursor: pointer;
+}
+.main-story-img {
+  overflow: hidden;
+  width: 100%;
+  height: 309px;
+  background-color: #F4F4F8;
+  position: relative;
+}
+
+.main-story-img img {
+  width: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.2s linear;
+}
+
+.main-story-img:hover img {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+.main-story-text {
+  margin-top: 15px;
+}
+.main-story-text-label {
+  font-size: 14px;
+  color: #101010;
+  font-weight: 500;
+}
+.main-story-text h3 {
+  margin: 7px 0 5px 0;
+  font-size: 1.5rem;
+  line-height: 1.36;
+}
+
+/* 스와이퍼 라이브러리 커스텀 */
+.swiper-container {
+  overflow: hidden;
+}
+
+.swiper-button-next, .swiper-button-prev {
+  top: 255px !important;
+}
+
+.swiper-button-prev{
+  left: auto !important;
+  right: 50px !important;
+}
+
+.swiper-button-next{
+  right: 0 !important;
+}
+.swiper-pagination {
+  width: 100%;
+  left: 0;
+  margin-top: 24px;
+}
+.swiper-pagination-clickable .swiper-pagination-bullet{
+  margin: 0 2px;
+}
+/* 스와이퍼 라이브러리 커스텀 */
 
 .main-blog {
   position: relative;
@@ -222,5 +293,14 @@
   .main-blog-list-text strong {
     width: auto;
     margin-right: 5px;
+  }
+  .swiper-pagination {
+    display: none !important;
+  }
+}
+
+@media screen and (max-width: 300px) {
+  .swiper-button-next, .swiper-button-prev {
+    display: none !important;
   }
 }

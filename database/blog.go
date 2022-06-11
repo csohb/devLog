@@ -1,6 +1,9 @@
 package database
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"strconv"
+)
 
 const TBNameBlog = "BLOG"
 
@@ -16,4 +19,12 @@ type TBBlog struct {
 
 func (TBBlog) TableName() string {
 	return TBNameBlog
+}
+
+func (t TBBlog) Get(db *gorm.DB, id string) error {
+	bid, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
+	return db.Take(&t, "ID = ?", bid).Error
 }

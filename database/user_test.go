@@ -43,3 +43,17 @@ func TestUser(t *testing.T) {
 		t.Error(err)
 	}*/
 }
+
+func TestUserIntroduce(t *testing.T) {
+	db, err := conn.ConnectForTest()
+	if err != nil {
+		t.Error(err)
+	}
+	tb := TBUser{}
+
+	data, err := tb.GetIntroduce(db, "yujin")
+	if err != nil {
+		t.Error(err)
+	}
+	fmt.Printf("data : %+v", data)
+}

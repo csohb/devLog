@@ -19,4 +19,5 @@ func RoutingForDevLog(grp *echo.Group) {
 
 	// blog
 	grp.GET("/blog/get", blog.ProcessGetBlog)
+	grp.GET("/blog/list", blog.ProcessFindBlog)
 }

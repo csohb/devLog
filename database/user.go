@@ -13,6 +13,7 @@ type TBUser struct {
 	Password  string      `gorm:"column:password;type:varchar(100);comment:패스워드"`
 	Introduce TBIntroduce `gorm:"foreignKey:user_id;references:id"`
 	Career    []TBCareer  `gorm:"foreignKey:user_id;references:id"`
+	Project   []TBProject `gorm:"foreignKey:user_id;references:id"`
 }
 
 func (t TBUser) TableName() string {
@@ -28,5 +29,15 @@ func (t *TBUser) GetIntroduceForMainPage(db *gorm.DB) (ret []TBUser, err error) 
 		logrus.WithError(err).Error("get introduce for mainpage err")
 		return nil, err
 	}
+	return ret, nil
+}
+
+func (t *TBUser) GetIntroduce(db *gorm.DB, userID string) (ret TBUser, err error) {
+	if err = db.Model(&t).Preload("Project").
+		Preload("Career").Preload("Introduce").
+		Take(&ret, "id = ?", userID).Error; err != nil {
+		return ret, err
+	}
+
 	return ret, nil
 }

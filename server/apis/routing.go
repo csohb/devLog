@@ -20,4 +20,6 @@ func RoutingForDevLog(grp *echo.Group) {
 	// blog
 	grp.GET("/blog/get", blog.ProcessGetBlog)
 	grp.GET("/blog/list", blog.ProcessFindBlog)
+	grp.DELETE("/blog/delete/:id", blog.ProcessDeleteBlog)
+	grp.POST("/blog/save", blog.ProcessSaveBlog)
 }

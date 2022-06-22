@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Swiper, SwiperSlide } from 'svelte-swiper';
+  // import { Swiper, SwiperSlide } from 'svelte-swiper';
   
   const options = {
     loop: true,
@@ -30,7 +30,7 @@
 <div class="inner">
    <div class="main-stroy-wrap">
        <h1>STORY</h1>
-       <Swiper {options}>
+       <!-- <Swiper {options}>
         {#each Array(5) as _ }
         <SwiperSlide> 
             <div class="main-stroy-item">
@@ -46,6 +46,6 @@
         <div class="swiper-pagination" slot="pagination"></div>
         <div class="swiper-button-next" slot="button-next"></div>
         <div class="swiper-button-prev" slot="button-prev"></div>
-      </Swiper>
+      </Swiper> -->
    </div> 
 </div>

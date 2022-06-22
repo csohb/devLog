@@ -14,7 +14,7 @@ type UpdateViewRequest struct {
 }
 
 type UpdateViewResponse struct {
-	View int `json:"heart"`
+	View int `json:"view"`
 }
 
 type ServiceUpdateView struct {

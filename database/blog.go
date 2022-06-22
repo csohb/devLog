@@ -94,10 +94,10 @@ func (t *TBBlog) UpdateView(db *gorm.DB, id string, count int) error {
 	return nil
 }
 
-func (t *TBBlog) Update(db *gorm.DB) error {
-	return db.Model(&t).Where("id = ?", t.ID).Updates(map[string]interface{}{
-		"title":   t.Title,
-		"content": t.Content,
-		"tag":     t.Tags,
-	}).Error
+func (t *TBBlog) Update(db *gorm.DB, tagList []TBTag) error {
+	if err := db.Model(&t).Where("id = ?", t.ID).
+		Association("Tags").Replace(tagList); err != nil {
+		return err
+	}
+	return nil
 }

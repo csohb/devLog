@@ -10,7 +10,7 @@ import (
 )
 
 type GetBlogRequest struct {
-	ID string `json:"id"`
+	ID string `param:"id"`
 }
 
 type GetBlogResponse struct {

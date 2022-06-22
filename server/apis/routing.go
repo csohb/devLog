@@ -18,8 +18,9 @@ func RoutingForDevLog(grp *echo.Group) {
 	grp.PUT("/career/update", career.ProcessUpdateCareer)
 
 	// blog
-	grp.GET("/blog/get", blog.ProcessGetBlog)
+	grp.GET("/blog/get/:id", blog.ProcessGetBlog)
 	grp.GET("/blog/list", blog.ProcessFindBlog)
 	grp.DELETE("/blog/delete/:id", blog.ProcessDeleteBlog)
 	grp.POST("/blog/save", blog.ProcessSaveBlog)
+	grp.PUT("/blog/heart", blog.ProcessUpdateHeart)
 }

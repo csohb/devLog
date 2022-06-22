@@ -2,12 +2,8 @@ package blog
 
 import (
 	"devLog/common/api_context"
-	"devLog/database"
 	"devLog/server/apis/context"
 	"github.com/labstack/echo/v4"
-	"gorm.io/gorm"
-	"net/http"
-	"strconv"
 )
 
 type UpdateBlogRequest struct {
@@ -23,7 +19,7 @@ type ServiceUpdateBlog struct {
 }
 
 func (app *ServiceUpdateBlog) Service() *api_context.CommonResponse {
-	id, err := strconv.Atoi(app.req.ID)
+	/*id, err := strconv.Atoi(app.req.ID)
 	if err != nil {
 		app.Log.Error("convert blog id to int err : ", app.req.ID)
 		return api_context.FailureJSON(http.StatusBadRequest, "wrong blog id")
@@ -35,12 +31,12 @@ func (app *ServiceUpdateBlog) Service() *api_context.CommonResponse {
 		Title:   app.req.Title,
 		Content: app.req.Content,
 		Tags:    make([]database.TBTag, len(app.req.Tags)),
-	}
+	}*/
 
-	if err = tb.Update(app.DB); err != nil {
+	/*if err = tb.Update(app.DB); err != nil {
 		app.Log.Error("update blog err : ", tb)
 		return api_context.FailureJSON(http.StatusInternalServerError, "db update err")
-	}
+	}*/
 
 	return api_context.SuccessJSON(nil)
 }

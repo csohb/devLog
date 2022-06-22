@@ -77,6 +77,23 @@ func (t *TBBlog) UpdateHeart(db *gorm.DB, id string, count int) error {
 	return nil
 }
 
+func (t *TBBlog) UpdateView(db *gorm.DB, id string, count int) error {
+	bid, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
+
+	t.ID = uint(bid)
+
+	if err = db.Model(&t).Updates(map[string]interface{}{
+		"view": gorm.Expr("view + ?", count),
+	}).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
 func (t *TBBlog) Update(db *gorm.DB) error {
 	return db.Model(&t).Where("id = ?", t.ID).Updates(map[string]interface{}{
 		"title":   t.Title,

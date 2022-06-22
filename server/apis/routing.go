@@ -23,4 +23,5 @@ func RoutingForDevLog(grp *echo.Group) {
 	grp.DELETE("/blog/delete/:id", blog.ProcessDeleteBlog)
 	grp.POST("/blog/save", blog.ProcessSaveBlog)
 	grp.PUT("/blog/heart", blog.ProcessUpdateHeart)
+	grp.PUT("/blog/view", blog.ProcessUpdateView)
 }

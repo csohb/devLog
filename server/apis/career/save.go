@@ -4,7 +4,7 @@ import (
 	"devLog/common/api_context"
 	"devLog/database"
 	"devLog/server/apis/context"
-	"devLog/server/apis/mainpage"
+	"devLog/server/apis/introduce"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -12,8 +12,8 @@ import (
 )
 
 type SaveCareerRequest struct {
-	ID     string            `json:"id"`
-	Career []mainpage.Career `json:"career"`
+	ID     string             `json:"id"`
+	Career []introduce.Career `json:"career"`
 }
 
 type ServiceSaveCareer struct {

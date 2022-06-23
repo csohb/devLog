@@ -3,13 +3,13 @@ package apis
 import (
 	"devLog/server/apis/blog"
 	"devLog/server/apis/career"
+	"devLog/server/apis/introduce"
 	"devLog/server/apis/mainpage"
 	"github.com/labstack/echo/v4"
 )
 
 func RoutingForDevLog(grp *echo.Group) {
 	// main page
-	grp.GET("/introduce/:id", mainpage.ProcessIntroduce)
 	grp.GET("/main/introduce", mainpage.ProcessProfileList)
 
 	// career
@@ -25,4 +25,9 @@ func RoutingForDevLog(grp *echo.Group) {
 	grp.PUT("/blog/heart", blog.ProcessUpdateHeart)
 	grp.PUT("/blog/view", blog.ProcessUpdateView)
 	grp.POST("/blog/update", blog.ProcessUpdateBlog)
+
+	// introduce
+	grp.GET("/introduce/:id", introduce.ProcessGetIntroduce)
+	grp.PUT("/introduce/update", introduce.ProcessUpdateIntroduce)
+
 }

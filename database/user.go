@@ -20,6 +20,46 @@ func (t TBUser) TableName() string {
 	return TBNameUser
 }
 
+func (t *TBUser) UpdateIntroduce(db *gorm.DB, userId string) error {
+	if err := db.Transaction(func(tx *gorm.DB) error {
+		if err := tx.Model(&t.Introduce).Where("user_id = ?", userId).Updates(map[string]interface{}{
+			"intro":       t.Introduce.Intro,
+			"profile_url": t.Introduce.ProfileUrl,
+		}).Error; err != nil {
+			return err
+		}
+
+		for _, v := range t.Career {
+			if err := tx.Model(&t.Career).Where("id = ?", v.ID).Updates(map[string]interface{}{
+				"company_name": v.CompanyName,
+				"start_date":   v.StartDate,
+				"end_date":     v.EndDate,
+				"job_title":    v.JobTitle,
+				"job_detail":   v.JobDetail,
+			}).Error; err != nil {
+				return err
+			}
+		}
+
+		for _, v := range t.Project {
+			if err := tx.Model(&t.Project).Where("id = ?", v.ID).Updates(map[string]interface{}{
+				"name":        v.Name,
+				"is_personal": v.IsPersonal,
+				"start_date":  v.StartDate,
+				"end_date":    v.EndDate,
+				"description": v.Description,
+			}).Error; err != nil {
+				return err
+			}
+		}
+
+		return nil
+	}); err != nil {
+		return err
+	}
+	return nil
+}
+
 func (t *TBUser) GetCareer(db *gorm.DB, userId string) error {
 	return db.Preload("Career").Take(&t, "id = ?", userId).Error
 }

@@ -69,8 +69,8 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 		Developer: devType,
 		Img:       ret.Introduce.ProfileUrl,
 	}
-	careerList := make([]Career, len(tb.Career))
-	for i, v := range tb.Career {
+	careerList := make([]Career, len(ret.Career))
+	for i, v := range ret.Career {
 		careerList[i] = Career{
 			Company:   v.CompanyName,
 			StartDate: v.StartDate.Format("2006-01-02"),
@@ -80,8 +80,8 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 		}
 	}
 
-	projectList := make([]Project, len(tb.Project))
-	for i, v := range tb.Project {
+	projectList := make([]Project, len(ret.Project))
+	for i, v := range ret.Project {
 		projectList[i] = Project{
 			ID:          string(v.ID),
 			Name:        v.Name,

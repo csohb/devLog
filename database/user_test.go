@@ -3,7 +3,9 @@ package database
 import (
 	"devLog/database/conn"
 	"fmt"
+	"gorm.io/gorm"
 	"testing"
+	"time"
 )
 
 func TestUser(t *testing.T) {
@@ -56,4 +58,62 @@ func TestUserIntroduce(t *testing.T) {
 		t.Error(err)
 	}
 	fmt.Printf("data : %+v", data)
+}
+
+func TestUpdateIntroduce(t *testing.T) {
+	db, err := conn.ConnectForTest()
+	if err != nil {
+		t.Error(err)
+	}
+	tb := TBUser{
+		ID: "yujin",
+		Introduce: TBIntroduce{
+			UserID:     "yujin",
+			Intro:      "",
+			ProfileUrl: "",
+		},
+		Career: []TBCareer{
+			{
+				Model:       gorm.Model{},
+				UserID:      "",
+				CompanyName: "",
+				StartDate:   time.Time{},
+				EndDate:     time.Time{},
+				JobTitle:    "",
+				JobDetail:   "",
+			}, {
+				Model:       gorm.Model{},
+				UserID:      "",
+				CompanyName: "",
+				StartDate:   time.Time{},
+				EndDate:     time.Time{},
+				JobTitle:    "",
+				JobDetail:   "",
+			},
+		},
+		Project: []TBProject{
+			{
+				Model:       gorm.Model{},
+				UserID:      "",
+				Name:        "",
+				IsPersonal:  false,
+				StartDate:   time.Time{},
+				EndDate:     time.Time{},
+				Description: "",
+			}, {
+				Model:       gorm.Model{},
+				UserID:      "",
+				Name:        "",
+				IsPersonal:  false,
+				StartDate:   time.Time{},
+				EndDate:     time.Time{},
+				Description: "",
+			},
+		},
+	}
+
+	if err = tb.UpdateIntroduce(db, tb.ID); err != nil {
+		t.Error(err)
+	}
+
 }

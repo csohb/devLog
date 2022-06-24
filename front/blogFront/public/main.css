@@ -179,7 +179,7 @@
   word-wrap: break-word;
 }
 /* 스와이퍼 라이브러리 커스텀 */
-.swiper-container {
+/* .swiper-container {
   overflow: hidden;
 }
 
@@ -195,14 +195,21 @@
 
 .swiper-button-next {
   right: 0 !important;
-}
-.swiper-pagination {
+}*/
+.sc-carousel-dots__container {
   width: 100%;
   left: 0;
   margin-top: 24px;
 }
-.swiper-pagination-clickable .swiper-pagination-bullet {
-  margin: 0 2px;
+.sc-carousel-dot__dot_active {
+  background-color: #1e9eff !important;
+}
+.sc-carousel-button:focus {
+  outline: 0px auto !important;
+}
+.main-stroy-item {
+  padding: 0 2px;
+  cursor: pointer;
 }
 /* 스와이퍼 라이브러리 커스텀 */
 

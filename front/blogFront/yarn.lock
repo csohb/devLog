@@ -309,13 +309,6 @@
   "resolved" "https://registry.npmjs.org/detect-indent/-/detect-indent-6.1.0.tgz"
   "version" "6.1.0"
 
-"dom7@^3.0.0":
-  "integrity" "sha512-oNlcUdHsC4zb7Msx7JN3K0Nro1dzJ48knvBOnDPKJ2GV9wl1i5vydJZUSyOfrkKFDZEud/jBsTk92S/VGSAe/g=="
-  "resolved" "https://registry.npmjs.org/dom7/-/dom7-3.0.0.tgz"
-  "version" "3.0.0"
-  dependencies:
-    "ssr-window" "^3.0.0-alpha.1"
-
 "es6-promise@^3.1.2":
   "integrity" "sha512-SOp9Phqvqn7jtEUxPWdWfWoLmyt2VaJ6MpvP9Comy1MceMXqE6bxvaTu4iaxpYYPzhny28Lc+M87/c2cPK6lDg=="
   "resolved" "https://registry.npmjs.org/es6-promise/-/es6-promise-3.3.1.tgz"
@@ -529,6 +522,21 @@
   "integrity" "sha512-XfegD5pyTAfb+GY6chk283Ox5z8WexG56OvM06RWLpAc/UHozO8X6xAxEkIitZOtsSMM1Yr3DkHgW5W+onLhCw=="
   "resolved" "https://registry.npmjs.org/local-access/-/local-access-1.1.0.tgz"
   "version" "1.1.0"
+
+"lodash.clonedeep@^4.5.0":
+  "integrity" "sha512-H5ZhCF25riFd9uB5UCkVKo61m3S/xZk1x4wA6yp/L3RFP6Z/eHH1ymQcGLo7J3GMPfm0V/7m1tryHuGVxpqEBQ=="
+  "resolved" "https://registry.npmjs.org/lodash.clonedeep/-/lodash.clonedeep-4.5.0.tgz"
+  "version" "4.5.0"
+
+"lodash.get@^4.4.2":
+  "integrity" "sha512-z+Uw/vLuy6gQe8cfaFWD7p0wVv8fJl3mbzXh33RS+0oW2wvUqiRXiQ69gLWSLpgB5/6sU+r6BlQR0MBILadqTQ=="
+  "resolved" "https://registry.npmjs.org/lodash.get/-/lodash.get-4.4.2.tgz"
+  "version" "4.4.2"
+
+"lodash.isequal@^4.5.0":
+  "integrity" "sha512-pDo3lu8Jhfjqls6GkMgpahsF9kCyayhgykjyLMNFTKWrpVdAQtYyB4muAMWozBB4ig/dtWAmsMxLEI8wuz+DYQ=="
+  "resolved" "https://registry.npmjs.org/lodash.isequal/-/lodash.isequal-4.5.0.tgz"
+  "version" "4.5.0"
 
 "magic-string@^0.25.7":
   "integrity" "sha512-RmF0AsMzgt25qzqqLc1+MbHmhdx0ojF2Fvs4XnOqz2ZOBXzzkEwc/dJQZCYHAn7v1jbVOjAZfK8msRn4BxO4VQ=="
@@ -775,6 +783,14 @@
   dependencies:
     "randombytes" "^2.1.0"
 
+"simply-reactive@github:vadimkorr/simply-reactive#1.0.2":
+  "resolved" "git+ssh://git@github.com/vadimkorr/simply-reactive.git#f403097d695030306bdfd0f849411fd28ad7d474"
+  "version" "1.0.0"
+  dependencies:
+    "lodash.clonedeep" "^4.5.0"
+    "lodash.get" "^4.4.2"
+    "lodash.isequal" "^4.5.0"
+
 "sirv-cli@^2.0.0":
   "integrity" "sha512-OtSJDwxsF1NWHc7ps3Sa0s+dPtP15iQNJzfKVz+MxkEo3z72mCD+yu30ct79rPr0CaV1HXSOBp+MIY5uIhHZ1A=="
   "resolved" "https://registry.npmjs.org/sirv-cli/-/sirv-cli-2.0.2.tgz"
@@ -826,11 +842,6 @@
   "resolved" "https://registry.npmjs.org/sourcemap-codec/-/sourcemap-codec-1.4.8.tgz"
   "version" "1.4.8"
 
-"ssr-window@^3.0.0", "ssr-window@^3.0.0-alpha.1":
-  "integrity" "sha512-q+8UfWDg9Itrg0yWK7oe5p/XRCJpJF9OBtXfOPgSJl+u3Xd5KI328RUEvUqSMVM9CiQUEf1QdBzJMkYGErj9QA=="
-  "resolved" "https://registry.npmjs.org/ssr-window/-/ssr-window-3.0.0.tgz"
-  "version" "3.0.0"
-
 "strip-indent@^3.0.0":
   "integrity" "sha512-laJTa3Jb+VQpaC6DseHhF7dXVqHTfJPCRDaEbid/drOhgitgYku/letMUqOXFoWV0zIIUbjpdH2t+tYj4bQMRQ=="
   "resolved" "https://registry.npmjs.org/strip-indent/-/strip-indent-3.0.0.tgz"
@@ -856,6 +867,13 @@
   "integrity" "sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w=="
   "resolved" "https://registry.npmjs.org/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz"
   "version" "1.0.0"
+
+"svelte-carousel@^1.0.19":
+  "integrity" "sha512-fA2/jlCApJGmOJu06HJUof7ppyxYBzScpYSuyVb0sQ+51JatSsKB7cr3Co9LWCObGLBCzm1d2EN3jp4qF32ZaQ=="
+  "resolved" "https://registry.npmjs.org/svelte-carousel/-/svelte-carousel-1.0.19.tgz"
+  "version" "1.0.19"
+  dependencies:
+    "simply-reactive" "github:vadimkorr/simply-reactive#1.0.2"
 
 "svelte-check@^2.0.0":
   "integrity" "sha512-TuVX4YtXHbRM8sVuK5Jk+mKWdm3f0d6hvAC6qCTp8yUszGZewpEBCo2V5fRWZCiz+0J4OCiDHOS+DFMxv39rJA=="
@@ -890,25 +908,10 @@
   dependencies:
     "regexparam" "2.0.0"
 
-"svelte-swiper@^1.0.1":
-  "integrity" "sha512-a13W61mNZwKT7t3ivOA/ahP1xhZ0CZlTlBtF+GFFQB5gCOCd8JNMvbO9R0TsjfLhKHyW9XcR1lLB1UavMOlXfg=="
-  "resolved" "https://registry.npmjs.org/svelte-swiper/-/svelte-swiper-1.0.1.tgz"
-  "version" "1.0.1"
-  dependencies:
-    "swiper" "^6.1.1"
-
 "svelte@^3.0.0", "svelte@^3.23.0", "svelte@^3.24.0", "svelte@>=3.5.0":
   "integrity" "sha512-fN2YRm/bGumvjUpu6yI3BpvZnpIm9I6A7HR4oUNYd7ggYyIwSA/BX7DJ+UXXffLp6XNcUijyLvttbPVCYa/3xQ=="
   "resolved" "https://registry.npmjs.org/svelte/-/svelte-3.48.0.tgz"
   "version" "3.48.0"
-
-"swiper@^6.1.1":
-  "integrity" "sha512-O+buF9Q+sMA0H7luMS8R59hCaJKlpo8PXhQ6ZYu6Rn2v9OsFd4d1jmrv14QvxtQpKAvL/ZiovEeANI/uDGet7g=="
-  "resolved" "https://registry.npmjs.org/swiper/-/swiper-6.8.4.tgz"
-  "version" "6.8.4"
-  dependencies:
-    "dom7" "^3.0.0"
-    "ssr-window" "^3.0.0"
 
 "terser@^5.0.0":
   "integrity" "sha512-+ahUAE+iheqBTDxXhTisdA8hgvbEG1hHOQ9xmNjeUJSoi6DU/gMrKNcfZjHkyY6Alnuyc+ikYJaxxfHkT3+WuQ=="

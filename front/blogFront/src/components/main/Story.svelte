@@ -1,6 +1,7 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import Carousel from 'svelte-carousel'
+  import {chevron_left, chevron_right} from '../../icon/Icon';
 
   let loading = false 
   let screenCount = 3
@@ -59,11 +60,11 @@
               </div>
             </div>
           {/each}
-          <div slot="prev" class="custom-arrow custom-arrow-prev">
-        
+          <div slot="prev" on:click={showPrevPage} class="custom-arrow custom-arrow-prev">
+            {@html chevron_left}
           </div>
-          <div slot="next" class="custom-arrow custom-arrow-next">
-         
+          <div slot="next" on:click={showNextPage} class="custom-arrow custom-arrow-next">
+            {@html chevron_right}
           </div>
         </Carousel>
       {/if}

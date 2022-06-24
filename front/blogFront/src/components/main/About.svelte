@@ -1,4 +1,13 @@
 <script lang="ts">
+import { onMount } from "svelte";
+import { fetchProfileList } from "../../api/main";
+
+
+onMount(()=>{
+    fetchProfileList().then((res)=>{
+        console.log(res)
+    })
+})
 
 </script>
 

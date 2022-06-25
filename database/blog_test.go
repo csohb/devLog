@@ -56,3 +56,52 @@ func TestBlog(t *testing.T) {
 	fmt.Println("list : ", list)
 	fmt.Println("total : ", total)*/
 }
+
+func TestBlogUpdate(t *testing.T) {
+	db, err := conn.ConnectForTest()
+	if err != nil {
+		t.Error(err)
+	}
+	/*tags := []TBTag{
+		{
+			Tag: "test",
+		}, {
+			Tag: "golang",
+		}, {
+			Tag: "backend",
+		},
+	}
+
+	tb := TBBlog{
+		Title:   "test",
+		Content: "test",
+		Writer:  "csohb",
+		View:    0,
+		Heart:   0,
+		Tags:    tags,
+	}
+
+	if err = tb.Save(db); err != nil {
+		t.Error(err)
+	}*/
+	tags := []TBTag{
+		{
+			Tag: "u-test",
+		}, {
+			Tag: "u-golang",
+		}, {
+			Tag: "u-backend",
+		},
+	}
+	tb := TBBlog{
+		Model: gorm.Model{
+			ID: 1,
+		},
+		Title:   "update-test",
+		Content: "update-test",
+	}
+
+	if err = tb.Update(db, tags); err != nil {
+		t.Error(err)
+	}
+}

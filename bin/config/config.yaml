@@ -1,21 +1,21 @@
-server_name: "devLog-server"
+server_name: 'devLog-server'
 
 log:
-  path: "/Users/csohb/GolandProjects/devLog/bin/log"
-  level: "debug"
-  name: "server-log"
+  path: '/Users/yeong/blog/devLog/bin/log'
+  level: 'debug'
+  name: 'server-log'
 
 database:
-  dsn: "app_contents:cjswo123@tcp(im.plea.kr:13306)/idol_contents?charset=utf8mb4&parseTime=True&loc=Local&autocommit=true"
+  dsn: 'app_contents:cjswo123@tcp(im.plea.kr:13306)/idol_contents?charset=utf8mb4&parseTime=True&loc=Local&autocommit=true'
   max_idle: 1
   max_conn: 5
 
 kafka:
   brokers:
-  - "localhost:6876"
+    - 'localhost:6876'
 
 redis:
-  host: ""
+  host: ''
 
 server:
   listen:
@@ -24,11 +24,8 @@ server:
   ssl_crt:
 
 web:
-  base_url: "http://localhost:8080"
-  app: "index.template.html"
-  public_path: "/Users/csohb/GolandProjects/devLog/front/blogFront/public"
+  base_url: 'http://localhost:8080'
+  app: 'index.template.html'
+  public_path: '/Users/yeong/blog/devLog/front/blogFront/public'
   session_timeout:
   download_directory:
-
-
-

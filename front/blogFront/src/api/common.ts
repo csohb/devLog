@@ -1,0 +1,45 @@
+import axios, {
+  AxiosInstance,
+  AxiosInterceptorManager,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from 'axios';
+
+import type { CustomResponseFormat } from './types/common';
+
+interface CustomInstance extends AxiosInstance {
+  interceptors: {
+    request: AxiosInterceptorManager<AxiosRequestConfig>;
+    response: AxiosInterceptorManager<AxiosResponse<CustomResponseFormat>>;
+  };
+  getUri(config?: AxiosRequestConfig): string;
+  request<T>(config: AxiosRequestConfig): Promise<T>;
+  get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  head<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  options<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
+  post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
+  put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
+  patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
+}
+
+// axios 객체 하나만들어두고 재사용하기
+const reqresApi: CustomInstance = axios.create({
+  baseURL: 'http://localhost:8080/api/v1', // Url 나중에 env 로 빼기
+  timeout: 5000, // timeout 5초
+});
+
+// Axios 에는 interceptors 라는 기능이 있다. 이를 통해서 request / response 에 선행,후행 처리를 커스텀
+reqresApi.interceptors.response.use((res) => {
+  if (res.data.code === 200) {
+    return res.data.data;
+  }
+  return res.data;
+});
+
+reqresApi.interceptors.request.use((req) => {
+  // req.headers.authorization = TokenManager.accessToken; // jwt token
+  return req;
+});
+
+export default reqresApi;

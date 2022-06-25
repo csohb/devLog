@@ -179,30 +179,48 @@
   word-wrap: break-word;
 }
 /* 스와이퍼 라이브러리 커스텀 */
-.swiper-container {
-  overflow: hidden;
-}
-
-.swiper-button-next,
-.swiper-button-prev {
-  top: 255px !important;
-}
-
-.swiper-button-prev {
-  left: auto !important;
-  right: 50px !important;
-}
-
-.swiper-button-next {
-  right: 0 !important;
-}
-.swiper-pagination {
+.sc-carousel-dots__container {
   width: 100%;
   left: 0;
   margin-top: 24px;
 }
-.swiper-pagination-clickable .swiper-pagination-bullet {
-  margin: 0 2px;
+.sc-carousel-dot__dot_active {
+  background-color: #1e9eff !important;
+}
+.sc-carousel-button:focus {
+  outline: 0px auto !important;
+}
+.main-stroy-item {
+  padding: 0 2px;
+  cursor: pointer;
+}
+.st0 {
+  fill: none;
+  stroke: #000000;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+}
+.custom-arrow-prev {
+  position: absolute;
+  right: 32px;
+  top: -56px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+.custom-arrow-prev:hover {
+  opacity: 0.5;
+}
+.custom-arrow-next {
+  position: absolute;
+  right: 0;
+  top: -56px;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+.custom-arrow-next:hover {
+  opacity: 0.5;
 }
 /* 스와이퍼 라이브러리 커스텀 */
 

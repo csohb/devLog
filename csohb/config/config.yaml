@@ -1,0 +1,36 @@
+server_name: "devLog-server"
+
+log:
+  path: 'C:\Users\user\GolandProjects\devLog\csohb\log'
+  level: "debug"
+  name: "server-log"
+
+database:
+  dsn: "app_contents:cjswo123@tcp(im.plea.kr:13306)/idol_contents?charset=utf8mb4&parseTime=True&loc=Local&autocommit=true"
+  max_idle: 1
+  max_conn: 5
+
+kafka:
+  brokers:
+    - "localhost:6876"
+
+redis:
+  host: ""
+
+server:
+  listen:
+  ssl_use:
+  ssl_key:
+  ssl_crt:
+
+web:
+  base_url: "http://localhost:8080"
+  app: "index.template.html"
+  public_path: 'C:\Users\user\GolandProjects\devLog\front\blogFront\public'
+  session_timeout:
+  download_directory:
+
+
+
+
+

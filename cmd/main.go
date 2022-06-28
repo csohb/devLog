@@ -44,7 +44,7 @@ func main() {
 	defer e.Close()
 
 	// db connect
-	db, err := conn.ConnectForYJ()
+	db, err := conn.ConnectForTest()
 	//db, err := conn.ConnectForTest()
 	if err != nil {
 		logrus.WithError(err).Error("db connect failed. ")
@@ -83,7 +83,7 @@ func main() {
 	request := resty.New()
 	context.InitContext(e, logrus.StandardLogger(), db, request, cfg)
 
-	e.Start("localhost:8080")
+	e.Start("localhost:8081")
 
 }
 

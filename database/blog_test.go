@@ -105,3 +105,16 @@ func TestBlogUpdate(t *testing.T) {
 		t.Error(err)
 	}
 }
+
+func TestBlogGet(t *testing.T) {
+	db, err := conn.ConnectForTest()
+	if err != nil {
+		t.Error(err)
+	}
+	tb := TBBlog{}
+	if err := tb.Get(db, "1"); err != nil {
+		t.Error(err)
+	}
+
+	fmt.Println(tb.Tags)
+}

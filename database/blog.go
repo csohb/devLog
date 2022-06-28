@@ -95,10 +95,17 @@ func (t *TBBlog) UpdateView(db *gorm.DB, id string, count int) error {
 }
 
 func (t *TBBlog) Update(db *gorm.DB, tagList []TBTag) error {
-	if err := db.Model(&t).Updates(map[string]interface{}{
+
+	engine := db.Model(&t).Session(&gorm.Session{FullSaveAssociations: true})
+
+	if err := engine.Updates(map[string]interface{}{
 		"title":   t.Title,
 		"content": t.Content,
-	}).Association("Tags").Replace(tagList); err != nil {
+	}).Error; err != nil {
+		return err
+	}
+
+	if err := engine.Association("Tags").Replace(tagList); err != nil {
 		return err
 	}
 	return nil

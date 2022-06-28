@@ -117,3 +117,15 @@ func TestUpdateIntroduce(t *testing.T) {
 	}
 
 }
+
+func TestGetUser(t *testing.T) {
+	db, err := conn.ConnectForTest()
+	if err != nil {
+		t.Error(err)
+	}
+
+	tb := TBUser{}
+	if err = tb.CheckID(db, "csohb1"); err != nil {
+		t.Error(err)
+	}
+}

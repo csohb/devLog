@@ -1,6 +1,8 @@
 package database
 
 import (
+	"errors"
+	"fmt"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
@@ -18,6 +20,17 @@ type TBUser struct {
 
 func (t TBUser) TableName() string {
 	return TBNameUser
+}
+
+func (t TBUser) CheckID(db *gorm.DB, userID string) error {
+	if err := db.Model(&t).Take(&t, "id = ?", userID).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			return err
+		}
+		return err
+	}
+	fmt.Println(t.ID)
+	return nil
 }
 
 func (t *TBUser) UpdateIntroduce(db *gorm.DB, userId string) error {

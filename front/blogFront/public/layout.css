@@ -33,7 +33,7 @@
   color: #1d0d5c;
 }
 
-.header  h1 {
+.header h1 {
   line-height: 32px;
 }
 
@@ -51,14 +51,12 @@
 }
 
 .navbar-menu li a {
-color: #551A8B;
+  color: #551a8b;
 }
 
 .navbar-menu li:hover a {
   color: #694cde;
 }
-
-
 
 /* 햄버거 버튼 */
 
@@ -88,7 +86,7 @@ color: #551A8B;
 }
 
 .navbar-toggleBtn span::before {
-  content: "";
+  content: '';
   position: absolute;
   width: 0;
   height: 100%;
@@ -218,7 +216,17 @@ color: #551A8B;
   background-color: #141517;
   color: #fff;
 }
-
+.footer-wrap {
+  display: flex;
+  justify-content: space-between;
+}
+.footer-wrap a {
+  color: #fff;
+  transition: color 0.2s linear;
+}
+.footer-wrap a:hover {
+  color: #694cde;
+}
 @media screen and (max-width: 1205px) {
   .inner {
     padding: 0 20px;
@@ -255,5 +263,9 @@ color: #551A8B;
   .navbar-menu.on {
     display: inline-flex;
     opacity: 1;
+  }
+
+  .footer {
+    padding: 41px 0;
   }
 }

@@ -2,3 +2,9 @@
 .sub-page {
   margin-top: 100px;
 }
+
+@media screen and (max-width: 768px) {
+  .sub-page {
+    margin-top: 74px;
+  }
+}

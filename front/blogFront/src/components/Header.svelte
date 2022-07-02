@@ -1,10 +1,14 @@
 <script lang="ts">
-    import { createEventDispatcher, onMount } from 'svelte';
-    import {link} from 'svelte-spa-router'
+    import {  createEventDispatcher, onMount } from 'svelte';
+    import {link,location} from 'svelte-spa-router'
+
+
 
     const dispatcher = createEventDispatcher()
 
     export let colorClass:boolean = false
+
+
 
     let toggleEl:HTMLElement
     let navbarEl:HTMLElement
@@ -29,6 +33,14 @@
         dispatcher('headerH', headerEl.clientHeight)
     })
 
+    $: if($location !== '/'){
+        // 서브 페이지 header 위로 
+      if(headerEl){
+        headerEl.classList.add('bg') 
+        headerEl.style.borderBottom = '1px solid #f5f5f5';
+      }
+    }
+
     function headerBackgroundHandler(color: boolean){
        if(headerEl){
         if(color){
@@ -41,9 +53,14 @@
 
     $: headerBackgroundHandler(colorClass)
 
+    function resizeHandler(){
+        dispatcher('headerH', headerEl.clientHeight)
+    }
+
 
 </script>
 
+<svelte:window on:resize={resizeHandler} />
 <header class="header" bind:this={headerEl}>
 <div class="inner">
     <h1>

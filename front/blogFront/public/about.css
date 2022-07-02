@@ -1,0 +1,6 @@
+.sub-about-wrap {
+  height: 100vh;
+  position: relative;
+  z-index: 1;
+  background-color: #f9f9f9;
+}

@@ -18,6 +18,7 @@ function headerHeightHandler(h: CustomEvent){
 }
 
 function navColorHandler(y: number, head: number, screen: number){
+    console.log(headerH)
     if(screen - head < y ){
         headerColorClass = true
     }else{

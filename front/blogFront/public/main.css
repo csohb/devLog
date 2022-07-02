@@ -86,9 +86,20 @@
   transform: translate(-50%, -50%);
   transition: all 0.2s linear;
 }
+/* 이미지 위치 조정을 위해 임시로 */
+.profile-id:last-child img {
+  bottom: -15%;
+  top: auto;
+  transform: translate(-50%, 0);
+}
 
 .profile-id:hover img {
   transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* 이미지 위치 조정을 위해 임시로 */
+.profile-id:last-child:hover img {
+  transform: translate(-50%, 0) scale(1.05);
 }
 
 .profile-text {

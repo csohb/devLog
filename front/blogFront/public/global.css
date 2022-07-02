@@ -9,6 +9,7 @@
 @import './main.css';
 @import './about.css';
 @import './auth.css';
+@import './sub.css';
 
 @font-face {
   font-family: 'Noto Sans KR';

@@ -9,7 +9,13 @@ import Header from "../../components/Header.svelte";
 <main class="sub-page">
   <section class="sub-about-wrap">
     <div class="inner">
-      about
+      <div class="sub-about">
+        <ul class="sub-about-tab">
+          <li class="foc">YEONG</li>
+          <li>CSOHB</li>
+        </ul>
+        <h1>About Me</h1>
+      </div>
     </div>
   </section> 
 </main>

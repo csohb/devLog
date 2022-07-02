@@ -7,8 +7,10 @@ import Header from "../../components/Header.svelte";
 
 <Header />
 <main class="sub-page">
-  <section>
+  <section class="sub-about-wrap">
+    <div class="inner">
       about
+    </div>
   </section> 
 </main>
 

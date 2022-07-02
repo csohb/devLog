@@ -7,10 +7,10 @@
     <title>개발 블로그</title>
 
     <link rel="icon" type="image/png" href="/favicon.png" />
-    <link rel="stylesheet" href="/global.css" />
-    <link rel="stylesheet" href="/build/bundle.css" />
+    <link rel="stylesheet" href="/global.css?date={{.BuildTS}}" />
+    <link rel="stylesheet" href="/build/bundle.css?date={{.BuildTS}}" />
 
-    <script defer src='/build/bundle.js?date={{.BuildTS}}'></script>
+    <script defer src="/build/bundle.js?date={{.BuildTS}}"></script>
   </head>
 
   <body></body>

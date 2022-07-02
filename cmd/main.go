@@ -7,16 +7,17 @@ import (
 	"devLog/server/apis/context"
 	"devLog/server/config"
 	"flag"
-	"github.com/go-resty/resty/v2"
-	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
-	"github.com/sirupsen/logrus"
 	"html/template"
 	"io/ioutil"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/go-resty/resty/v2"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	"github.com/sirupsen/logrus"
 )
 
 const Env = ".env"
@@ -44,7 +45,7 @@ func main() {
 	defer e.Close()
 
 	// db connect
-	db, err := conn.ConnectForTest()
+	db, err := conn.ConnectForYJ()
 	//db, err := conn.ConnectForTest()
 	if err != nil {
 		logrus.WithError(err).Error("db connect failed. ")

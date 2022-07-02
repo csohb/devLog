@@ -8,17 +8,22 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
+	"time"
 )
 
 const sessionKey = "devLog__v^^v"
 const sessionVerifyTime = 12 * 3600
 
 type SessionAuthInfo struct {
-	UserID string `json:"user_id"`
+	UserID         string    `json:"user_id"`
+	LastAccessTime time.Time `json:"last_access_time"`
 }
 
 func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
-	auth := SessionAuthInfo{UserID: userID}
+	auth := SessionAuthInfo{
+		UserID:         userID,
+		LastAccessTime: time.Now(),
+	}
 	sess, err := session.Get(sessionKey, c)
 	if err != nil {
 		fmt.Errorf("session get failure : %s", err)

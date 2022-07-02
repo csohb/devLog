@@ -8,6 +8,8 @@ import (
 	"devLog/server/config"
 	"flag"
 	"github.com/go-resty/resty/v2"
+	"github.com/gorilla/sessions"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
@@ -21,6 +23,8 @@ import (
 
 const Env = ".env"
 const Config = "DEV_LOG_CONFIG"
+
+const CookieKey = "devLog-cookie"
 
 var (
 	configFile = flag.String("c", "cms.yaml", "The path to the config file.")
@@ -44,7 +48,7 @@ func main() {
 	defer e.Close()
 
 	// db connect
-	db, err := conn.ConnectForTest()
+	db, err := conn.ConnectForYJ()
 	//db, err := conn.ConnectForTest()
 	if err != nil {
 		logrus.WithError(err).Error("db connect failed. ")
@@ -58,6 +62,7 @@ func main() {
 
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
+	e.Use(session.Middleware(sessions.NewCookieStore([]byte(CookieKey))))
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		Skipper:          nil,

@@ -2,7 +2,6 @@ package database
 
 import (
 	"errors"
-	"fmt"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 )
@@ -29,8 +28,18 @@ func (t TBUser) CheckID(db *gorm.DB, userID string) error {
 		}
 		return err
 	}
-	fmt.Println(t.ID)
 	return nil
+}
+
+func (t TBUser) CheckPwd(db *gorm.DB, userID, pwd string) error {
+	if err := db.Model(&t).Take(&t, "id = ?", userID).Error; err != nil {
+		logrus.WithError(err)
+	}
+	if t.Password != pwd {
+		return gorm.ErrInvalidData
+	} else {
+		return nil
+	}
 }
 
 func (t *TBUser) UpdateIntroduce(db *gorm.DB, userId string) error {

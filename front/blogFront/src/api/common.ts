@@ -33,8 +33,9 @@ const reqresApi: CustomInstance = axios.create({
 reqresApi.interceptors.response.use((res) => {
   if (res.data.code === 200) {
     return res.data.data;
+  } else {
+    return Promise.reject(res.data);
   }
-  return res.data;
 });
 
 reqresApi.interceptors.request.use((req) => {

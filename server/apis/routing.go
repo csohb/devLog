@@ -6,6 +6,8 @@ import (
 	"devLog/server/apis/introduce"
 	"devLog/server/apis/login"
 	"devLog/server/apis/mainpage"
+	"devLog/server/apis/project"
+	"devLog/server/apis/tech"
 	"github.com/labstack/echo/v4"
 )
 
@@ -33,5 +35,11 @@ func RoutingForDevLog(grp *echo.Group) {
 	// introduce
 	grp.GET("/introduce/:id", introduce.ProcessGetIntroduce)
 	grp.PUT("/introduce/update", introduce.ProcessUpdateIntroduce)
+
+	// tech
+	grp.POST("/introduce/tech/create", tech.ProcessCreateTech)
+
+	// project
+	grp.POST("/introduce/project/create", project.ProcessCreateProject)
 
 }

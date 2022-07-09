@@ -3,12 +3,18 @@ package context
 import (
 	"devLog/common/api_context"
 	"devLog/server/config"
+	"encoding/json"
+	"fmt"
 	"github.com/go-resty/resty/v2"
+	"github.com/gorilla/sessions"
+	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"time"
 )
+
+const sessionKey = "devLogSessionKey"
 
 type Context struct {
 	*api_context.Context
@@ -25,7 +31,6 @@ func (c Context) GetAuthHandler() api_context.AuthInterface {
 type AuthHandler struct {
 	UserId    string
 	LoginDate time.Time
-	Grade     int
 }
 
 func (a *AuthHandler) ErrorHandler() error {
@@ -33,16 +38,49 @@ func (a *AuthHandler) ErrorHandler() error {
 	return nil
 }
 
-func (a *AuthHandler) Check() error {
-	//TODO check
-	return nil
+func (a AuthHandler) GetUserID() string {
+	return a.UserId
 }
 
-func (a *AuthHandler) Create(c echo.Context, data interface{}) error {
-	//TODO implement me
-	/*
-		jwt token으로 사용자 판단
-	*/
+func (a AuthHandler) Get(c echo.Context) (interface{}, error) {
+	sess, err := session.Get(sessionKey, c)
+	if err != nil {
+		return nil, err
+	}
+	val, has := sess.Values["auth"]
+	if has == false {
+		logrus.Debugf("middlware session not found user")
+		return a, fmt.Errorf("session auth is empty")
+	}
+	_ = json.Unmarshal(val.([]byte), a)
+	return a, nil
+}
+
+func (a AuthHandler) Create(c echo.Context, data interface{}) error {
+	sess, err := session.Get(sessionKey, c)
+	if err != nil {
+		return fmt.Errorf("session get failed. : %s", err)
+	}
+	auth := data.(AuthHandler)
+	a.SetSessionAuth(sess, auth)
+	c.Set("auth", &auth)
+	logrus.Debugf("create session : %+v", auth)
+	return sess.Save(c.Request(), c.Response())
+}
+
+func (a AuthHandler) SetSessionAuth(sess *sessions.Session, auth AuthHandler) {
+	auth.LoginDate = time.Now()
+	b, _ := json.Marshal(&auth)
+	sess.Values["auth"] = b
+	sess.Options = &sessions.Options{
+		Path:     "/api",
+		MaxAge:   3600,
+		HttpOnly: false,
+	}
+}
+
+func (a *AuthHandler) Check() error {
+	//TODO check
 	return nil
 }
 

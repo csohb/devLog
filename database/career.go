@@ -14,7 +14,7 @@ type TBCareer struct {
 	StartDate   time.Time `gorm:"column:start_date;type:datetime;comment:입사일"`
 	EndDate     time.Time `gorm:"column:end_date;type:datetime;comment:퇴사일"`
 	JobTitle    string    `gorm:"column:job_title;type:varchar(30);comment:직무 타이틀"`
-	JobDetail   string    `gorm:"column:job_title;type:varchar(400);comment:직무소개"`
+	JobDetail   string    `gorm:"column:job_detail;type:varchar(400);comment:직무소개"`
 }
 
 func (t TBCareer) TableName() string {

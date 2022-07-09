@@ -2,8 +2,6 @@
 import { onMount } from "svelte";
 import mainStore from "../../stores/main"
 
-
-
 onMount(()=>{
     // fetchProfileList().then((res)=>{
     //     console.log(res)

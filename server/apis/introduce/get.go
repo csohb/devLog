@@ -8,6 +8,8 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
+	"strconv"
+	"strings"
 )
 
 type GetIntroduceRequest struct {
@@ -15,9 +17,13 @@ type GetIntroduceRequest struct {
 }
 
 type Profi struct {
+	Name      string `json:"name"`
 	NickName  string `json:"nick_name"`
 	Developer string `json:"developer"`
 	Img       string `json:"img"`
+	Addr      string `json:"addr"`
+	Email     string `json:"email"`
+	Birthday  string `json:"birthday"`
 }
 
 type Career struct {
@@ -37,10 +43,23 @@ type Project struct {
 	Description string `json:"description"`
 }
 
+type Skill struct {
+	ID         string `json:"id"`
+	Name       string `json:"name"`
+	Percentage int    `json:"percentage"`
+}
+
+type Keyword struct {
+	ID   string `json:"id"`
+	Name string `json:"name"`
+}
+
 type GetIntroduceResponse struct {
-	Profile Profi     `json:"profile"`
-	Careers []Career  `json:"careers"`
-	Project []Project `json:"project"`
+	Profile  Profi     `json:"profile"`
+	Careers  []Career  `json:"careers"`
+	Project  []Project `json:"project"`
+	Keywords []Keyword `json:"keywords"`
+	Skills   []Skill   `json:"skills"`
 }
 
 type ServiceIntroduce struct {
@@ -64,10 +83,17 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 	} else if ret.Introduce.Developer == "B" {
 		devType = "Backend 개발자"
 	}
+
+	fmt.Println("name :", strings.ReplaceAll(ret.Name, " ", ""))
+
 	profi := Profi{
+		Name:      strings.ReplaceAll(ret.Name, " ", ""),
 		NickName:  ret.Introduce.UserID,
 		Developer: devType,
 		Img:       ret.Introduce.ProfileUrl,
+		Addr:      ret.Addr,
+		Email:     ret.Email,
+		Birthday:  ret.Birthday.Format("2006-01-02"),
 	}
 	careerList := make([]Career, len(ret.Career))
 	for i, v := range ret.Career {
@@ -92,9 +118,35 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 		}
 	}
 
+	var skillsNum int
+
+	keywordList := make([]Keyword, len(ret.Tech))
+	for i, v := range ret.Tech {
+		if v.Percentage != 0 {
+			skillsNum++
+		}
+		keywordList[i] = Keyword{
+			ID:   strconv.Itoa(int(v.ID)),
+			Name: v.Name,
+		}
+	}
+
+	skillsList := make([]Skill, skillsNum)
+	for i, v := range ret.Tech {
+		if v.Percentage != 0 {
+			skillsList[i] = Skill{
+				ID:         strconv.Itoa(int(v.ID)),
+				Name:       v.Name,
+				Percentage: v.Percentage,
+			}
+		}
+	}
+
 	resp.Profile = profi
 	resp.Careers = careerList
 	resp.Project = projectList
+	resp.Keywords = keywordList
+	resp.Skills = skillsList
 
 	return api_context.SuccessJSON(&resp)
 }

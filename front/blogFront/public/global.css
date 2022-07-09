@@ -9,6 +9,7 @@
 @import './main.css';
 @import './about.css';
 @import './auth.css';
+@import './sub.css';
 
 @font-face {
   font-family: 'Noto Sans KR';
@@ -178,4 +179,7 @@ table {
 }
 a {
   text-decoration: none;
+}
+pre {
+  white-space: pre-wrap;
 }

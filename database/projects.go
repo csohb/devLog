@@ -15,7 +15,7 @@ type TBProject struct {
 	StartDate   time.Time `gorm:"column:start_date;type:datetime;comment:프로젝트 시작일"`
 	EndDate     time.Time `gorm:"column:end_date;type:datetime;comment:프로젝트 완료일"`
 	Description string    `gorm:"column:description;type:text;comment:프로젝트 설명"`
-	//Stack       []TBTech  `gorm:"foreignKey:project_id;references:id"`
+	Stack       []TBTech  `gorm:"many2many:PROJECT_TECH"`
 }
 
 func (t TBProject) TableName() string {

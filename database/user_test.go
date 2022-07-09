@@ -47,7 +47,7 @@ func TestUser(t *testing.T) {
 }
 
 func TestUserIntroduce(t *testing.T) {
-	db, err := conn.ConnectForTest()
+	db, err := conn.ConnectForYJ()
 	if err != nil {
 		t.Error(err)
 	}
@@ -58,6 +58,27 @@ func TestUserIntroduce(t *testing.T) {
 		t.Error(err)
 	}
 	fmt.Printf("data : %+v", data)
+}
+
+func TestAddInfo(t *testing.T) {
+	db, err := conn.ConnectForYJ()
+	if err != nil {
+		t.Error(err)
+	}
+	tb := TBUser{
+		ID:    "yeong",
+		Name:  "김영지",
+		Email: "kyj210@gmail.com",
+		Addr:  "경기도 수원시",
+	}
+
+	if err = db.Model(&tb).Where("id = ?", tb.ID).Updates(map[string]interface{}{
+		"name":  tb.Name,
+		"email": tb.Email,
+		"addr":  tb.Addr,
+	}).Error; err != nil {
+		t.Error(err)
+	}
 }
 
 func TestUpdateIntroduce(t *testing.T) {

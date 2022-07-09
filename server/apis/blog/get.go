@@ -4,6 +4,7 @@ import (
 	"devLog/common/api_context"
 	"devLog/database"
 	"devLog/server/apis/context"
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
 	"strconv"
@@ -34,6 +35,9 @@ func (app *ServiceGetBlog) Service() *api_context.CommonResponse {
 		app.Log.Errorf("blog get err - blogID : %s", app.req.ID)
 		return api_context.FailureJSON(http.StatusInternalServerError, "블로그 상세 정보 불러오기 실패")
 	}
+
+	id := app.AuthInfo.GetUserID()
+	fmt.Println("session id", id)
 
 	resp := GetBlogResponse{
 		ID:      strconv.Itoa(int(tb.ID)),

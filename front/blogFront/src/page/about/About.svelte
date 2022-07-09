@@ -1,6 +1,7 @@
 <script lang="ts">
 import Career from "../../components/about/Career.svelte";
 import Introduce from "../../components/about/Introduce.svelte";
+import Knowledges from "../../components/about/Knowledges.svelte";
 import Project from "../../components/about/Project.svelte";
 import Skills from "../../components/about/Skills.svelte";
 import Footer from "../../components/Footer.svelte";
@@ -28,7 +29,9 @@ import Header from "../../components/Header.svelte";
           <div class="sub-about-skills">
             <Skills />
           </div>
-          <div class="sub-about-keywords"></div>
+          <div class="sub-about-keywords">
+            <Knowledges />
+          </div>
         </div>
       </div>
     </div>

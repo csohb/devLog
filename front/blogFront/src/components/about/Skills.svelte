@@ -19,6 +19,33 @@ let skills = [
       },
     ],
   },
+  {
+    title: "Git",
+    series: [
+      {
+        perc: 80,
+        color: "#5AB6DF",
+      },
+    ],
+  },
+  {
+    title: "TypeScript",
+    series: [
+      {
+        perc: 80,
+        color: "#5AB6DF",
+      },
+    ],
+  },
+  {
+    title: "Svelte",
+    series: [
+      {
+        perc: 80,
+        color: "#5AB6DF",
+      },
+    ],
+  },
 ];
 </script>
 

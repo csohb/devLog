@@ -152,15 +152,32 @@
 .progress-bar {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
 }
 .progress-bar-item {
   width: 25%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-bottom: 30px;
 }
 .progress-bar-item p {
   margin-bottom: 10px;
+}
+
+/* about / knowledges */
+.keywords-wrap {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.keywords-wrap > li {
+  padding: 3px 10px;
+  color: #fff;
+  background-color: #c996cb;
+  border-radius: 3px;
+  margin: 3px 2px;
+  font-size: 13px;
 }
 
 @media screen and (max-width: 768px) {
@@ -181,5 +198,11 @@
   }
   .sub-about-info li strong {
     font-size: 0.875rem;
+  }
+}
+@media screen and (max-width: 350px) {
+  /* about / skills */
+  .progress-bar-item {
+    width: 50%;
   }
 }

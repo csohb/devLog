@@ -338,7 +338,8 @@
   display: flex;
   justify-content: center;
 }
-.sub-blog-detail-btn > a {
+.sub-blog-detail-btn > a,
+.sub-blog-detail-btn > button {
   display: block;
   border-radius: 4px;
   color: #fff;

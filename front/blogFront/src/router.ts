@@ -6,6 +6,7 @@ import Contact from "./page/contact/Contact.svelte";
 import Story from "./page/story/Story.svelte";
 import Login from "./page/auth/Login.svelte";
 import BlogDetail from "./page/blog/BlogDetail.svelte";
+import BlogEditor from "./page/blog/BlogEditor.svelte";
 
 const routes = {
   "/": Main,
@@ -14,6 +15,7 @@ const routes = {
   "/about": About,
   "/blog": Blog,
   "/blog/:id": BlogDetail,
+  "/blog/edit/:id": BlogEditor,
   "/contact": Contact,
   "/story": Story,
   "/login": Login,

@@ -1,3 +1,6 @@
+<script lang="ts">
+</script>
+
 <div class="sub-about-introduce">
   <pre>안녕하세요, 코딩하는 것이 즐거운 행복한 개발자입니다.
 저는 현재 백엔드 개발을 하고 있으며, 주로 Python 기반 백엔드 프레임워크를 다루고 있습니다.

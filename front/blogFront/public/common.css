@@ -2,9 +2,30 @@
 .sub-page {
   margin-top: 100px;
 }
+.sub-page-title {
+  margin: 0 0 46px 0;
+  font-size: 70px;
+  line-height: 105px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* pagination */
+.pagination-wrap {
+  margin-top: 40px;
+}
+.pagination-wrap > ul {
+  display: flex;
+  justify-content: center;
+}
 
 @media screen and (max-width: 768px) {
   .sub-page {
     margin-top: 74px;
+  }
+  .sub-page-title {
+    font-size: 32px;
+    line-height: 48px;
+    margin: 0 0 11px 0;
   }
 }

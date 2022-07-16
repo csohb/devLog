@@ -2,6 +2,7 @@
 import List from "../../components/blog/List.svelte";
 import Footer from "../../components/Footer.svelte";
 import Header from "../../components/Header.svelte";
+import { link } from "svelte-spa-router";
 </script>
 
 <Header />
@@ -20,6 +21,7 @@ import Header from "../../components/Header.svelte";
         <div class="sub-blog-contents">
           <List />
         </div>
+        <a href="/blog/edit/register" use:link>등록하기</a>
       </div>
     </div>
   </section>

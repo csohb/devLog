@@ -110,3 +110,12 @@ func (t *TBBlog) Update(db *gorm.DB, tagList []TBTag) error {
 	}
 	return nil
 }
+
+func (t *TBBlog) BlogForMain(db *gorm.DB) (ret []TBBlog, err error) {
+	if err = db.Model(&t).
+		Order("created_at DESC").
+		Limit(5).Find(&ret).Error; err != nil {
+		return nil, err
+	}
+	return ret, nil
+}

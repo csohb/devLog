@@ -14,6 +14,7 @@ import (
 func RoutingForDevLog(grp *echo.Group) {
 	// main page
 	grp.GET("/main/introduce", mainpage.ProcessProfileList)
+	grp.GET("/main/blog", mainpage.ProcessNewestBlogList)
 
 	// login
 	grp.POST("/login", login.ProcessLogin)

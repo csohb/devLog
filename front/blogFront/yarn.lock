@@ -285,6 +285,11 @@
   optionalDependencies:
     "fsevents" "~2.3.2"
 
+"cl-editor@^2.3.0":
+  "integrity" "sha512-TxTzuL3529Cmnxy4Q9djcKkZUZJLxuFvFomh6pfbAv72nTB4FCZUE7JhEF5PXeAWRstU+u6BD9ZTif9w0hGQfw=="
+  "resolved" "https://registry.npmjs.org/cl-editor/-/cl-editor-2.3.0.tgz"
+  "version" "2.3.0"
+
 "color-convert@^1.9.0":
   "integrity" "sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg=="
   "resolved" "https://registry.npmjs.org/color-convert/-/color-convert-1.9.3.tgz"

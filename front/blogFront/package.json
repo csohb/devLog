@@ -29,6 +29,7 @@
   "dependencies": {
     "@okrad/svelte-progressbar": "^1.11.3",
     "axios": "^0.27.2",
+    "cl-editor": "^2.3.0",
     "sirv-cli": "^2.0.0",
     "svelte-carousel": "^1.0.19",
     "svelte-spa-router": "^3.2.0"

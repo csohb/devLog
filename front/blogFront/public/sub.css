@@ -338,17 +338,30 @@
   display: flex;
   justify-content: center;
 }
-.sub-blog-detail-btn > a,
-.sub-blog-detail-btn > button {
+.sub-blog-detail-btn > a {
   display: block;
   border-radius: 4px;
   color: #fff;
   background-color: #c996cb;
   padding: 20px 30px;
   transition: all 0.3s linear;
+  margin: 0 2px;
 }
 .sub-blog-detail-btn > a:hover {
   background-color: #551a8b;
+}
+
+/* blog edit */
+.sub-blog-detail-title input,
+.sub-blog-detail-title textarea {
+  width: 100%;
+  padding: 15px 10px;
+}
+.sub-blog-detail-title > span > input {
+  width: 95%;
+}
+.sub-blog-detail-title textarea {
+  height: 150px;
 }
 
 @media screen and (max-width: 768px) {

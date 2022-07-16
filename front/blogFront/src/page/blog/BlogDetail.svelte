@@ -37,6 +37,7 @@ export let params = {
         <div class="sub-blog-detail-contents">내용내용내용{params.id}</div>
         <div class="sub-blog-detail-btn">
           <a href="/blog" use:link>목록으로 돌아가기</a>
+          <a href="/blog/edit/{params.id}" use:link>수정하기</a>
         </div>
       </div>
     </div>

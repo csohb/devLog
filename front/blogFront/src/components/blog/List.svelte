@@ -1,27 +1,58 @@
 <script lang="ts">
 import Pagination from "../Pagination.svelte";
 import { link } from "svelte-spa-router";
+import { onMount } from "svelte";
+import blogStore from "../../stores/blog";
+
+let page: number = 1;
+let count: number = 10;
 
 function onClickDetailPage(id: number): void {
   console.log(id);
 }
+
+onMount(() => {
+  blogStore.setBlogList(page, count);
+});
+
+function setTags(tagList: string[]): any {
+  // 태그 리스트에 # 추가하기
+  return tagList.reduce((temp: any, item: string) => {
+    temp.push(`# ${item}`);
+    return temp;
+  }, []);
+}
+
+function setPagination(e: any) {
+  // 페이지 이동 버튼 클릭 시 이벤트
+  page = e.detail + 1;
+  blogStore.setBlogList(page, count);
+}
 </script>
 
 <ul class="sub-blog-list">
-  {#each Array(10) as _, index}
+  {#each $blogStore.blogList as _, index}
     <li class="sub-blog-item">
-      <a href="/blog/{index}" use:link>
-        <span># svelte</span>
-        <h2>제목</h2>
-        <p>말줄임 필요한</p>
+      <a href="/blog/{_.id}" use:link>
+        <span>
+          {#each setTags(_.tags) as item}
+            {item}&nbsp;&nbsp;&nbsp;&nbsp;
+          {/each}
+        </span>
+        <h2>{_.title}</h2>
+        <p>{@html _.description}</p>
         <div class="sub-blog-item-info">
-          <span>2022년 01월 22일</span>
+          <span>{_.date}</span>
           <span>|</span>
-          <span>yeong</span>
+          <span>{_.writer}</span>
         </div>
       </a>
     </li>
   {/each}
 </ul>
 
-<Pagination />
+<Pagination
+  bind:page
+  count="{$blogStore.listTotal}"
+  bind:pageSize="{count}"
+  on:change="{setPagination}" />

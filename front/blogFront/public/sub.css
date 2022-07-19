@@ -357,6 +357,12 @@
   width: 100%;
   padding: 15px 10px;
 }
+.sub-blog-detail-title > span:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+}
 .sub-blog-detail-title > span > input {
   width: 95%;
 }
@@ -397,6 +403,10 @@
   }
   .sub-blog-detail-title > p {
     font-size: 12px;
+  }
+  /* blog editor */
+  .sub-blog-detail-title > span > input {
+    width: 100%;
   }
 }
 @media screen and (max-width: 350px) {

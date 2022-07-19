@@ -8,12 +8,21 @@ let html = "<p>내용을 입력해주세요.</p>";
 
 let title = "";
 let tag = "";
+let isSave = false;
 
 $: console.log(title);
 
 export let params = {
   id: "",
 };
+
+function onClickSave() {
+  if (isSave) {
+    alert("이미 저장 되었습니다.");
+    return;
+  }
+  isSave = true;
+}
 </script>
 
 <Header />
@@ -49,7 +58,7 @@ export let params = {
         </div>
         <div class="sub-blog-detail-btn">
           {#if params.id === "register"}
-            <a href="/blog" use:link>등록</a>
+            <a href="#none" on:click|preventDefault="{onClickSave}">등록</a>
           {:else}
             <a href="/blog" use:link>수정</a>
           {/if}

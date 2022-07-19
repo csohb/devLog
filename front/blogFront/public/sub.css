@@ -332,6 +332,10 @@
 .sub-blog-detail-contents {
   border-top: 1px solid #f5f5f5;
   border-bottom: 1px solid #f5f5f5;
+  padding: 20px 0;
+}
+.sub-blog-detail-contents img {
+  width: 100%;
 }
 .sub-blog-detail-btn {
   margin-top: 60px;
@@ -357,14 +361,23 @@
   width: 100%;
   padding: 15px 10px;
 }
-.sub-blog-detail-title > span:first-child {
+.sub-blog-detail-title > span:first-child > div {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
+  margin-top: 10px;
 }
-.sub-blog-detail-title > span > input {
-  width: 95%;
+.sub-blog-detail-title > span > div > input {
+  width: calc(100% - 85px);
+}
+.sub-blog-detail-title > span > div > button {
+  border: none;
+  background-color: #c996cb;
+  border-radius: 4px;
+  color: #fff;
+  padding: 17px 30px;
+  cursor: pointer;
 }
 .sub-blog-detail-title textarea {
   height: 150px;
@@ -394,6 +407,9 @@
     font-size: 12px;
   }
   /* blog detail */
+  .sub-blog-detail-title {
+    margin-bottom: 40px;
+  }
   .sub-blog-detail-title > span {
     font-size: 16px;
   }
@@ -405,9 +421,6 @@
     font-size: 12px;
   }
   /* blog editor */
-  .sub-blog-detail-title > span > input {
-    width: 100%;
-  }
 }
 @media screen and (max-width: 350px) {
   /* about / skills */

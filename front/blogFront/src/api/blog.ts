@@ -27,3 +27,7 @@ export function fetchBlogDetail(id: string): Promise<any> {
 export function fetchBlogUpdate(req: BlogUpdateRequestBody): Promise<any> {
   return reqresApi.put("/blog/update", req);
 }
+
+export function fetchBlogDelete(id: string): Promise<any> {
+  return reqresApi.delete(`/blog/delete/${id}`);
+}

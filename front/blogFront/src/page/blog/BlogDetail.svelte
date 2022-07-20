@@ -4,6 +4,8 @@ import Header from "../../components/Header.svelte";
 import { link, push } from "svelte-spa-router";
 import { onDestroy, onMount } from "svelte";
 import blogStore from "../../stores/blog";
+import popupStore from "../../stores/popup";
+import { fetchBlogDelete } from "../../api/blog";
 
 export let params = {
   id: "",
@@ -23,6 +25,30 @@ function setTags(tagList: string[]): any {
     temp.push(`# ${item}`);
     return temp;
   }, []);
+}
+
+function onClickDelete() {
+  // 삭제 여부를 묻는 알림 팝업 필요
+  if (!params.id) {
+    return;
+  }
+  popupStore.open({
+    title: "BLOG",
+    text: "삭제하시겠습니까?",
+    btn: "삭제하기",
+    type: "confirm",
+    isShow: false,
+    action: async () => {
+      await fetchBlogDelete(params.id)
+        .then((resp) => {
+          push("/blog");
+          console.log(resp);
+        })
+        .catch((err) => {
+          console.log("blog delete err:", err);
+        });
+    },
+  });
 }
 
 onDestroy(() => {
@@ -60,6 +86,7 @@ onDestroy(() => {
         <div class="sub-blog-detail-btn">
           <a href="/blog" use:link>목록으로 돌아가기</a>
           <a href="/blog/edit/{params.id}" use:link>수정하기</a>
+          <button type="button" on:click="{onClickDelete}">삭제</button>
         </div>
       </div>
     </div>

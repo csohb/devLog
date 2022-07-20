@@ -182,3 +182,6 @@ a {
 pre {
   white-space: pre-wrap;
 }
+button {
+  cursor: pointer;
+}

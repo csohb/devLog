@@ -33,9 +33,19 @@ const popupStore = () => {
       this.cancel();
     },
     cancel() {
-      console.log("cancel ??");
       update((state) => {
         state.popupTask.shift();
+        this.visible();
+        return state;
+      });
+    },
+    visible() {
+      if (state.popupTask.length === 0) {
+        return;
+      }
+      console.log("visible");
+      update((state) => {
+        state.popupTask[0].isShow = true;
         return state;
       });
     },

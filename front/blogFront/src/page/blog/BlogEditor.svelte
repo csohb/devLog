@@ -2,11 +2,12 @@
 /* 에디터 라이브러리 때문에 타입스크립트를 적용할 수 없음 @ */
 import Footer from "../../components/Footer.svelte";
 import Header from "../../components/Header.svelte";
-import { link, push } from "svelte-spa-router";
+import { push } from "svelte-spa-router";
 import Editor from "cl-editor/src/Editor.svelte";
 import { onDestroy, onMount, tick } from "svelte";
 import { fetchBlogSave, fetchBlogUpdate } from "../../api/blog";
 import blogStore from "../../stores/blog";
+import popupStore from "../../stores/popup";
 
 let title = "";
 let tag = "";
@@ -68,10 +69,10 @@ function onClickTagAdd() {
 }
 
 async function onClickUpdate() {
+  // 블로그 내용 수정 저장
   if (params.id === "register") {
     return;
   }
-  // 수정
   let req = {
     id: params.id,
   };
@@ -115,6 +116,7 @@ async function onClickUpdate() {
 }
 
 async function onClickSave() {
+  // 초기 저장
   if (isSave) {
     alert("이미 저장 되었습니다.");
     return;
@@ -151,7 +153,8 @@ async function onClickSave() {
     });
 }
 
-onDestroy(() => {
+function resetValue() {
+  // 변수값 초기화
   tagList = [];
   contents = "<p>내용을 입력해주세요.</p>";
   title = "";
@@ -159,6 +162,25 @@ onDestroy(() => {
   description = "";
   isSave = false;
   date = "";
+}
+
+function onClickCancel() {
+  // 수정 취소
+  popupStore.open({
+    title: "BLOG",
+    text: "취소하시겠습니까?<br />취소하면 입력한 데이터가 사라집니다.",
+    btn: "목록으로 이동하기",
+    type: "confirm",
+    isShow: false,
+    action: () => {
+      resetValue();
+      push("/blog");
+    },
+  });
+}
+
+onDestroy(() => {
+  resetValue();
 });
 </script>
 
@@ -210,7 +232,7 @@ onDestroy(() => {
             <a href="#none" on:click|preventDefault="{onClickUpdate}">수정</a>
           {/if}
 
-          <a href="/blog" use:link>취소</a>
+          <a href="#none" on:click|preventDefault="{onClickCancel}">취소</a>
         </div>
       </div>
     </div>

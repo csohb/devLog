@@ -15,18 +15,18 @@ export const labels = {
   previous: "<",
 };
 beforeUpdate(() => {
-  console.log(
-    "page update count:",
-    count,
-    "page:",
-    page,
-    "pageSize:",
-    pageSize,
-    "pageCount:",
-    pageCount,
-    "block",
-    block
-  );
+  // console.log(
+  //   "page update count:",
+  //   count,
+  //   "page:",
+  //   page,
+  //   "pageSize:",
+  //   pageSize,
+  //   "pageCount:",
+  //   pageCount,
+  //   "block",
+  //   block
+  // );
   range(pageSize);
 });
 

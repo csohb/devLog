@@ -50,7 +50,6 @@ const blogStore = () => {
       let temp: any = {};
       await fetchBlogDetail(id)
         .then((resp: BlogList) => {
-          console.log(resp);
           if (resp !== null) {
             temp = resp;
           }

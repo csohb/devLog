@@ -93,9 +93,21 @@ async function onClickUpdate() {
       tags: tagList,
     });
   }
-  if (req.title == null && req.content == null && req.tags == null) {
-    alert("수정할 내용을 입력해주세요.");
-    return;
+
+  if (req.title == null) {
+    Object.assign(req, {
+      title: $blogStore.blogDetail.title,
+    });
+  }
+  if (req.content == null) {
+    Object.assign(req, {
+      content: $blogStore.blogDetail.content,
+    });
+  }
+  if (req.tags == null) {
+    Object.assign(req, {
+      tags: $blogStore.blogDetail.tags,
+    });
   }
   await fetchBlogUpdate(req).then(() => {
     push(`/blog/${params.id}`);
@@ -163,7 +175,11 @@ onDestroy(() => {
               {`[수정 전: ${$blogStore.blogDetail.tags} ]`}
             {/if}
             <div>
-              <input type="text" placeholder="태그" bind:value="{tag}" />
+              <input
+                type="text"
+                placeholder="태그"
+                maxlength="15"
+                bind:value="{tag}" />
               <button type="button" on:click="{onClickTagAdd}">추가</button>
             </div>
           </span>

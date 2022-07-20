@@ -19,6 +19,44 @@
   justify-content: center;
 }
 
+/* popup */
+.popup-bg {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.popup-wrap {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 105;
+  background-color: #fff;
+  border-radius: 10px;
+  padding: 20px;
+}
+.popup-title {
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+}
+.popup-text {
+  text-align: center;
+  margin: 10px 0;
+}
+.popup-action-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.popup-action-wrap button {
+  border: none;
+}
+
 @media screen and (max-width: 768px) {
   .sub-page {
     margin-top: 74px;

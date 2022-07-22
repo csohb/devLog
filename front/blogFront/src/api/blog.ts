@@ -1,6 +1,8 @@
 import reqresApi from "./common";
 import type { BlogSaveRequestBody, BlogUpdateRequestBody } from "./types/blog";
 
+// 리턴값 오류일 경우 확인 필요.....
+
 export function fetchBlogSave(req: BlogSaveRequestBody): Promise<any> {
   return reqresApi.post("/blog/save", req);
 }

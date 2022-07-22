@@ -46,6 +46,12 @@ const blogStore = () => {
         return state;
       });
     },
+    resetBlogList() {
+      update((state) => {
+        state.blogList = [];
+        return state;
+      });
+    },
     async setBlogDetail(id: string) {
       let temp: any = {};
       await fetchBlogDetail(id)

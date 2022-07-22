@@ -3,9 +3,10 @@ import axios, {
   AxiosInterceptorManager,
   AxiosRequestConfig,
   AxiosResponse,
-} from 'axios';
+} from "axios";
 
-import type { CustomResponseFormat } from './types/common';
+import type { CustomResponseFormat } from "./types/common";
+import popupStore from "../stores/popup";
 
 interface CustomInstance extends AxiosInstance {
   interceptors: {
@@ -25,7 +26,7 @@ interface CustomInstance extends AxiosInstance {
 
 // axios 객체 하나만들어두고 재사용하기
 const reqresApi: CustomInstance = axios.create({
-  baseURL: 'http://localhost:8081/api/v1', // Url 나중에 env 로 빼기
+  baseURL: "http://localhost:8081/api/v1", // Url 나중에 env 로 빼기
   timeout: 5000, // timeout 5초
 });
 
@@ -34,6 +35,14 @@ reqresApi.interceptors.response.use((res) => {
   if (res.data.code === 200) {
     return res.data.data;
   } else {
+    if (res.data.error != null && res.data.error.message != null) {
+      popupStore.open({
+        title: "ERROR",
+        text: res.data.error.message,
+        type: "alert",
+        isShow: false,
+      });
+    }
     return Promise.reject(res.data);
   }
 });

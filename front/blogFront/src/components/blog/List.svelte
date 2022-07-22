@@ -7,10 +7,6 @@ import blogStore from "../../stores/blog";
 let page: number = 1;
 let count: number = 10;
 
-function onClickDetailPage(id: number): void {
-  console.log(id);
-}
-
 onMount(() => {
   blogStore.setBlogList(page, count);
 });

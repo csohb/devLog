@@ -264,7 +264,7 @@
 
 .main-blog-list-title {
   font-size: 24px;
-  width: 80%;
+  width: 70%;
   white-space: nowrap;
   line-height: 35px;
   overflow: hidden;
@@ -275,16 +275,17 @@
 }
 
 .main-blog-list-text {
-  width: 19%;
+  width: 29%;
   color: #808080;
   font-size: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  line-height: 1.2;
 }
 
 .main-blog-list-text strong {
-  width: 50%;
+  width: 40%;
   white-space: nowrap;
   display: block;
   overflow: hidden;

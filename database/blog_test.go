@@ -118,3 +118,20 @@ func TestBlogGet(t *testing.T) {
 
 	fmt.Println(tb.Tags)
 }
+
+func TestBlogTag(t *testing.T) {
+	db, err := conn.ConnectForYJ()
+	if err != nil {
+		t.Error(err)
+	}
+
+	tb := TBBlog{}
+	list, count, err := tb.SearchTags(db, "golang", 0, 10)
+	if err != nil {
+		t.Error(err)
+	}
+
+	fmt.Println("list : ", list)
+	fmt.Println("count : ", count)
+
+}

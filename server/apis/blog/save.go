@@ -5,14 +5,17 @@ import (
 	"devLog/database"
 	"devLog/server/apis/context"
 	"github.com/labstack/echo/v4"
+	"gorm.io/gorm"
 	"net/http"
+	"time"
 )
 
 type SaveBlogRequest struct {
-	Title   string   `json:"title"`
-	Content string   `json:"content"`
-	Writer  string   `json:"writer"`
-	Tags    []string `json:"tags"`
+	Title       string   `json:"title"`
+	Description string   `json:"description"`
+	Content     string   `json:"content"`
+	Writer      string   `json:"writer"`
+	Tags        []string `json:"tags"`
 }
 
 type ServiceSaveBlog struct {
@@ -21,11 +24,14 @@ type ServiceSaveBlog struct {
 }
 
 func (app *ServiceSaveBlog) Service() *api_context.CommonResponse {
+
 	tb := database.TBBlog{
-		Title:   app.req.Title,
-		Content: app.req.Content,
-		Writer:  app.req.Writer,
-		Tags:    make([]database.TBTag, len(app.req.Tags)),
+		Model:       gorm.Model{CreatedAt: time.Now()},
+		Title:       app.req.Title,
+		Content:     app.req.Content,
+		Description: app.req.Description,
+		Writer:      app.req.Writer,
+		Tags:        make([]database.TBTag, len(app.req.Tags)),
 	}
 	for i, v := range app.req.Tags {
 		tb.Tags[i] = database.TBTag{

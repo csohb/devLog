@@ -8,13 +8,15 @@ import (
 	"gorm.io/gorm"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 type UpdateBlogRequest struct {
-	ID      string   `json:"id"`
-	Title   string   `json:"title"`
-	Content string   `json:"content"`
-	Tags    []string `json:"tags"`
+	ID          string   `json:"id"`
+	Title       string   `json:"title"`
+	Content     string   `json:"content"`
+	Description string   `json:"description"`
+	Tags        []string `json:"tags"`
 }
 
 type ServiceUpdateBlog struct {
@@ -36,10 +38,12 @@ func (app *ServiceUpdateBlog) Service() *api_context.CommonResponse {
 
 	tb := database.TBBlog{
 		Model: gorm.Model{
-			ID: uint(id),
+			ID:        uint(id),
+			UpdatedAt: time.Now(),
 		},
-		Title:   app.req.Title,
-		Content: app.req.Content,
+		Title:       app.req.Title,
+		Description: app.req.Description,
+		Content:     app.req.Content,
 	}
 
 	if err = tb.Update(app.DB, tags); err != nil {

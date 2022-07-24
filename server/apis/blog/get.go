@@ -15,13 +15,15 @@ type GetBlogRequest struct {
 }
 
 type GetBlogResponse struct {
-	ID      string   `json:"id"`
-	Title   string   `json:"title"`
-	Content string   `json:"content"`
-	Writer  string   `json:"writer"`
-	View    int      `json:"view"`
-	Heart   int      `json:"heart"`
-	Tags    []string `json:"tags"`
+	ID          string   `json:"id"`
+	Title       string   `json:"title"`
+	Description string   `json:"description"`
+	Content     string   `json:"content"`
+	Date        string   `json:"date"`
+	Writer      string   `json:"writer"`
+	View        int      `json:"view"`
+	Heart       int      `json:"heart"`
+	Tags        []string `json:"tags"`
 }
 
 type ServiceGetBlog struct {
@@ -40,13 +42,15 @@ func (app *ServiceGetBlog) Service() *api_context.CommonResponse {
 	fmt.Println("session id", id)
 
 	resp := GetBlogResponse{
-		ID:      strconv.Itoa(int(tb.ID)),
-		Title:   tb.Title,
-		Content: tb.Content,
-		Writer:  tb.Writer,
-		View:    tb.View,
-		Heart:   tb.Heart,
-		Tags:    make([]string, len(tb.Tags)),
+		ID:          strconv.Itoa(int(tb.ID)),
+		Title:       tb.Title,
+		Description: tb.Description,
+		Content:     tb.Content,
+		Writer:      tb.Writer,
+		Date:        tb.UpdatedAt.Format("2006-01-02"),
+		View:        tb.View,
+		Heart:       tb.Heart,
+		Tags:        make([]string, len(tb.Tags)),
 	}
 
 	for i, v := range tb.Tags {

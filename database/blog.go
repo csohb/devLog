@@ -11,12 +11,13 @@ const TBNameBlog = "BLOG"
 
 type TBBlog struct {
 	gorm.Model
-	Title   string  `gorm:"column:title;type:varchar(100);comment:글 제목"`
-	Content string  `gorm:"column:content;type:text;comment:"`
-	Writer  string  `gorm:"column:writer;type:varchar(20);comment:작성자"`
-	View    int     `gorm:"column:view;type:int(10);comment:조회수"`
-	Heart   int     `gorm:"column:heart;type:int(10);comment:하트수"`
-	Tags    []TBTag `gorm:"many2many:BLOG_TAGS"`
+	Title       string  `gorm:"column:title;type:varchar(100);comment:글 제목"`
+	Content     string  `gorm:"column:content;type:text;comment:"`
+	Description string  `gorm:"column:description;type:varchar(100);comment:설명"`
+	Writer      string  `gorm:"column:writer;type:varchar(20);comment:작성자"`
+	View        int     `gorm:"column:view;type:int(10);comment:조회수"`
+	Heart       int     `gorm:"column:heart;type:int(10);comment:하트수"`
+	Tags        []TBTag `gorm:"many2many:BLOG_TAGS"`
 }
 
 func (TBBlog) TableName() string {
@@ -36,6 +37,17 @@ func (t TBBlog) Find(db *gorm.DB, page, count int) ([]TBBlog, int64, error) {
 		logrus.WithError(err).Error("list find err")
 		return nil, 0, err
 	}
+	return list, total, nil
+}
+
+func (t TBBlog) SearchTags(db *gorm.DB, tag string, page, count int) ([]TBBlog, int64, error) {
+	var total int64
+	var list []TBBlog
+
+	if err := db.Model(&t).Joins("blog_tags").Find(&list, "blog_tags.tag = ?", tag).Error; err != nil {
+		return list, total, err
+	}
+
 	return list, total, nil
 }
 

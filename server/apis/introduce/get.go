@@ -17,13 +17,14 @@ type GetIntroduceRequest struct {
 }
 
 type Profi struct {
-	Name      string `json:"name"`
-	NickName  string `json:"nick_name"`
-	Developer string `json:"developer"`
-	Img       string `json:"img"`
-	Addr      string `json:"addr"`
-	Email     string `json:"email"`
-	Birthday  string `json:"birthday"`
+	Name        string `json:"name"`
+	NickName    string `json:"nick_name"`
+	Developer   string `json:"developer"`
+	Description string `json:"description"`
+	Img         string `json:"img"`
+	Addr        string `json:"addr"`
+	Email       string `json:"email"`
+	Birthday    string `json:"birthday"`
 }
 
 type Career struct {
@@ -84,16 +85,15 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 		devType = "Backend 개발자"
 	}
 
-	fmt.Println("name :", strings.ReplaceAll(ret.Name, " ", ""))
-
 	profi := Profi{
-		Name:      strings.ReplaceAll(ret.Name, " ", ""),
-		NickName:  ret.Introduce.UserID,
-		Developer: devType,
-		Img:       ret.Introduce.ProfileUrl,
-		Addr:      ret.Addr,
-		Email:     ret.Email,
-		Birthday:  ret.Birthday.Format("2006-01-02"),
+		Name:        strings.ReplaceAll(ret.Name, " ", ""),
+		NickName:    ret.Introduce.UserID,
+		Developer:   devType,
+		Img:         ret.Introduce.ProfileUrl,
+		Description: ret.Introduce.Intro,
+		Addr:        ret.Addr,
+		Email:       ret.Email,
+		Birthday:    ret.Birthday.Format("2006-01-02"),
 	}
 	careerList := make([]Career, len(ret.Career))
 	for i, v := range ret.Career {

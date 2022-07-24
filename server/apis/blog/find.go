@@ -15,14 +15,14 @@ type FindBlogRequest struct {
 }
 
 type Blog struct {
-	ID      string   `json:"id"`
-	Title   string   `json:"title"`
-	Content string   `json:"content"`
-	Date    string   `json:"date"`
-	Writer  string   `json:"writer"`
-	View    int      `json:"view"`
-	Heart   int      `json:"heart"`
-	Tags    []string `json:"tags"`
+	ID          string   `json:"id"`
+	Title       string   `json:"title"`
+	Description string   `json:"description"`
+	Date        string   `json:"date"`
+	Writer      string   `json:"writer"`
+	View        int      `json:"view"`
+	Heart       int      `json:"heart"`
+	Tags        []string `json:"tags"`
 }
 
 type FindBlogResponse struct {
@@ -52,14 +52,14 @@ func (app *ServiceBlogFind) Service() *api_context.CommonResponse {
 			tags[j] = l.Tag
 		}
 		resp.List[i] = Blog{
-			ID:      strconv.Itoa(int(v.ID)),
-			Title:   v.Title,
-			Content: v.Content,
-			Writer:  v.Writer,
-			Date:    v.Model.UpdatedAt.Format("2006-01-02"),
-			View:    v.View,
-			Heart:   v.Heart,
-			Tags:    tags,
+			ID:          strconv.Itoa(int(v.ID)),
+			Title:       v.Title,
+			Description: v.Description,
+			Writer:      v.Writer,
+			Date:        v.Model.UpdatedAt.Format("2006-01-02"),
+			View:        v.View,
+			Heart:       v.Heart,
+			Tags:        tags,
 		}
 	}
 	return api_context.SuccessJSON(&resp)

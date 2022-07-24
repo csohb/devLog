@@ -44,7 +44,8 @@ func (t TBBlog) SearchTags(db *gorm.DB, tag string, page, count int) ([]TBBlog, 
 	var total int64
 	var list []TBBlog
 
-	if err := db.Model(&t).Joins("blog_tags").Find(&list, "blog_tags.tag = ?", tag).Error; err != nil {
+	if err := db.Model(&t).
+		Preload("Tags").Find(&list).Error; err != nil {
 		return list, total, err
 	}
 
@@ -124,7 +125,7 @@ func (t *TBBlog) Update(db *gorm.DB, tagList []TBTag) error {
 }
 
 func (t *TBBlog) BlogForMain(db *gorm.DB) (ret []TBBlog, err error) {
-	if err = db.Model(&t).
+	if err = db.Model(&t).Preload("Tags").
 		Order("created_at DESC").
 		Limit(5).Find(&ret).Error; err != nil {
 		return nil, err

@@ -7,12 +7,14 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
+	"strconv"
 )
 
 type Blog struct {
 	ID      string   `json:"id"`
 	Title   string   `json:"title"`
 	Content string   `json:"content"`
+	Date    string   `json:"date"`
 	Writer  string   `json:"writer"`
 	Tags    []string `json:"tags"`
 }
@@ -38,9 +40,10 @@ func (app *ServiceGetNewestBlogList) Service() *api_context.CommonResponse {
 	resp.List = make([]Blog, 5)
 	for i, v := range list {
 		resp.List[i] = Blog{
-			ID:      string(v.ID),
+			ID:      strconv.Itoa(int(v.ID)),
 			Title:   v.Title,
 			Content: v.Content,
+			Date:    v.Model.CreatedAt.Format("2006-01-02"),
 			Writer:  v.Writer,
 			Tags:    make([]string, len(v.Tags)),
 		}

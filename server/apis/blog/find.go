@@ -18,6 +18,7 @@ type Blog struct {
 	ID      string   `json:"id"`
 	Title   string   `json:"title"`
 	Content string   `json:"content"`
+	Date    string   `json:"date"`
 	Writer  string   `json:"writer"`
 	View    int      `json:"view"`
 	Heart   int      `json:"heart"`
@@ -55,6 +56,7 @@ func (app *ServiceBlogFind) Service() *api_context.CommonResponse {
 			Title:   v.Title,
 			Content: v.Content,
 			Writer:  v.Writer,
+			Date:    v.Model.UpdatedAt.Format("2006-01-02"),
 			View:    v.View,
 			Heart:   v.Heart,
 			Tags:    tags,

@@ -43,10 +43,32 @@ func (t TBBlog) Find(db *gorm.DB, page, count int) ([]TBBlog, int64, error) {
 func (t TBBlog) SearchTags(db *gorm.DB, tag string, page, count int) ([]TBBlog, int64, error) {
 	var total int64
 	var list []TBBlog
+	var err error
 
-	if err := db.Model(&t).
-		Preload("Tags").Find(&list).Error; err != nil {
+	var tags []TBTag
+	if err = db.Model(&TBTag{}).Where("tag = ?", tag).Find(&tags).Error; err != nil {
 		return list, total, err
+	}
+
+	tagIdList := make([]uint, len(tags))
+	for i, v := range tags {
+		tagIdList[i] = v.ID
+	}
+
+	blogIdList := make([]uint, len(tagIdList))
+	if err = db.Model("blog_tags").Select("tb_blog_id", "tb_blog_id = ?", tagIdList).Error; err != nil {
+		return nil, 0, err
+	}
+
+	if err = db.Model(&t).Where("id = ?", blogIdList).Count(&total).Error; err != nil {
+		return nil, 0, err
+	}
+
+	if err = db.Model(&t).Where("id = ?", blogIdList).
+		Offset(page * count).Limit(count).
+		Find(&list).Error; err != nil {
+
+		return nil, 0, err
 	}
 
 	return list, total, nil

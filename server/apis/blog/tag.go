@@ -44,13 +44,13 @@ func (app *ServiceSearchWithTags) Service() *api_context.CommonResponse {
 			tags[j] = l.Tag
 		}
 		resp.List[i] = Blog{
-			ID:      strconv.Itoa(int(v.ID)),
-			Title:   v.Title,
-			Content: v.Content,
-			Writer:  v.Writer,
-			View:    v.View,
-			Heart:   v.Heart,
-			Tags:    tags,
+			ID:          strconv.Itoa(int(v.ID)),
+			Title:       v.Title,
+			Description: v.Description,
+			Writer:      v.Writer,
+			View:        v.View,
+			Heart:       v.Heart,
+			Tags:        tags,
 		}
 	}
 

@@ -42,7 +42,7 @@ const blogStore = () => {
         });
 
       update((state) => {
-        state.blogList = temp;
+        state.blogList = temp.reverse();
         return state;
       });
     },
@@ -65,10 +65,9 @@ const blogStore = () => {
         });
 
       update((state) => {
-        Object.assign(temp, {
-          description: "",
-          date: "2022년 01월 22일",
-        });
+        // Object.assign(temp, {
+        //   description: "",
+        // });
         state.blogDetail = temp;
         return state;
       });

@@ -94,6 +94,11 @@ async function onClickUpdate() {
       tags: tagList,
     });
   }
+  if (description !== $blogStore.blogDetail.description) {
+    Object.assign(req, {
+      description,
+    });
+  }
 
   if (req.title == null) {
     Object.assign(req, {
@@ -110,6 +115,12 @@ async function onClickUpdate() {
       tags: $blogStore.blogDetail.tags,
     });
   }
+  // if (res.description == null) {
+  //   Object.assign(req, {
+  //     description: $blogStore.blogDetail.description,
+  //   });
+  // }
+  console.log(req);
   await fetchBlogUpdate(req).then(() => {
     push(`/blog/${params.id}`);
   });
@@ -142,6 +153,7 @@ async function onClickSave() {
     title,
     content: contents,
     writer,
+    description,
     tags: tagList,
   })
     .then(() => {

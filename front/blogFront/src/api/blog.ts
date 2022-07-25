@@ -12,7 +12,7 @@ export function fetchBlogList(page: number, count: number): Promise<any> {
   if (page >= 1) {
     url += `page=${page}`;
   }
-  if (count >= 10) {
+  if (count >= 5) {
     url += `&count=${count}`;
   }
   return reqresApi.get(url);

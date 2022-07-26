@@ -42,7 +42,7 @@ const blogStore = () => {
         });
 
       update((state) => {
-        state.blogList = temp.reverse();
+        state.blogList = temp;
         return state;
       });
     },

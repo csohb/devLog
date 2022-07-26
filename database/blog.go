@@ -50,21 +50,25 @@ func (t TBBlog) SearchTags(db *gorm.DB, tag string, page, count int) ([]TBBlog, 
 		return list, total, err
 	}
 
-	tagIdList := make([]uint, len(tags))
+	tagIdList := make([]int64, len(tags))
 	for i, v := range tags {
-		tagIdList[i] = v.ID
+		tagIdList[i] = int64(v.ID)
 	}
+
+	fmt.Println("tagIdList : ", tagIdList)
 
 	blogIdList := make([]uint, len(tagIdList))
-	if err = db.Model("blog_tags").Select("tb_blog_id", "tb_blog_id = ?", tagIdList).Error; err != nil {
+	if err = db.Table("blog_tags").Select("tb_blog_id").
+		Where("tb_tag_id IN ?", tagIdList).Find(&blogIdList).Error; err != nil {
+		return nil, 0, err
+	}
+	fmt.Println("blogIdList : ", blogIdList)
+
+	if err = db.Model(&t).Where("id IN ?", blogIdList).Count(&total).Error; err != nil {
 		return nil, 0, err
 	}
 
-	if err = db.Model(&t).Where("id = ?", blogIdList).Count(&total).Error; err != nil {
-		return nil, 0, err
-	}
-
-	if err = db.Model(&t).Where("id = ?", blogIdList).
+	if err = db.Model(&t).Preload("Tags").Where("id IN ?", blogIdList).
 		Offset(page * count).Limit(count).
 		Find(&list).Error; err != nil {
 

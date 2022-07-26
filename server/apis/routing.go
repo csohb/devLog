@@ -32,6 +32,7 @@ func RoutingForDevLog(grp *echo.Group) {
 	grp.PUT("/blog/heart", blog.ProcessUpdateHeart)
 	grp.PUT("/blog/view", blog.ProcessUpdateView)
 	grp.PUT("/blog/update", blog.ProcessUpdateBlog)
+	grp.GET("/blog/tags", blog.ProcessSearchWithTag)
 
 	// introduce
 	grp.GET("/introduce/:id", introduce.ProcessGetIntroduce)

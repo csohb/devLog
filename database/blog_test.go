@@ -126,10 +126,11 @@ func TestBlogTag(t *testing.T) {
 	}
 
 	tb := TBBlog{}
-	var list []TBBlog
-	if err := db.Model(&tb).Association("Tags").Find(&list); err != nil {
+	list, total, err := tb.SearchTags(db, "svelte", 0, 10)
+	if err != nil {
 		t.Error(err)
 	}
+	fmt.Println("total : ", total)
 	fmt.Println("list : ", list)
 
 }

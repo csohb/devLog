@@ -1,3 +1,4 @@
+import type { BlogResp } from "../stores/types/blog";
 import reqresApi from "./common";
 import type { BlogSaveRequestBody, BlogUpdateRequestBody } from "./types/blog";
 
@@ -7,7 +8,10 @@ export function fetchBlogSave(req: BlogSaveRequestBody): Promise<any> {
   return reqresApi.post("/blog/save", req);
 }
 
-export function fetchBlogList(page: number, count: number): Promise<any> {
+export function fetchBlogList(
+  page: number,
+  count: number
+): Promise<BlogResp | any> {
   let url = "/blog/list?";
   if (page >= 1) {
     url += `page=${page}`;

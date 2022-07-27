@@ -31,6 +31,8 @@ function onClickLike() {
             <span>2022-07-24</span>
             <span>|</span>
             <span>yeong</span>
+            <span>|</span>
+            <span>0</span>
           </div>
           <div class="sub-story-detail-thumb">
             <img

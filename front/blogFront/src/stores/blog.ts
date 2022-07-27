@@ -1,5 +1,10 @@
 import { writable } from "svelte/store";
-import { fetchBlogList, fetchBlogDetail } from "../api/blog";
+import {
+  fetchBlogList,
+  fetchBlogDetail,
+  fetchBlogTag,
+  fetchViewCount,
+} from "../api/blog";
 import type { BlogStore, BlogList, BlogResp } from "./types/blog";
 
 const blogStore = () => {
@@ -17,6 +22,7 @@ const blogStore = () => {
       description: "",
       writer: "",
     },
+    tagList: [],
   };
 
   const { subscribe, set, update } = writable(state);
@@ -24,10 +30,12 @@ const blogStore = () => {
   const methods = {
     async setBlogList(page: number, count: number) {
       let temp: BlogList[] = [];
+      let total: number = 0;
       await fetchBlogList(page, count)
         .then((resp: BlogResp) => {
           if (resp !== null) {
             temp = resp.list;
+            total = resp.total;
 
             temp.forEach((val) => {
               Object.assign(val, {
@@ -43,12 +51,39 @@ const blogStore = () => {
 
       update((state) => {
         state.blogList = temp;
+        state.listTotal = total;
+        state.tagList = temp.reduce((acc, cur) => {
+          cur.tags.map((val) => {
+            const idx = acc.indexOf(val);
+            if (idx === -1) {
+              acc.push(val);
+            }
+          });
+          return acc;
+        }, []);
+
         return state;
       });
     },
     resetBlogList() {
       update((state) => {
         state.blogList = [];
+        return state;
+      });
+    },
+    async setTagList(tag: string, page: number, count: number) {
+      let temp: BlogList[] = [];
+      let total: number = 0;
+      await fetchBlogTag(tag, page, count).then((resp) => {
+        console.log("tag resp:", resp);
+        if (resp.list != null) {
+          temp = resp.list;
+          total = resp.total;
+        }
+      });
+      update((state) => {
+        state.blogList = temp;
+        state.listTotal = total;
         return state;
       });
     },
@@ -87,6 +122,18 @@ const blogStore = () => {
         };
         return state;
       });
+    },
+    async viewCount(id: string) {
+      await fetchViewCount(id)
+        .then(() => {
+          update((state) => {
+            state.blogDetail.view += 1;
+            return state;
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   };
 

@@ -24,12 +24,21 @@ function setPagination(e: any) {
   page = e.detail + 1;
   blogStore.setBlogList(page, count);
 }
+
+function onClickViewCount(id: string) {
+  blogStore.viewCount(id);
+}
 </script>
 
 <ul class="sub-blog-list">
   {#each $blogStore.blogList as _, index}
     <li class="sub-blog-item">
-      <a href="/blog/{_.id}" use:link>
+      <a
+        href="/blog/{_.id}"
+        use:link
+        on:click="{() => {
+          onClickViewCount(_.id);
+        }}">
         <span>
           {#each setTags(_.tags) as item}
             {item}&nbsp;&nbsp;&nbsp;&nbsp;
@@ -41,6 +50,8 @@ function setPagination(e: any) {
           <span>{_.date}</span>
           <span>|</span>
           <span>{_.writer}</span>
+          <span>|</span>
+          <span>{_.view}</span>
         </div>
       </a>
     </li>

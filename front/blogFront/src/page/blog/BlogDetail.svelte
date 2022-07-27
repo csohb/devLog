@@ -6,6 +6,7 @@ import { onDestroy, onMount } from "svelte";
 import blogStore from "../../stores/blog";
 import popupStore from "../../stores/popup";
 import { fetchBlogDelete } from "../../api/blog";
+import { unlike, like } from "../../icon/Icon";
 
 export let params = {
   id: "",
@@ -51,6 +52,20 @@ function onClickDelete() {
   });
 }
 
+let heartClick = false;
+function onClickHeart(isAdd: boolean) {
+  if (!params.id) {
+    return;
+  }
+  if (heartClick) {
+    return;
+  }
+  heartClick = true;
+  blogStore.heartCount(params.id, isAdd).finally(() => {
+    heartClick = false;
+  });
+}
+
 onDestroy(() => {
   blogStore.resetBlogDetail();
 });
@@ -79,6 +94,21 @@ onDestroy(() => {
               <span>{$blogStore.blogDetail.writer}</span>
               <span>|</span>
               <span>{$blogStore.blogDetail.view}</span>
+              <span>|</span>
+              <span class="sub-blog-detail-heart">
+                <div
+                  on:click="{() => {
+                    onClickHeart(true);
+                  }}">
+                  {@html like}+
+                </div>
+                <div
+                  on:click="{() => {
+                    onClickHeart(false);
+                  }}">
+                  {@html unlike}-
+                </div>
+                {$blogStore.blogDetail.heart}</span>
             </div>
           </div>
           <div class="sub-blog-detail-contents">

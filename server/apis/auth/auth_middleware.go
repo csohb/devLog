@@ -46,6 +46,8 @@ func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
 		return auth, err
 	}
 
+	fmt.Println("session : ", sess)
+
 	logrus.Debugf("session : %+v", sess)
 	return auth, nil
 }

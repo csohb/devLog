@@ -50,6 +50,8 @@ func (app *ServiceLogin) Service() *api_context.CommonResponse {
 		return api_context.FailureJSON(http.StatusInternalServerError, "세션 생성 실패")
 	}
 
+	app.AuthInfo.GetUserID()
+
 	return api_context.SuccessJSON("login success")
 }
 

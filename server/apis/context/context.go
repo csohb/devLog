@@ -79,6 +79,11 @@ func (a AuthHandler) SetSessionAuth(sess *sessions.Session, auth AuthHandler) {
 	}
 }
 
+func (a AuthHandler) GetSessionID(sess *sessions.Session) string {
+	sess.Values["auth"] = a
+	return a.UserId
+}
+
 func (a *AuthHandler) Check() error {
 	//TODO check
 	return nil

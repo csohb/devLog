@@ -177,16 +177,26 @@ function resetValue() {
 }
 
 function onClickCancel() {
+  let btn = "";
+  if (params.id === "register") {
+    btn = "목록으로 이동하기";
+  } else {
+    btn = "페이지로 돌아가기";
+  }
   // 수정 취소
   popupStore.open({
     title: "BLOG",
     text: "취소하시겠습니까?<br />취소하면 입력한 데이터가 사라집니다.",
-    btn: "목록으로 이동하기",
+    btn,
     type: "confirm",
     isShow: false,
     action: () => {
       resetValue();
-      push("/blog");
+      if (params.id === "register") {
+        push("/blog");
+      } else {
+        push(`/blog/${params.id}`);
+      }
     },
   });
 }

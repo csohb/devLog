@@ -1,7 +1,23 @@
 <script lang="ts">
 import Footer from "../../components/Footer.svelte";
 import Header from "../../components/Header.svelte";
-import { link } from "svelte-spa-router";
+import { link, push } from "svelte-spa-router";
+
+export let params = {
+  id: "",
+};
+
+function onClickSave() {}
+
+function onClickUpdate() {}
+
+function onClickCancel() {
+  if (params.id === "register") {
+    push("/story");
+  } else {
+    push(`/story/${params.id}`);
+  }
+}
 </script>
 
 <Header />
@@ -25,9 +41,17 @@ import { link } from "svelte-spa-router";
             <span>yeong</span>
           </div>
         </div>
-        <div class="sub-story-detail-contents">수정</div>
+        <div class="sub-story-detail-contents">
+          {#if params.id === "register"}등록{:else}수정{/if}
+        </div>
         <div class="sub-story-detail-btn">
-          <a href="/story" use:link>목록으로 돌아가기</a>
+          {#if params.id === "register"}
+            <a href="#none" on:click|preventDefault="{onClickSave}">등록</a>
+          {:else}
+            <a href="#none" on:click|preventDefault="{onClickUpdate}">수정</a>
+          {/if}
+
+          <a href="#none" on:click|preventDefault="{onClickCancel}">취소</a>
         </div>
       </div>
     </div>

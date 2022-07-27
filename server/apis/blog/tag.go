@@ -4,6 +4,7 @@ import (
 	"devLog/common/api_context"
 	"devLog/database"
 	"devLog/server/apis/context"
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -14,6 +15,17 @@ type SearchWithTagsRequest struct {
 	Tag   string `query:"tag"`
 	Page  int    `query:"page"`
 	Count int    `query:"count"`
+}
+
+type TagBlog struct {
+	ID          string   `json:"id"`
+	Title       string   `json:"title"`
+	Description string   `json:"description"`
+	Date        string   `json:"date"`
+	Writer      string   `json:"writer"`
+	View        int      `json:"view"`
+	Heart       int      `json:"heart"`
+	Tags        []string `json:"tags"`
 }
 
 type SearchWithTagsResponse struct {
@@ -31,12 +43,13 @@ func (app *ServiceSearchWithTags) Service() *api_context.CommonResponse {
 	tb := database.TBBlog{}
 	resp := SearchWithTagsResponse{}
 
-	list, total, err := tb.SearchTags(app.DB, app.req.Tag, app.req.Page, app.req.Count)
+	list, total, err := tb.SearchTags(app.DB, app.req.Tag, app.req.Page-1, app.req.Count)
 	if err != nil {
 		logrus.WithError(err).Error("search with tags err : ", err)
 		return api_context.FailureJSON(http.StatusInternalServerError, "find with tags err")
 	}
 
+	fmt.Println("list : ", list)
 	resp.List = make([]Blog, len(list))
 	for i, v := range list {
 		tags := make([]string, len(v.Tags))
@@ -47,6 +60,7 @@ func (app *ServiceSearchWithTags) Service() *api_context.CommonResponse {
 			ID:          strconv.Itoa(int(v.ID)),
 			Title:       v.Title,
 			Description: v.Description,
+			Date:        v.CreatedAt.Format("2006-01-02"),
 			Writer:      v.Writer,
 			View:        v.View,
 			Heart:       v.Heart,
@@ -71,7 +85,7 @@ func (app ServiceSearchWithTags) IsRequiredAuth() bool {
 	return false
 }
 
-func (ServiceSearchWithTags) Process(c echo.Context) error {
+func ProcessSearchWithTag(c echo.Context) error {
 	return api_context.Process(&ServiceSearchWithTags{
 		Context: c.(*context.Context),
 	})

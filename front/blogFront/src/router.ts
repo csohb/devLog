@@ -7,6 +7,8 @@ import Story from "./page/story/Story.svelte";
 import Login from "./page/auth/Login.svelte";
 import BlogDetail from "./page/blog/BlogDetail.svelte";
 import BlogEditor from "./page/blog/BlogEditor.svelte";
+import StoryDetail from "./page/story/StoryDetail.svelte";
+import StoryEditor from "./page/story/StoryEditor.svelte";
 
 const routes = {
   "/": Main,
@@ -18,6 +20,8 @@ const routes = {
   "/blog/edit/:id": BlogEditor,
   "/contact": Contact,
   "/story": Story,
+  "/story/:id": StoryDetail,
+  "/story/edit/:id": StoryEditor,
   "/login": Login,
 
   //   // Wildcard parameter

@@ -1,7 +1,7 @@
-import { writable } from 'svelte/store';
-import { fetchProfileList } from '../api/main';
+import { writable } from "svelte/store";
+import { fetchProfileList } from "../api/main";
 
-import type { MainStore, Profiles } from './types/main';
+import type { MainStore, Profiles } from "./types/main";
 
 const mainStore = () => {
   const state: MainStore = {
@@ -14,7 +14,7 @@ const mainStore = () => {
     async getProfiles() {
       let temp: Profiles[] = [];
       await fetchProfileList().then((resp: MainStore) => {
-        console.log('profiles:', resp);
+        console.log("profiles:", resp);
         if (resp !== null) {
           temp = resp.profiles;
         }
@@ -28,7 +28,7 @@ const mainStore = () => {
     imgError() {
       update((state) => {
         state.profiles.forEach((val) => {
-          val.image = '	https://picsum.photos/seed/picsum/536/536';
+          val.image = "	https://picsum.photos/seed/picsum/536/536";
         });
         return state;
       });

@@ -126,11 +126,11 @@ func TestBlogTag(t *testing.T) {
 	}
 
 	tb := TBBlog{}
-	list, total, err := tb.SearchTags(db, "golang", 1, 10)
+	list, total, err := tb.SearchTags(db, "svelte", 0, 10)
 	if err != nil {
 		t.Error(err)
 	}
-	fmt.Println("list : ", list)
 	fmt.Println("total : ", total)
+	fmt.Println("list : ", list)
 
 }

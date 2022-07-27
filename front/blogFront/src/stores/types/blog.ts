@@ -14,6 +14,7 @@ export type BlogStore = {
   blogList: BlogList[];
   listTotal: number;
   blogDetail: BlogList;
+  tagList: string[];
 };
 
 export type BlogResp = {

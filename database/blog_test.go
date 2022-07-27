@@ -126,10 +126,11 @@ func TestBlogTag(t *testing.T) {
 	}
 
 	tb := TBBlog{}
-	var list []TBBlog
-	if err := db.Model(&tb).Association("Tags").Find(&list); err != nil {
+	list, total, err := tb.SearchTags(db, "golang", 1, 10)
+	if err != nil {
 		t.Error(err)
 	}
 	fmt.Println("list : ", list)
+	fmt.Println("total : ", total)
 
 }

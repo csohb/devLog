@@ -4,6 +4,7 @@ import {
   fetchBlogDetail,
   fetchBlogTag,
   fetchViewCount,
+  fetchHeartCount,
 } from "../api/blog";
 import type { BlogStore, BlogList, BlogResp } from "./types/blog";
 
@@ -37,12 +38,12 @@ const blogStore = () => {
             temp = resp.list;
             total = resp.total;
 
-            temp.forEach((val) => {
-              Object.assign(val, {
-                description: "",
-                date: "2022년 01월 22일",
-              });
-            });
+            // temp.forEach((val) => {
+            //   Object.assign(val, {
+            //     description: "",
+            //     date: "2022년 01월 22일",
+            //   });
+            // });
           }
         })
         .catch((err) => {
@@ -128,6 +129,23 @@ const blogStore = () => {
         .then(() => {
           update((state) => {
             state.blogDetail.view += 1;
+            return state;
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+    async heartCount(id: string, isAdd: boolean) {
+      if (!isAdd && state.blogDetail.heart <= 0) {
+        return;
+      }
+      await fetchHeartCount(id, isAdd)
+        .then(() => {
+          update((state) => {
+            isAdd
+              ? (state.blogDetail.heart += 1)
+              : (state.blogDetail.heart -= 1);
             return state;
           });
         })

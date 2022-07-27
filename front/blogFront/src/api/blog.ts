@@ -63,3 +63,10 @@ export function fetchViewCount(id: string): Promise<any> {
     count: 1,
   });
 }
+
+export function fetchHeartCount(id: string, isAdd: boolean): Promise<any> {
+  return reqresApi.put("/blog/heart", {
+    id,
+    count: isAdd ? 1 : -1,
+  });
+}

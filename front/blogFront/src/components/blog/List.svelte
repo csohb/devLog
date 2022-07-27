@@ -3,6 +3,7 @@ import Pagination from "../Pagination.svelte";
 import { link } from "svelte-spa-router";
 import { onMount } from "svelte";
 import blogStore from "../../stores/blog";
+import { like } from "../../icon/Icon";
 
 let page: number = 1;
 let count: number = 10;
@@ -52,6 +53,8 @@ function onClickViewCount(id: string) {
           <span>{_.writer}</span>
           <span>|</span>
           <span>{_.view}</span>
+          <span>|</span>
+          <span class="sub-blog-item-heart">{@html like}{_.heart}</span>
         </div>
       </a>
     </li>

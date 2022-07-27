@@ -2,6 +2,7 @@
 import Footer from "../../components/Footer.svelte";
 import Header from "../../components/Header.svelte";
 import List from "../../components/story/List.svelte";
+import { link } from "svelte-spa-router";
 </script>
 
 <Header />
@@ -13,7 +14,7 @@ import List from "../../components/story/List.svelte";
         <div class="sub-story-contents">
           <List />
         </div>
-        <a href="#none">등록하기</a>
+        <a href="/story/edit/register" use:link>등록하기</a>
       </div>
     </div>
   </section>

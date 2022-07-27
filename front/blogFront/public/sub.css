@@ -566,6 +566,10 @@
   border: none;
   font-size: 16px;
 }
+.sub-story-detail-btn > a:hover,
+.sub-story-detail-btn > button:hover {
+  background-color: #551a8b;
+}
 @media screen and (max-width: 768px) {
   /* about */
   .sub-about-contents > div {

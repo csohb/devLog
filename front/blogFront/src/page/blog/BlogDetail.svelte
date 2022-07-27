@@ -77,6 +77,8 @@ onDestroy(() => {
               <span>{$blogStore.blogDetail.date}</span>
               <span>|</span>
               <span>{$blogStore.blogDetail.writer}</span>
+              <span>|</span>
+              <span>{$blogStore.blogDetail.view}</span>
             </div>
           </div>
           <div class="sub-blog-detail-contents">

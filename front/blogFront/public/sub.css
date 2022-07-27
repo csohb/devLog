@@ -295,7 +295,7 @@
   color: #828c94;
   font-weight: lighter;
 }
-.sub-blog-item-info > span:nth-child(2) {
+.sub-blog-item-info > span:nth-child(2n) {
   margin: 0 12px;
   color: #dadce0;
 }
@@ -328,7 +328,7 @@
   letter-spacing: -0.32px;
   color: #828c94;
 }
-.sub-blog-detail-info > span:nth-child(2) {
+.sub-blog-detail-info > span:nth-child(2n) {
   margin: 0 12px;
   color: #dadce0;
 }
@@ -491,7 +491,7 @@
   font-size: 16px;
   line-height: 1.625;
 }
-.sub-story-detail-info > span:nth-child(2) {
+.sub-story-detail-info > span:nth-child(2n) {
   margin: 0 12px;
   color: #dadce0;
 }

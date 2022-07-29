@@ -14,6 +14,7 @@ type CareerType = {
   job_detail: string;
   job_title: string;
   start_date: string;
+  isEditMode: boolean;
 };
 type KeywordType = {
   id: string;

@@ -1,6 +1,5 @@
 <script lang="ts">
 import { beforeUpdate, onMount } from "svelte";
-
 import Career from "../../components/about/Career.svelte";
 import Introduce from "../../components/about/Introduce.svelte";
 import Knowledges from "../../components/about/Knowledges.svelte";
@@ -9,8 +8,9 @@ import Skills from "../../components/about/Skills.svelte";
 import Footer from "../../components/Footer.svelte";
 import Header from "../../components/Header.svelte";
 import aboutStore from "../../stores/about";
+import { querystring, link } from "svelte-spa-router";
 
-import { querystring } from "svelte-spa-router";
+let isEditMode = false;
 
 const TABLIST = [
   { nick: "YEONG", name: "yeong" },
@@ -20,6 +20,7 @@ let currentTab = "";
 
 function onClickTab(type: string) {
   currentTab = type;
+  isEditMode = false;
 }
 
 onMount(() => {
@@ -66,7 +67,7 @@ beforeUpdate(() => {
         <div class="sub-about-contents">
           <Introduce />
           <div class="sub-about-career">
-            <Career />
+            <Career isEditMode="{isEditMode}" />
           </div>
           <div class="sub-about-project">
             <Project />
@@ -77,6 +78,14 @@ beforeUpdate(() => {
           <div class="sub-about-keywords">
             <Knowledges />
           </div>
+        </div>
+        <div class="sub-about-action">
+          <a href="/about/edit?writer={currentTab}" use:link>등록</a>
+          <button
+            type="button"
+            on:click="{() => {
+              isEditMode = !isEditMode;
+            }}">수정</button>
         </div>
       </div>
     </div>

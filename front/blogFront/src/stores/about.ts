@@ -26,13 +26,15 @@ const aboutStore = () => {
     async setIntroduce(name: string) {
       await fetchIntroduce(name)
         .then((resp) => {
-          console.log("about resp:", resp);
           update((state) => {
             state.info = resp.profile;
             state.careers = resp.careers;
             state.skills = resp.skills;
             state.project = resp.project;
             state.keywords = resp.keywords;
+            Object.assign(state.careers, {
+              isEditMode: false,
+            });
             return state;
           });
         })
@@ -40,6 +42,17 @@ const aboutStore = () => {
           console.log("about err:", err);
           this.resetAbout();
         });
+    },
+    careerEditMode(idx: number) {
+      update((state) => {
+        if (!state.careers[idx].isEditMode) {
+          state.careers.map((val) => {
+            val.isEditMode = false;
+          });
+        }
+        state.careers[idx].isEditMode = !state.careers[idx].isEditMode;
+        return state;
+      });
     },
     resetAbout() {
       update((state) => {

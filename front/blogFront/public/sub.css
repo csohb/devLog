@@ -181,6 +181,11 @@
   font-size: 13px;
 }
 
+/* about / career */
+.timeline input {
+  width: 100%;
+}
+
 /* blog */
 
 /*

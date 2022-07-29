@@ -6,7 +6,6 @@ import aboutStore from "../../stores/about";
 let skills = [];
 
 beforeUpdate(() => {
-  console.log($aboutStore.skills);
   skills = $aboutStore.skills.reduce((temp, val) => {
     temp.push({
       title: val.name,

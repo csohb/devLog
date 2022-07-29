@@ -10,6 +10,10 @@ onMount(() => {
   blogStore.setBlogList(PAGE, COUNT);
 });
 
+function onClickViewCount(id: string) {
+  blogStore.viewCount(id);
+}
+
 onDestroy(() => {
   blogStore.resetBlogList();
 });
@@ -21,7 +25,12 @@ onDestroy(() => {
     <ul class="main-blog-list">
       {#each $blogStore.blogList as item}
         <li class="main-blog-list-item">
-          <a href="/blog/{item.id}" use:link>
+          <a
+            href="/blog/{item.id}"
+            use:link
+            on:click="{() => {
+              onClickViewCount(item.id);
+            }}">
             <h2 class="main-blog-list-title">
               {item.title}
             </h2>

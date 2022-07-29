@@ -115,11 +115,11 @@ async function onClickUpdate() {
       tags: $blogStore.blogDetail.tags,
     });
   }
-  // if (res.description == null) {
-  //   Object.assign(req, {
-  //     description: $blogStore.blogDetail.description,
-  //   });
-  // }
+  if (req.description == null) {
+    Object.assign(req, {
+      description: $blogStore.blogDetail.description,
+    });
+  }
   console.log(req);
   await fetchBlogUpdate(req).then(() => {
     push(`/blog/${params.id}`);

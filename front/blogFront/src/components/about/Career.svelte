@@ -32,7 +32,9 @@ function onClickEdit(id: string) {
             class:orange="{idx % 3 === 2}">
           </div>
           <div class="time">
-            {career.start_date} ~ <br />{career.end_date}
+            {career.start_date} ~ <br />{career.end_date !== "0001-01-01"
+              ? career.end_date
+              : "재직중"}
           </div>
           <div class="desc">
             <h3>

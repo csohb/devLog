@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import { fetchIntroduce } from "../api/about";
+import { fetchCrateCareer, fetchIntroduce } from "../api/about";
 import type { AboutType } from "./types/about";
 
 const aboutStore = () => {
@@ -53,6 +53,13 @@ const aboutStore = () => {
         state.careers[idx].isEditMode = !state.careers[idx].isEditMode;
         return state;
       });
+    },
+    async crateCareer(id: string, list: any[]): Promise<any> {
+      let req = {
+        id,
+        career: list,
+      };
+      return await fetchCrateCareer(req);
     },
     resetAbout() {
       update((state) => {

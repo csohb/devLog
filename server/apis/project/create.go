@@ -11,16 +11,12 @@ import (
 )
 
 type Project struct {
-	Name        string  `json:"name"`
-	IsPersonal  bool    `json:"is_personal"`
-	StartDate   string  `json:"start_date"`
-	EndDate     string  `json:"end_date"`
-	Description string  `json:"description"`
-	Stack       []Stack `json:"stack"`
-}
-
-type Stack struct {
-	Name string `json:"name"`
+	Name        string   `json:"name"`
+	IsPersonal  bool     `json:"is_personal"`
+	StartDate   string   `json:"start_date"`
+	EndDate     string   `json:"end_date"`
+	Description string   `json:"description"`
+	Stack       []string `json:"stack"`
 }
 
 type CreateProjectRequest struct {
@@ -47,7 +43,7 @@ func (app *ServiceCreateProject) Service() *api_context.CommonResponse {
 		stack := make([]database.TBTech, len(v.Stack))
 		for j, k := range v.Stack {
 			stack[j] = database.TBTech{
-				Name:   k.Name,
+				Name:   k,
 				UserID: app.req.ID,
 			}
 		}

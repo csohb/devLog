@@ -7,7 +7,7 @@ import (
 
 func main() {
 
-	db, err := conn.ConnectForTest()
+	db, err := conn.ConnectForYJ()
 	if err != nil {
 		panic(err)
 	}

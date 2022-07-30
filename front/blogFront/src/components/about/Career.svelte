@@ -1,6 +1,9 @@
 <script lang="ts">
+import type { CareerListType } from "../../api/types/about";
+
 import aboutStore from "../../stores/about";
 export let isEditMode = false;
+export let currentTab = "";
 
 let company = "";
 let startDate = "";
@@ -8,14 +11,34 @@ let endDate = "";
 let jobTitle = "";
 let jobDetail = "";
 
-function onClickEdit(id: string) {
+async function onClickEdit(id: string) {
   // career 에 get 에는 id 가 따로 없는데 index를 의미하는 건지 확인 필요
-  console.log("수정 id:", id, company);
-  company = "";
-  startDate = "";
-  endDate = "";
-  jobTitle = "";
-  jobDetail = "";
+  console.log("수정 id:", id);
+  let req: CareerListType = {
+    company,
+    start_date: startDate,
+    end_date: endDate,
+    job_title: jobTitle,
+    job_detail: jobDetail,
+  };
+  await aboutStore
+    .updateCareer(id, req)
+    .then((resp) => {
+      console.log(resp);
+      if (currentTab !== "") {
+        aboutStore.setIntroduce(currentTab);
+      }
+    })
+    .finally(() => {
+      company = "";
+      startDate = "";
+      endDate = "";
+      jobTitle = "";
+      jobDetail = "";
+    });
+}
+function onClickDelete(id: string) {
+  console.log("삭제 id:", id);
 }
 </script>
 
@@ -48,7 +71,7 @@ function onClickEdit(id: string) {
                   class="sub-about-edit-btn"
                   on:click="{() => {
                     if (career.isEditMode) {
-                      onClickEdit(String(idx));
+                      onClickEdit(String(career.id));
                     } else {
                       company = career.company;
                       startDate = career.start_date;
@@ -59,6 +82,10 @@ function onClickEdit(id: string) {
                     aboutStore.careerEditMode(idx);
                   }}">
                   {#if career.isEditMode}완료{:else}수정{/if}</span>
+                <span
+                  on:click="{() => {
+                    onClickDelete(career.id);
+                  }}">삭제</span>
               {/if}
             </h4>
             <div class="people"></div>

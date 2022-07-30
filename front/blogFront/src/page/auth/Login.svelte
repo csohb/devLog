@@ -10,8 +10,8 @@ let pw: string = "";
 function loginHandler() {
   authStore
     .postLogin(id, pw)
-    .then(() => {
-      authStore.setNick(id);
+    .then((resp: any) => {
+      authStore.setNick(resp.user_id);
       id = "";
       pw = "";
       push("/");

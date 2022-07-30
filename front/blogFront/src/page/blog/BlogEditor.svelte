@@ -8,6 +8,7 @@ import { onDestroy, onMount, tick } from "svelte";
 import { fetchBlogSave, fetchBlogUpdate } from "../../api/blog";
 import blogStore from "../../stores/blog";
 import popupStore from "../../stores/popup";
+import authStore from "../../stores/auth";
 
 let title = "";
 let tag = "";
@@ -28,8 +29,12 @@ onMount(() => {
     init();
     return;
   }
+  if ($authStore.loginNick === "") {
+    push("/login");
+    return;
+  }
   // writer 설정 필요
-  writer = "yeong";
+  writer = $authStore.loginNick;
   setToday();
 });
 

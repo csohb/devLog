@@ -1,5 +1,10 @@
 import { writable } from "svelte/store";
-import { fetchCrateCareer, fetchIntroduce } from "../api/about";
+import {
+  fetchCrateCareer,
+  fetchIntroduce,
+  fetchUpdateCareer,
+} from "../api/about";
+import type { CareerListType } from "../api/types/about";
 import type { AboutType } from "./types/about";
 
 const aboutStore = () => {
@@ -60,6 +65,9 @@ const aboutStore = () => {
         career: list,
       };
       return await fetchCrateCareer(req);
+    },
+    async updateCareer(id: string, req: CareerListType): Promise<any> {
+      return await fetchUpdateCareer(id, req);
     },
     resetAbout() {
       update((state) => {

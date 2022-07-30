@@ -9,6 +9,7 @@ type InfoType = {
 };
 
 type CareerType = {
+  id: string;
   company: string;
   end_date: string;
   job_detail: string;

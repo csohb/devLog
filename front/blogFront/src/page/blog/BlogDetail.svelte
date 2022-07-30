@@ -5,6 +5,7 @@ import { link, push } from "svelte-spa-router";
 import { onDestroy, onMount } from "svelte";
 import blogStore from "../../stores/blog";
 import popupStore from "../../stores/popup";
+import authStore from "../../stores/auth";
 import { fetchBlogDelete } from "../../api/blog";
 import { unlike, like } from "../../icon/Icon";
 
@@ -117,8 +118,10 @@ onDestroy(() => {
         {/if}
         <div class="sub-blog-detail-btn">
           <a href="/blog" use:link>목록으로 돌아가기</a>
-          <a href="/blog/edit/{params.id}" use:link>수정하기</a>
-          <button type="button" on:click="{onClickDelete}">삭제</button>
+          {#if $authStore.loginNick !== ""}
+            <a href="/blog/edit/{params.id}" use:link>수정하기</a>
+            <button type="button" on:click="{onClickDelete}">삭제</button>
+          {/if}
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@
 .pagination-wrap > ul {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 .pagination-wrap > ul > li > button {
   background-color: #fff;
@@ -91,5 +92,8 @@
     font-size: 32px;
     line-height: 48px;
     margin: 0 0 11px 0;
+  }
+  .pagination-wrap {
+    margin-bottom: 60px;
   }
 }

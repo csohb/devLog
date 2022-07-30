@@ -3,6 +3,7 @@ import Footer from "../../components/Footer.svelte";
 import Header from "../../components/Header.svelte";
 import { link } from "svelte-spa-router";
 import { unlike, like } from "../../icon/Icon";
+import authStore from "../../stores/auth";
 
 let isLike = false;
 let likeCount = 0;
@@ -59,8 +60,10 @@ function onClickDelete() {}
         </div>
         <div class="sub-story-detail-btn">
           <a href="/story" use:link>목록으로 돌아가기</a>
-          <a href="/story/edit/{params.id}" use:link>수정하기</a>
-          <button type="button" on:click="{onClickDelete}">삭제</button>
+          {#if $authStore.loginNick !== ""}
+            <a href="/story/edit/{params.id}" use:link>수정하기</a>
+            <button type="button" on:click="{onClickDelete}">삭제</button>
+          {/if}
         </div>
       </div>
     </div>

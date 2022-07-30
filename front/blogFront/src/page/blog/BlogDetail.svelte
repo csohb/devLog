@@ -118,7 +118,7 @@ onDestroy(() => {
         {/if}
         <div class="sub-blog-detail-btn">
           <a href="/blog" use:link>목록으로 돌아가기</a>
-          {#if $authStore.loginNick !== ""}
+          {#if $authStore.loginNick !== "" && $blogStore.blogDetail.writer === $authStore.loginNick}
             <a href="/blog/edit/{params.id}" use:link>수정하기</a>
             <button type="button" on:click="{onClickDelete}">삭제</button>
           {/if}

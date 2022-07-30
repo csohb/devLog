@@ -10,7 +10,7 @@ import (
 )
 
 type DeleteCareerRequest struct {
-	ID []int `json:"id"`
+	ID []int `param:"id"`
 }
 
 type ServiceDeleteCareer struct {

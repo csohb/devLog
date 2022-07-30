@@ -2,11 +2,30 @@ package project
 
 import (
 	"devLog/common/api_context"
+	"devLog/database"
 	"devLog/server/apis/context"
+	"devLog/server/utils"
+	"fmt"
 	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
+type Project struct {
+	Name        string  `json:"name"`
+	IsPersonal  bool    `json:"is_personal"`
+	StartDate   string  `json:"start_date"`
+	EndDate     string  `json:"end_date"`
+	Description string  `json:"description"`
+	Stack       []Stack `json:"stack"`
+}
+
+type Stack struct {
+	Name string `json:"name"`
+}
+
 type CreateProjectRequest struct {
+	ID       string    `json:"id"`
+	Projects []Project `json:"projects"`
 }
 
 type ServiceCreateProject struct {
@@ -15,8 +34,41 @@ type ServiceCreateProject struct {
 }
 
 func (app *ServiceCreateProject) Service() *api_context.CommonResponse {
-	//TODO implement me
-	panic("implement me")
+	for _, v := range app.req.Projects {
+		startTime, err := utils.StringToTime(v.StartDate)
+		if err != nil {
+			return api_context.FailureJSON(http.StatusBadRequest, "not valid startDate")
+		}
+		endTime, err := utils.StringToTime(v.EndDate)
+		if err != nil {
+			return api_context.FailureJSON(http.StatusBadRequest, "not valid endDate")
+		}
+
+		stack := make([]database.TBTech, len(v.Stack))
+		for j, k := range v.Stack {
+			stack[j] = database.TBTech{
+				Name:   k.Name,
+				UserID: app.req.ID,
+			}
+		}
+		tb := database.TBProject{
+			UserID:      app.req.ID,
+			Name:        v.Name,
+			IsPersonal:  v.IsPersonal,
+			StartDate:   startTime,
+			EndDate:     endTime,
+			Description: v.Description,
+			Stack:       stack,
+		}
+
+		fmt.Println("tbProject : ", tb)
+
+		if err = tb.Save(app.DB); err != nil {
+			return api_context.FailureJSON(http.StatusInternalServerError, "db insert error")
+		}
+	}
+
+	return api_context.SuccessJSON(nil)
 }
 
 func (app *ServiceCreateProject) GetRequestData() interface{} {

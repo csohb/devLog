@@ -4,6 +4,7 @@ import Footer from "../../components/Footer.svelte";
 import Header from "../../components/Header.svelte";
 import { link } from "svelte-spa-router";
 import blogStore from "../../stores/blog";
+import authStore from "../../stores/auth";
 
 let page: number = 1;
 let count: number = 10;
@@ -35,7 +36,9 @@ function onClickTag(tag: string) {
         <div class="sub-blog-contents">
           <List />
         </div>
-        <a href="/blog/edit/register" use:link>등록하기</a>
+        {#if $authStore.loginNick !== ""}
+          <a href="/blog/edit/register" use:link>등록하기</a>
+        {/if}
       </div>
     </div>
   </section>

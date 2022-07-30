@@ -8,6 +8,7 @@ import Skills from "../../components/about/Skills.svelte";
 import Footer from "../../components/Footer.svelte";
 import Header from "../../components/Header.svelte";
 import aboutStore from "../../stores/about";
+import authStore from "../../stores/auth";
 import { querystring, link } from "svelte-spa-router";
 
 let isEditMode = false;
@@ -79,14 +80,16 @@ beforeUpdate(() => {
             <Knowledges />
           </div>
         </div>
-        <div class="sub-about-action">
-          <a href="/about/edit?writer={currentTab}" use:link>등록</a>
-          <button
-            type="button"
-            on:click="{() => {
-              isEditMode = !isEditMode;
-            }}">수정</button>
-        </div>
+        {#if $authStore.loginNick !== ""}
+          <div class="sub-about-action">
+            <a href="/about/edit?writer={currentTab}" use:link>등록</a>
+            <button
+              type="button"
+              on:click="{() => {
+                isEditMode = !isEditMode;
+              }}">수정</button>
+          </div>
+        {/if}
       </div>
     </div>
   </section>

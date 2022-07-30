@@ -1,7 +1,7 @@
 <script lang="ts">
 import Footer from "../../components/Footer.svelte";
 import Header from "../../components/Header.svelte";
-import { querystring } from "svelte-spa-router";
+import { push, querystring } from "svelte-spa-router";
 import aboutStore from "../../stores/about";
 import popupStore from "../../stores/popup";
 
@@ -11,6 +11,10 @@ let startDate = "";
 let endDate = "";
 let jobTitle = "";
 let jobDetail = "";
+
+let skillList = [];
+let skillName = "";
+let percentage = 0;
 
 function onClickCareerAdd() {
   if (company.trim() === "") {
@@ -43,16 +47,19 @@ function onClickCareerAdd() {
       type: "alert",
       isShow: false,
       action: () => {
-        company = "";
-        startDate = "";
-        endDate = "";
-        jobDetail = "";
-        jobTitle = "";
+        resetCareer();
       },
     });
   } else {
     alert("저장 실패!");
   }
+}
+function resetCareer() {
+  company = "";
+  startDate = "";
+  endDate = "";
+  jobDetail = "";
+  jobTitle = "";
 }
 function onClickCareerSave() {
   if ($querystring.split("=")[1] == null) {
@@ -64,8 +71,33 @@ function onClickCareerSave() {
   if (careerList.length === 0) {
     return;
   }
-  aboutStore.crateCareer($querystring.split("=")[1], careerList).then(() => {
-    alert("저장완료");
+  aboutStore
+    .crateCareer($querystring.split("=")[1], careerList)
+    .then(() => {
+      alert("저장완료");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+function onClickSkillAdd() {}
+function onClickSkillSave() {}
+function resetSkill() {
+  skillName = "";
+  percentage = 0;
+}
+function onClickRouter() {
+  popupStore.open({
+    title: `${$querystring.split("=")[1]}소개 수정`,
+    text: "확인하시면 작성하신 내용이 사라집니다.<br />페이지를 이동하시겠습니까?",
+    type: "confirm",
+    btn: "확인",
+    isShow: false,
+    action: () => {
+      resetCareer();
+      resetSkill();
+      push("/about");
+    },
   });
 }
 </script>
@@ -107,7 +139,23 @@ function onClickCareerSave() {
           </div>
           <div class="sub-about-edit">
             <h2>SKILLS</h2>
+            <ul>
+              <li>
+                <span>skill :</span>
+                <input type="text" bind:value="{skillName}" />
+              </li>
+              <li>
+                <span>percentage :</span>
+                <input type="number" min="0" bind:value="{percentage}" />
+              </li>
+            </ul>
+            <button type="button" on:click="{onClickSkillAdd}">추가</button>
+            <button type="button" on:click="{onClickSkillSave}">저장</button>
           </div>
+        </div>
+        <div class="sub-about-edit-action">
+          <button type="button" on:click="{onClickRouter}"
+            >소개 페이지로 이동하기</button>
         </div>
       </div>
     </div>

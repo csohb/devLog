@@ -3,6 +3,7 @@ import Footer from "../../components/Footer.svelte";
 import Header from "../../components/Header.svelte";
 import List from "../../components/story/List.svelte";
 import { link } from "svelte-spa-router";
+import authStore from "../../stores/auth";
 </script>
 
 <Header />
@@ -14,7 +15,9 @@ import { link } from "svelte-spa-router";
         <div class="sub-story-contents">
           <List />
         </div>
-        <a href="/story/edit/register" use:link>등록하기</a>
+        {#if $authStore.loginNick !== ""}
+          <a href="/story/edit/register" use:link>등록하기</a>
+        {/if}
       </div>
     </div>
   </section>

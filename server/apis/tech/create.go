@@ -12,11 +12,11 @@ import (
 
 type Tech struct {
 	Name       string `json:"name"`
-	UserID     string `json:"user_id"`
 	Percentage int    `json:"percentage,omitempty"`
 }
 
 type CreateTechRequest struct {
+	ID   string `json:"user_id"`
 	Tech []Tech `json:"tech"`
 }
 
@@ -31,7 +31,7 @@ func (app *ServiceCreateTech) Service() *api_context.CommonResponse {
 	for _, v := range app.req.Tech {
 		tb = database.TBTech{
 			Name:       v.Name,
-			UserID:     v.UserID,
+			UserID:     app.req.ID,
 			Percentage: v.Percentage,
 		}
 		if err := tb.Create(app.DB); err != nil {

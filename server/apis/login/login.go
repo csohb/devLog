@@ -5,6 +5,7 @@ import (
 	"devLog/database"
 	"devLog/server/apis/auth"
 	"devLog/server/apis/context"
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -14,6 +15,10 @@ import (
 type RequestLogin struct {
 	UserID   string `json:"id"`
 	Password string `json:"password"`
+}
+
+type ResponseLogin struct {
+	UserID string `json:"user_id"`
 }
 
 type ServiceLogin struct {
@@ -43,16 +48,19 @@ func (app *ServiceLogin) Service() *api_context.CommonResponse {
 		LoginDate: time.Now(),
 	}
 	app.AuthInfo.Create(app.Context, authInfo)
+	fmt.Println("authInfo : ", authInfo)
 
-	_, err := auth.CreateSession(app.Context, app.req.UserID)
+	sessionAuthInfo, err := auth.CreateSession(app.Context, app.req.UserID)
 	if err != nil {
 		app.Log.WithError(err).Error("session create failed.")
 		return api_context.FailureJSON(http.StatusInternalServerError, "세션 생성 실패")
 	}
 
-	app.AuthInfo.GetUserID()
+	resp := ResponseLogin{}
+	resp.UserID = sessionAuthInfo.UserID
 
-	return api_context.SuccessJSON("login success")
+	fmt.Println("login id : ", sessionAuthInfo.UserID)
+	return api_context.SuccessJSON(&resp)
 }
 
 func (app *ServiceLogin) GetRequestData() interface{} {

@@ -28,6 +28,7 @@ type Profi struct {
 }
 
 type Career struct {
+	ID        string `json:"id"`
 	Company   string `json:"company"`
 	StartDate string `json:"start_date"`
 	EndDate   string `json:"end_date"`
@@ -98,6 +99,7 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 	careerList := make([]Career, len(ret.Career))
 	for i, v := range ret.Career {
 		careerList[i] = Career{
+			ID:        strconv.Itoa(int(v.ID)),
 			Company:   v.CompanyName,
 			StartDate: v.StartDate.Format("2006-01-02"),
 			EndDate:   v.EndDate.Format("2006-01-02"),
@@ -109,7 +111,7 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 	projectList := make([]Project, len(ret.Project))
 	for i, v := range ret.Project {
 		projectList[i] = Project{
-			ID:          string(v.ID),
+			ID:          strconv.Itoa(int(v.ID)),
 			Name:        v.Name,
 			IsPersonal:  v.IsPersonal,
 			StartDate:   v.StartDate.Format("2006-01-02"),

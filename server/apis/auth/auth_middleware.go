@@ -32,7 +32,7 @@ func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
 	logrus.Debugf("session get : %+v", sess)
 
 	sess.Options = &sessions.Options{
-		Path:     "/",
+		Path:     "/api/v1",
 		MaxAge:   sessionVerifyTime,
 		Secure:   false,
 		HttpOnly: true,

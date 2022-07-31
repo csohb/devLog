@@ -11,30 +11,14 @@ import (
 type UpdateProfi struct {
 	NickName string `json:"nick_name"`
 	Img      string `json:"img"`
-}
-
-type UpdateCareer struct {
-	Company   string `json:"company"`
-	StartDate string `json:"start_date"`
-	EndDate   string `json:"end_date"`
-	JobTitle  string `json:"job_title"`
-	JobDetail string `json:"job_detail"`
-}
-
-type UpdateProject struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	IsPersonal  bool   `json:"is_personal"`
-	StartDate   string `json:"start_date"`
-	EndDate     string `json:"end_date"`
-	Description string `json:"description"`
+	Intro    string `json:"intro"`
+	Email    string `json:"email"`
+	Addr     string `json:"addr"`
 }
 
 type UpdateIntroduceRequest struct {
-	UserID  string          `json:"user_id"`
-	Profile UpdateProfi     `json:"profile"`
-	Career  []UpdateCareer  `json:"career"`
-	Project []UpdateProject `json:"project"`
+	UserID  string      `json:"user_id"`
+	Profile UpdateProfi `json:"profile"`
 }
 
 type ServiceUpdateIntroduce struct {
@@ -43,7 +27,15 @@ type ServiceUpdateIntroduce struct {
 }
 
 func (app *ServiceUpdateIntroduce) Service() *api_context.CommonResponse {
-	tb := database.TBUser{}
+	tb := database.TBUser{
+		ID:    app.req.UserID,
+		Email: app.req.Profile.Email,
+		Addr:  app.req.Profile.Addr,
+		Introduce: database.TBIntroduce{
+			Intro:      app.req.Profile.Intro,
+			ProfileUrl: app.req.Profile.Img,
+		},
+	}
 	if err := tb.UpdateIntroduce(app.DB, app.req.UserID); err != nil {
 		app.Log.Error("update introduce failed.")
 		return api_context.FailureJSON(http.StatusInternalServerError, "update db err")

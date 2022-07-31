@@ -25,6 +25,7 @@ type ServiceUpdateBlog struct {
 }
 
 func (app *ServiceUpdateBlog) Service() *api_context.CommonResponse {
+
 	id, err := strconv.Atoi(app.req.ID)
 	if err != nil {
 		app.Log.Error("convert blog id to int err : ", app.req.ID)

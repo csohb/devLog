@@ -53,9 +53,9 @@ func Process(service ServiceHandler) error {
 	}
 
 	if service.IsRequiredAuth() == true {
-		if err = service.GetAuthHandler().Check(); err != nil {
-			return service.GetAuthHandler().ErrorHandler()
-		}
+		/*if errResult := c.Auth.ParseAuthorization(c); errResult != nil {
+			return errResult.Send(c)
+		}*/
 	}
 
 	resp := service.Service()

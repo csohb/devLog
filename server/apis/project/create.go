@@ -40,11 +40,10 @@ func (app *ServiceCreateProject) Service() *api_context.CommonResponse {
 			return api_context.FailureJSON(http.StatusBadRequest, "not valid endDate")
 		}
 
-		stack := make([]database.TBTech, len(v.Stack))
+		stack := make([]database.TBStack, len(v.Stack))
 		for j, k := range v.Stack {
-			stack[j] = database.TBTech{
-				Name:   k,
-				UserID: app.req.ID,
+			stack[j] = database.TBStack{
+				Name: k,
 			}
 		}
 		tb := database.TBProject{

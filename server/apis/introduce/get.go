@@ -37,12 +37,13 @@ type Career struct {
 }
 
 type Project struct {
-	ID          string `json:"id"`
-	Name        string `json:"name"`
-	IsPersonal  bool   `json:"is_personal"`
-	StartDate   string `json:"start_date"`
-	EndDate     string `json:"end_date"`
-	Description string `json:"description"`
+	ID          string   `json:"id"`
+	Name        string   `json:"name"`
+	IsPersonal  bool     `json:"is_personal"`
+	StartDate   string   `json:"start_date"`
+	EndDate     string   `json:"end_date"`
+	Description string   `json:"description"`
+	Stack       []string `json:"stack"`
 }
 
 type Skill struct {
@@ -110,6 +111,12 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 
 	projectList := make([]Project, len(ret.Project))
 	for i, v := range ret.Project {
+		tb := database.TBProject{}
+		tb.Get(app.DB, v.ID)
+		stack := make([]string, len(tb.Stack))
+		for j, k := range tb.Stack {
+			stack[j] = k.Name
+		}
 		projectList[i] = Project{
 			ID:          strconv.Itoa(int(v.ID)),
 			Name:        v.Name,
@@ -117,6 +124,7 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 			StartDate:   v.StartDate.Format("2006-01-02"),
 			EndDate:     v.EndDate.Format("2006-01-02"),
 			Description: v.Description,
+			Stack:       stack,
 		}
 	}
 

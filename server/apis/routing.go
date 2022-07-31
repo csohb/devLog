@@ -43,5 +43,7 @@ func RoutingForDevLog(grp *echo.Group) {
 
 	// project
 	grp.POST("/introduce/project/create", project.ProcessCreateProject)
+	grp.DELETE("/introduce/project/delete/:id", project.ProcessDeleteProject)
+	grp.PUT("/introduce/project/update", project.ProcessUpdateProject)
 
 }

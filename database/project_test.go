@@ -2,6 +2,7 @@ package database
 
 import (
 	"devLog/database/conn"
+	"fmt"
 	"testing"
 	"time"
 )
@@ -24,6 +25,16 @@ func TestProject(t *testing.T) {
 	if err = tb.Save(db); err != nil {
 		t.Error(t)
 	}
+}
+
+func TestProjectGet(t *testing.T) {
+	db, err := conn.ConnectForYJ()
+	if err != nil {
+		t.Error(err)
+	}
+	tb := TBProject{}
+	tb.Get(db, 4)
+	fmt.Println("tb : ", tb)
 }
 
 func TestTech(t *testing.T) {

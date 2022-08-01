@@ -23,10 +23,11 @@ async function onClickEdit(id: string) {
   };
   await aboutStore
     .updateCareer(id, req)
-    .then((resp) => {
-      console.log(resp);
+    .then(() => {
       if (currentTab !== "") {
         aboutStore.setIntroduce(currentTab);
+      } else {
+        alert("삭제 성공! 새로고침을 눌러주세요.");
       }
     })
     .finally(() => {
@@ -38,9 +39,18 @@ async function onClickEdit(id: string) {
     });
 }
 async function onClickDelete(id: string) {
-  await aboutStore.deleteCareer(id).then((resp) => {
-    console.log("삭제 resp:", resp);
-  });
+  await aboutStore
+    .deleteCareer(id)
+    .then(() => {
+      if (currentTab !== "") {
+        aboutStore.setIntroduce(currentTab);
+      } else {
+        alert("삭제 성공! 새로고침을 눌러주세요.");
+      }
+    })
+    .catch((err) => {
+      console.log("커리어 삭제 err:", err);
+    });
 }
 </script>
 

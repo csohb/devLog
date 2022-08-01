@@ -4,6 +4,9 @@ import Header from "../../components/Header.svelte";
 import { push, querystring } from "svelte-spa-router";
 import aboutStore from "../../stores/about";
 import popupStore from "../../stores/popup";
+import authStore from "../../stores/auth";
+import type { CrateSkillRequest, SkillListType } from "../../api/types/about";
+import { onMount } from "svelte";
 
 let careerList = [];
 let company = "";
@@ -12,9 +15,15 @@ let endDate = "";
 let jobTitle = "";
 let jobDetail = "";
 
-let skillList = [];
+let skillList: SkillListType[] = [];
 let skillName = "";
-let percentage = 0;
+let percentage: number | null = null;
+
+onMount(() => {
+  if ($authStore.loginNick === "") {
+    push("/about");
+  }
+});
 
 function onClickCareerAdd() {
   if (company.trim() === "") {
@@ -80,8 +89,44 @@ function onClickCareerSave() {
       console.log(err);
     });
 }
-function onClickSkillAdd() {}
-function onClickSkillSave() {}
+function onClickSkillAdd() {
+  if (skillName.trim() === "") {
+    alert("스킬명을 입력해주세요.");
+    return;
+  }
+  let skillItem: SkillListType = {
+    name: skillName,
+  };
+  console.log("percentage :", percentage);
+  if (percentage != null) {
+    skillItem.percentage = percentage;
+  }
+  console.log("skillItem :", skillItem);
+  skillList.push(skillItem);
+}
+function onClickSkillSave() {
+  if ($querystring.split("=")[1] == null) {
+    return;
+  }
+  if ($querystring.split("=")[1] === "") {
+    return;
+  }
+  if (skillList.length === 0) {
+    return;
+  }
+  let req: CrateSkillRequest = {
+    user_id: $querystring.split("=")[1],
+    tech: skillList,
+  };
+  aboutStore
+    .crateSkill(req)
+    .then(() => {
+      alert("저장완료");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 function resetSkill() {
   skillName = "";
   percentage = 0;

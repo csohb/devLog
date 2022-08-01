@@ -21,6 +21,6 @@ export function fetchUpdateCareer(
   return reqresApi.put("/career/update", request);
 }
 
-export function fetchDeleteCareer(id: number): Promise<any> {
-  return reqresApi.delete(`/career/delete/${id}`);
+export function fetchDeleteCareer(id: string): Promise<any> {
+  return reqresApi.delete(`/career/delete/${Number(id)}`);
 }

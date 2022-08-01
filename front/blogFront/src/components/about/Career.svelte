@@ -37,8 +37,10 @@ async function onClickEdit(id: string) {
       jobDetail = "";
     });
 }
-function onClickDelete(id: string) {
-  console.log("삭제 id:", id);
+async function onClickDelete(id: string) {
+  await aboutStore.deleteCareer(id).then((resp) => {
+    console.log("삭제 resp:", resp);
+  });
 }
 </script>
 

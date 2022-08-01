@@ -1,6 +1,7 @@
 import { writable } from "svelte/store";
 import {
   fetchCrateCareer,
+  fetchDeleteCareer,
   fetchIntroduce,
   fetchUpdateCareer,
 } from "../api/about";
@@ -68,6 +69,9 @@ const aboutStore = () => {
     },
     async updateCareer(id: string, req: CareerListType): Promise<any> {
       return await fetchUpdateCareer(id, req);
+    },
+    async deleteCareer(id: string): Promise<any> {
+      return await fetchDeleteCareer(id);
     },
     resetAbout() {
       update((state) => {

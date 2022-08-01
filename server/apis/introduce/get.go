@@ -72,7 +72,6 @@ type ServiceIntroduce struct {
 
 func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 	resp := GetIntroduceResponse{}
-	fmt.Printf("user id : %s", app.req.ID)
 	tb := database.TBUser{}
 	ret, err := tb.GetIntroduce(app.DB, app.req.ID)
 	if err != nil {
@@ -157,6 +156,8 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 	resp.Project = projectList
 	resp.Keywords = keywordList
 	resp.Skills = skillsList
+
+	fmt.Println("user_id : ", app.AuthInfo.GetUserID())
 
 	return api_context.SuccessJSON(&resp)
 }

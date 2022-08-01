@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	SessionName   = "devLog-session"
+	SessionName   = "auth"
 	SessionPath   = "/api/v1"
 	SessionSecret = "devLog-session-secret"
 	MaxAge        = 3600
@@ -32,7 +32,7 @@ func (s *SessionInfo) ParseAuthorization(c echo.Context) *api_context.CommonResp
 		HttpOnly: true,
 	}
 
-	if val, has := sess.Values["devlog"]; has == false {
+	if val, has := sess.Values["auth"]; has == false {
 		return api_context.FailureJSON(http.StatusUnauthorized, "세션 정보를 찾을 수 없습니다.")
 	} else {
 		*s = val.(SessionInfo)
@@ -60,7 +60,7 @@ func (s SessionInfo) CreateSession(c echo.Context) error {
 		HttpOnly: true,
 	}
 
-	sess.Values["devlog"] = s
+	sess.Values["auth"] = s
 
 	if err = sess.Save(c.Request(), c.Response()); err != nil {
 		return err

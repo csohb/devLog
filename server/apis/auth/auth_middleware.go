@@ -1,28 +1,24 @@
 package auth
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
-	"time"
 )
 
-const sessionKey = "devLog__v^^v"
+const sessionKey = "auth"
 const sessionVerifyTime = 12 * 3600
 
 type SessionAuthInfo struct {
-	UserID         string    `json:"user_id"`
-	LastAccessTime time.Time `json:"last_access_time"`
+	UserID string `json:"user_id"`
 }
 
 func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
 	auth := SessionAuthInfo{
-		UserID:         userID,
-		LastAccessTime: time.Now(),
+		UserID: userID,
 	}
 	sess, err := session.Get(sessionKey, c)
 	if err != nil {
@@ -39,8 +35,8 @@ func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
 		SameSite: http.SameSiteDefaultMode,
 	}
 
-	b, _ := json.Marshal(&auth)
-	sess.Values["auth"] = string(b)
+	//b, _ := json.Marshal(&auth)
+	sess.Values["auth"] = userID
 	if err = sess.Save(c.Request(), c.Response()); err != nil {
 		logrus.WithError(err).Error("session save failed.")
 		return auth, err

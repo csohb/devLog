@@ -53,9 +53,10 @@ func Process(service ServiceHandler) error {
 	}
 
 	if service.IsRequiredAuth() == true {
-		/*if errResult := c.Auth.ParseAuthorization(c); errResult != nil {
+		if errResult := c.Auth.ParseAuthorization(c); errResult != nil {
+			logrus.Info("errResult : ", errResult)
 			return errResult.Send(c)
-		}*/
+		}
 	}
 
 	resp := service.Service()

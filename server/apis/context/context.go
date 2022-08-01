@@ -16,7 +16,7 @@ import (
 )
 
 const (
-	sessionKey    = "devLog-session"
+	sessionKey    = "auth"
 	SessionPath   = "/api/v1"
 	SessionSecret = "devLog-session-secret"
 	MaxAge        = 3600
@@ -39,11 +39,17 @@ type AuthHandler struct {
 	LoginDate time.Time
 }
 
-func (a *AuthHandler) ParseAuthorization(c echo.Context) *api_context.CommonResponse {
+func (a AuthHandler) SetAuthInfoInContext(data interface{}) {
+	a = data.(AuthHandler)
+}
+
+func (a AuthHandler) ParseAuthorization(c echo.Context) *api_context.CommonResponse {
 	sess, err := session.Get(sessionKey, c)
 	if err != nil {
 		return api_context.FailureJSON(http.StatusUnauthorized, "세션 정보를 찾을 수 없습니다.")
 	}
+
+	logrus.Info("sess : ", sess)
 
 	sess.Options = &sessions.Options{
 		Path:     SessionPath,
@@ -51,21 +57,21 @@ func (a *AuthHandler) ParseAuthorization(c echo.Context) *api_context.CommonResp
 		HttpOnly: true,
 	}
 
-	/*if val, has := sess.Values["devlog"]; has == false {
+	if val, has := sess.Values["auth"]; has == false {
 		return api_context.FailureJSON(http.StatusUnauthorized, "세션 정보를 찾을 수 없습니다.")
 	} else {
-		a = val.(AuthHandler)
+		fmt.Println("val : ", val)
+		a.UserId = val.(string)
 	}
 
 	if err = sess.Save(c.Request(), c.Response()); err != nil {
 		return api_context.FailureJSON(http.StatusInternalServerError, "세션 생성 실패")
 	}
 
-	return nil*/
 	return nil
 }
 
-func (a *AuthHandler) ErrorHandler() error {
+func (a AuthHandler) ErrorHandler() error {
 	//TODO error handler
 	return nil
 }
@@ -116,12 +122,12 @@ func (a AuthHandler) GetSessionID(sess *sessions.Session) string {
 	return a.UserId
 }
 
-func (a *AuthHandler) Check() error {
+func (a AuthHandler) Check() error {
 	//TODO check
 	return nil
 }
 
-func (a *AuthHandler) GetHandler() api_context.AuthInterface {
+func (a AuthHandler) GetHandler() api_context.AuthInterface {
 	return a
 }
 
@@ -129,7 +135,7 @@ func InitContext(e *echo.Echo, logger *logrus.Logger, db *gorm.DB, client *resty
 	e.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(context echo.Context) error {
 			ctx := &Context{
-				Context:    api_context.NewContext(context, logger),
+				Context:    api_context.NewContext(context, logger, AuthHandler{}),
 				DB:         db,
 				httpClient: client,
 				Config:     cfg,

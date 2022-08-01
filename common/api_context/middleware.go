@@ -28,7 +28,7 @@ func EnableTransactionLog(e *echo.Echo, logger *logrus.Logger) {
 	}))
 }
 
-func NewContext(c echo.Context, logger *logrus.Logger) *Context {
+func NewContext(c echo.Context, logger *logrus.Logger, auth AuthInterface) *Context {
 	c.Set("requestTime", time.Now())
 	return &Context{
 		Context:  c,
@@ -36,6 +36,6 @@ func NewContext(c echo.Context, logger *logrus.Logger) *Context {
 		Log:      logger.WithField("uri", c.Request().RequestURI),
 		HasToken: false,
 		RespData: CommonResponse{},
-		Auth:     nil,
+		Auth:     auth,
 	}
 }

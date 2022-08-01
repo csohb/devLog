@@ -103,6 +103,7 @@
   display: inline-block;
   margin: 1em 0;
   vertical-align: top;
+  position: relative;
 }
 .timeline .bullet {
   width: 1em;
@@ -129,6 +130,13 @@
 }
 .timeline .desc {
   width: 50%;
+}
+.timeline .desc > span {
+  position: absolute;
+  top: -16px;
+  font-size: 10px;
+  color: #c996cb;
+  font-weight: bold;
 }
 .timeline h3 {
   font-size: 0.9em;

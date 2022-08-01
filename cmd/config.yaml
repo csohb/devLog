@@ -6,8 +6,8 @@ log:
   name: 'server-log'
 
 web:
-  base_url: 'http://localhost:8080'
-  app: 'index.template.html'
-  public_path: '/Users/csohb/GolandProjects/devLog/front/blogFront/public'
+  base_url: 'http://localhost:8081'
+  app: 'template/index.html'
+  public_path: '/Users/yeong/blog/devLog/front/blogFront/public'
   session_timeout:
   download_directory:

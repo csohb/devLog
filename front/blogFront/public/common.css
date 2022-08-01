@@ -17,6 +17,21 @@
 .pagination-wrap > ul {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+}
+.pagination-wrap > ul > li > button {
+  background-color: #fff;
+  border: none;
+  color: #828c94;
+  font-size: 18px;
+  margin: 0 5px;
+}
+.pagination-wrap > ul > li:hover > button {
+  color: #656e75;
+}
+.pagination-wrap > ul > li > button.active {
+  color: #3f474d;
+  font-weight: 700;
 }
 
 /* popup */
@@ -77,5 +92,8 @@
     font-size: 32px;
     line-height: 48px;
     margin: 0 0 11px 0;
+  }
+  .pagination-wrap {
+    margin-bottom: 60px;
   }
 }

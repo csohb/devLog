@@ -8,6 +8,7 @@ import { onDestroy, onMount, tick } from "svelte";
 import { fetchBlogSave, fetchBlogUpdate } from "../../api/blog";
 import blogStore from "../../stores/blog";
 import popupStore from "../../stores/popup";
+import authStore from "../../stores/auth";
 
 let title = "";
 let tag = "";
@@ -28,8 +29,12 @@ onMount(() => {
     init();
     return;
   }
+  if ($authStore.loginNick === "") {
+    push("/login");
+    return;
+  }
   // writer 설정 필요
-  writer = "yeong";
+  writer = $authStore.loginNick;
   setToday();
 });
 
@@ -94,6 +99,11 @@ async function onClickUpdate() {
       tags: tagList,
     });
   }
+  if (description !== $blogStore.blogDetail.description) {
+    Object.assign(req, {
+      description,
+    });
+  }
 
   if (req.title == null) {
     Object.assign(req, {
@@ -110,6 +120,12 @@ async function onClickUpdate() {
       tags: $blogStore.blogDetail.tags,
     });
   }
+  if (req.description == null) {
+    Object.assign(req, {
+      description: $blogStore.blogDetail.description,
+    });
+  }
+  console.log(req);
   await fetchBlogUpdate(req).then(() => {
     push(`/blog/${params.id}`);
   });
@@ -142,6 +158,7 @@ async function onClickSave() {
     title,
     content: contents,
     writer,
+    description,
     tags: tagList,
   })
     .then(() => {
@@ -165,16 +182,26 @@ function resetValue() {
 }
 
 function onClickCancel() {
+  let btn = "";
+  if (params.id === "register") {
+    btn = "목록으로 이동하기";
+  } else {
+    btn = "페이지로 돌아가기";
+  }
   // 수정 취소
   popupStore.open({
     title: "BLOG",
     text: "취소하시겠습니까?<br />취소하면 입력한 데이터가 사라집니다.",
-    btn: "목록으로 이동하기",
+    btn,
     type: "confirm",
     isShow: false,
     action: () => {
       resetValue();
-      push("/blog");
+      if (params.id === "register") {
+        push("/blog");
+      } else {
+        push(`/blog/${params.id}`);
+      }
     },
   });
 }

@@ -5,7 +5,9 @@ import { link, push } from "svelte-spa-router";
 import { onDestroy, onMount } from "svelte";
 import blogStore from "../../stores/blog";
 import popupStore from "../../stores/popup";
+import authStore from "../../stores/auth";
 import { fetchBlogDelete } from "../../api/blog";
+import { unlike, like } from "../../icon/Icon";
 
 export let params = {
   id: "",
@@ -51,6 +53,20 @@ function onClickDelete() {
   });
 }
 
+let heartClick = false;
+function onClickHeart(isAdd: boolean) {
+  if (!params.id) {
+    return;
+  }
+  if (heartClick) {
+    return;
+  }
+  heartClick = true;
+  blogStore.heartCount(params.id, isAdd).finally(() => {
+    heartClick = false;
+  });
+}
+
 onDestroy(() => {
   blogStore.resetBlogDetail();
 });
@@ -77,6 +93,23 @@ onDestroy(() => {
               <span>{$blogStore.blogDetail.date}</span>
               <span>|</span>
               <span>{$blogStore.blogDetail.writer}</span>
+              <span>|</span>
+              <span>{$blogStore.blogDetail.view}</span>
+              <span>|</span>
+              <span class="sub-blog-detail-heart">
+                <div
+                  on:click="{() => {
+                    onClickHeart(true);
+                  }}">
+                  {@html like}+
+                </div>
+                <div
+                  on:click="{() => {
+                    onClickHeart(false);
+                  }}">
+                  {@html unlike}-
+                </div>
+                {$blogStore.blogDetail.heart}</span>
             </div>
           </div>
           <div class="sub-blog-detail-contents">
@@ -85,8 +118,10 @@ onDestroy(() => {
         {/if}
         <div class="sub-blog-detail-btn">
           <a href="/blog" use:link>목록으로 돌아가기</a>
-          <a href="/blog/edit/{params.id}" use:link>수정하기</a>
-          <button type="button" on:click="{onClickDelete}">삭제</button>
+          {#if $authStore.loginNick !== "" && $blogStore.blogDetail.writer === $authStore.loginNick}
+            <a href="/blog/edit/{params.id}" use:link>수정하기</a>
+            <button type="button" on:click="{onClickDelete}">삭제</button>
+          {/if}
         </div>
       </div>
     </div>

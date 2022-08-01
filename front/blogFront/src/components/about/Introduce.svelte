@@ -1,6 +1,5 @@
 <script lang="ts">
 import aboutStore from "../../stores/about";
-$: console.log($aboutStore.info);
 </script>
 
 <div class="sub-about-introduce">

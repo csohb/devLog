@@ -85,7 +85,9 @@ function onChange(p: number) {
     </li>
     {#each buttons as idx}
       <li>
-        <button class:active="{page === idx}" on:click="{() => onChange(idx)}">
+        <button
+          class:active="{page === idx + 1}"
+          on:click="{() => onChange(idx)}">
           {idx + 1}
         </button>
       </li>

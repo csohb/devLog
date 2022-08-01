@@ -6,6 +6,7 @@ import (
 	"devLog/server/apis/context"
 	"fmt"
 	"github.com/labstack/echo/v4"
+	"github.com/sirupsen/logrus"
 	"net/http"
 	"strconv"
 )
@@ -32,6 +33,10 @@ type ServiceGetBlog struct {
 }
 
 func (app *ServiceGetBlog) Service() *api_context.CommonResponse {
+
+	userID := app.AuthInfo.UserId
+	logrus.Info("userID : ", userID)
+
 	tb := database.TBBlog{}
 	if err := tb.Get(app.DB, app.req.ID); err != nil {
 		app.Log.Errorf("blog get err - blogID : %s", app.req.ID)

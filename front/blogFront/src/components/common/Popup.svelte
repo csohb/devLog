@@ -21,8 +21,10 @@ function onClickOK() {
       {#if $popupStore.popupTask[0].type === "confirm"}
         <button type="button" on:click="{onClickOK}"
           >{$popupStore.popupTask[0].btn}</button>
+        <button type="button" on:click="{onClickClose}">닫기</button>
+      {:else}
+        <button type="button" on:click="{onClickOK}">닫기</button>
       {/if}
-      <button type="button" on:click="{onClickClose}">닫기</button>
     </div>
   </div>
 {/if}

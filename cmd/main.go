@@ -21,9 +21,6 @@ import (
 	"time"
 )
 
-const Env = ".env"
-const Config = "DEV_LOG_CONFIG"
-
 const CookieKey = "devLog-cookie"
 
 var (

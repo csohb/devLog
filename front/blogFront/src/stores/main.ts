@@ -25,11 +25,9 @@ const mainStore = () => {
         return state;
       });
     },
-    imgError() {
+    imgError(idx: number) {
       update((state) => {
-        state.profiles.forEach((val) => {
-          val.image = "	https://picsum.photos/seed/picsum/536/536";
-        });
+        state.profiles[idx].image = "	https://picsum.photos/seed/picsum/536/536";
         return state;
       });
     },

@@ -1,5 +1,9 @@
 import reqresApi from "./common";
-import type { CrateCareerRequest, CareerListType } from "./types/about";
+import type {
+  CrateCareerRequest,
+  CareerListType,
+  CrateSkillRequest,
+} from "./types/about";
 
 export function fetchIntroduce(id: string): Promise<any> {
   return reqresApi.get(`/introduce/${id}`);
@@ -16,11 +20,15 @@ export function fetchUpdateCareer(
   let request = req;
 
   Object.assign(request, {
-    id: Number(id), // 현재 아이디를 get 할때 가져오지 못하는 것으로 알고 있음...
+    id: Number(id),
   });
   return reqresApi.put("/career/update", request);
 }
 
 export function fetchDeleteCareer(id: string): Promise<any> {
   return reqresApi.delete(`/career/delete/${Number(id)}`);
+}
+
+export function fetchCrateSkill(request: CrateSkillRequest): Promise<any> {
+  return reqresApi.post("/introduce/tech/create", request);
 }

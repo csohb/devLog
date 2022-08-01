@@ -1,11 +1,12 @@
 import { writable } from "svelte/store";
 import {
   fetchCrateCareer,
+  fetchCrateSkill,
   fetchDeleteCareer,
   fetchIntroduce,
   fetchUpdateCareer,
 } from "../api/about";
-import type { CareerListType } from "../api/types/about";
+import type { CareerListType, CrateSkillRequest } from "../api/types/about";
 import type { AboutType } from "./types/about";
 
 const aboutStore = () => {
@@ -72,6 +73,9 @@ const aboutStore = () => {
     },
     async deleteCareer(id: string): Promise<any> {
       return await fetchDeleteCareer(id);
+    },
+    async crateSkill(req: CrateSkillRequest): Promise<any> {
+      return await fetchCrateSkill(req);
     },
     resetAbout() {
       update((state) => {

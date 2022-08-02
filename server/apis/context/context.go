@@ -17,6 +17,7 @@ import (
 
 const (
 	sessionKey    = "auth"
+	idSessionKey  = "user_id"
 	SessionPath   = "/api/v1"
 	SessionSecret = "devLog-session-secret"
 	MaxAge        = 3600
@@ -39,6 +40,13 @@ type AuthHandler struct {
 	LoginDate time.Time
 }
 
+/*func (a AuthHandler) SetUserInfo(c echo.Context, data interface{}) error {
+	sess, err := session.Get(sessionKey, c)
+	if err != nil {
+		return err
+	}
+}*/
+
 func (a AuthHandler) SetAuthInfoInContext(data interface{}) {
 	a = data.(AuthHandler)
 }
@@ -60,7 +68,6 @@ func (a AuthHandler) ParseAuthorization(c echo.Context) *api_context.CommonRespo
 	if val, has := sess.Values["auth"]; has == false {
 		return api_context.FailureJSON(http.StatusUnauthorized, "세션 정보를 찾을 수 없습니다.")
 	} else {
-		fmt.Println("val : ", val)
 		a.UserId = val.(string)
 	}
 
@@ -76,7 +83,23 @@ func (a AuthHandler) ErrorHandler() error {
 	return nil
 }
 
-func (a AuthHandler) GetUserID() string {
+func (a AuthHandler) GetUserID(c echo.Context) string {
+	sess, err := session.Get(sessionKey, c)
+	if err != nil {
+		return ""
+	}
+
+	sess.Options = &sessions.Options{
+		Path:     SessionPath,
+		MaxAge:   MaxAge,
+		HttpOnly: true,
+	}
+
+	if val, has := sess.Values["auth"]; has == false {
+		return ""
+	} else {
+		a.UserId = val.(string)
+	}
 	return a.UserId
 }
 
@@ -101,8 +124,16 @@ func (a AuthHandler) Create(c echo.Context, data interface{}) error {
 	}
 	auth := data.(AuthHandler)
 	a.SetSessionAuth(sess, auth)
-	c.Set("auth", &auth)
 	logrus.Debugf("create session : %+v", auth)
+	return sess.Save(c.Request(), c.Response())
+}
+
+func (a AuthHandler) CreateUserID(c echo.Context, userID string) error {
+	sess, err := session.Get(idSessionKey, c)
+	if err != nil {
+		return err
+	}
+	a.SetUserID(sess, userID)
 	return sess.Save(c.Request(), c.Response())
 }
 
@@ -117,7 +148,29 @@ func (a AuthHandler) SetSessionAuth(sess *sessions.Session, auth AuthHandler) {
 	}
 }
 
-func (a AuthHandler) GetSessionID(sess *sessions.Session) string {
+func (a AuthHandler) SetUserID(sess *sessions.Session, userID string) {
+	sess.Values["user_id"] = userID
+	sess.Options = &sessions.Options{
+		Path:     "/api/v1",
+		MaxAge:   3600,
+		HttpOnly: false,
+	}
+}
+
+func (a AuthHandler) SetCookie(c echo.Context, userID string) error {
+	cookie := new(http.Cookie)
+	cookie.Name = "user_id"
+	cookie.Value = userID
+	cookie.Expires = time.Now().Add(24 * time.Hour)
+	c.SetCookie(cookie)
+	return nil
+}
+
+func (a AuthHandler) GetSessionID(c echo.Context) string {
+	sess, err := session.Get(sessionKey, c)
+	if err != nil {
+		return ""
+	}
 	sess.Values["auth"] = a
 	return a.UserId
 }

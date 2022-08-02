@@ -71,6 +71,7 @@ type ServiceIntroduce struct {
 }
 
 func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
+	fmt.Println("user id 제발 좀 나와라 ㅅㅂ : ", app.AuthInfo.GetUserID(app.Context))
 	resp := GetIntroduceResponse{}
 	tb := database.TBUser{}
 	ret, err := tb.GetIntroduce(app.DB, app.req.ID)
@@ -157,8 +158,6 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 	resp.Keywords = keywordList
 	resp.Skills = skillsList
 
-	fmt.Println("user_id : ", app.AuthInfo.GetUserID())
-
 	return api_context.SuccessJSON(&resp)
 }
 
@@ -171,7 +170,7 @@ func (app ServiceIntroduce) ApiName() interface{} {
 }
 
 func (app ServiceIntroduce) IsRequiredAuth() bool {
-	return false
+	return true
 }
 
 func ProcessGetIntroduce(c echo.Context) error {

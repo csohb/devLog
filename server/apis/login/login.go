@@ -99,6 +99,10 @@ func (app *ServiceLogin) Service() *api_context.CommonResponse {
 		logrus.WithError(err).Error("AuthInfo Create Error")
 	}
 
+	if err := app.AuthInfo.SetCookie(app.Context, app.req.UserID); err != nil {
+		logrus.WithError(err).Error("Create User Error")
+	}
+
 	fmt.Println("authInfo : ", authInfo)
 
 	sessionAuthInfo, err := auth.CreateSession(app.Context, app.req.UserID)
@@ -107,8 +111,9 @@ func (app *ServiceLogin) Service() *api_context.CommonResponse {
 		return api_context.FailureJSON(http.StatusInternalServerError, "세션 생성 실패")
 	}
 
+	app.AuthInfo = authInfo
+
 	//app.AuthInfo.ParseAuthorization(app.Context)
-	fmt.Println("get userID : ", app.AuthInfo.GetUserID())
 
 	resp := ResponseLogin{}
 	resp.UserID = sessionAuthInfo.UserID

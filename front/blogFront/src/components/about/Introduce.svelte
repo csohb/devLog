@@ -3,7 +3,8 @@ import aboutStore from "../../stores/about";
 </script>
 
 <div class="sub-about-introduce">
-  <pre>{#if $aboutStore.description === ""}description 등록 중 입니다.{/if}</pre>
+  <pre>{#if $aboutStore.description === ""}description 등록 중 입니다.{:else}
+      {$aboutStore.description}{/if}</pre>
 </div>
 <div class="sub-about-info">
   <h2>Info</h2>

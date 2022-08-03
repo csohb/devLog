@@ -10,8 +10,8 @@ onMount(() => {
   mainStore.getProfiles();
 });
 
-function imgError() {
-  mainStore.imgError();
+function imgError(idx: number) {
+  mainStore.imgError(idx);
   console.log("img error");
 }
 
@@ -26,7 +26,7 @@ $: console.log("data", $mainStore);
   <div class="main-about-wrap">
     <h1>ABOUT</h1>
     <div class="profile-wrap">
-      {#each $mainStore.profiles as item}
+      {#each $mainStore.profiles as item, idx}
         <div
           class="profile-id"
           on:click="{() => {
@@ -36,7 +36,9 @@ $: console.log("data", $mainStore);
             <img
               src="{item.image}"
               alt="{item.nick_name + ' 이미지'}"
-              on:error="{imgError}" />
+              on:error="{() => {
+                imgError(idx);
+              }}" />
           </div>
           <div class="profile-text">
             <p>{item.nick_name} <span>{item.dev}</span></p>

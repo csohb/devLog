@@ -84,6 +84,60 @@
   background-color: #551a8b;
 }
 
+/* switch */
+.switch {
+  width: 50px;
+}
+#switch {
+  position: absolute;
+  /* hidden */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+}
+
+.switch_label {
+  position: relative;
+  cursor: pointer;
+  display: inline-block;
+  width: 58px;
+  height: 28px;
+  background: #fff;
+  border: 2px solid #daa;
+  border-radius: 20px;
+  transition: 0.2s;
+}
+.switch_label:hover {
+  background: #efefef;
+}
+.switch_btn {
+  position: absolute;
+  top: 2px;
+  left: 3px;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-radius: 20px;
+  background: #daa;
+  transition: 0.2s;
+}
+
+/* checking style */
+#switch:checked + .switch_label {
+  background: #c44;
+  border: 2px solid #c44;
+}
+
+#switch:checked + .switch_label:hover {
+  background: #e55;
+}
+
+/* move */
+#switch:checked + .switch_label .switch_btn {
+  left: 31px;
+  background: #fff;
+  box-shadow: 1px 2px 3px #00000020;
+}
 @media screen and (max-width: 768px) {
   .sub-page {
     margin-top: 74px;

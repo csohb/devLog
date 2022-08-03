@@ -10,3 +10,13 @@ export type CrateCareerRequest = {
   id: string;
   career: CareerListType[];
 };
+
+export type SkillListType = {
+  name: string;
+  percentage?: number;
+};
+
+export type CrateSkillRequest = {
+  user_id: string;
+  tech: SkillListType[];
+};

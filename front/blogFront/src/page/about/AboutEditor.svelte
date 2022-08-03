@@ -4,6 +4,9 @@ import Header from "../../components/Header.svelte";
 import { push, querystring } from "svelte-spa-router";
 import aboutStore from "../../stores/about";
 import popupStore from "../../stores/popup";
+import authStore from "../../stores/auth";
+import type { CrateSkillRequest, SkillListType } from "../../api/types/about";
+import { onMount, tick } from "svelte";
 
 let careerList = [];
 let company = "";
@@ -12,9 +15,23 @@ let endDate = "";
 let jobTitle = "";
 let jobDetail = "";
 
-let skillList = [];
+let skillList: SkillListType[] = [];
 let skillName = "";
-let percentage = 0;
+let percentage: number | null = null;
+
+let projectList = [];
+let pjStartDate = "";
+let pjEndDate = "";
+let projectName = "";
+let pjDescription = "";
+let pjStack = "";
+let projectStackList = [];
+
+onMount(() => {
+  if ($authStore.loginNick === "") {
+    push("/about");
+  }
+});
 
 function onClickCareerAdd() {
   if (company.trim() === "") {
@@ -80,11 +97,60 @@ function onClickCareerSave() {
       console.log(err);
     });
 }
-function onClickSkillAdd() {}
-function onClickSkillSave() {}
+function onClickSkillAdd() {
+  if (skillName.trim() === "") {
+    alert("스킬명을 입력해주세요.");
+    return;
+  }
+  let skillItem: SkillListType = {
+    name: skillName,
+  };
+  console.log("percentage :", percentage);
+  if (percentage != null) {
+    skillItem.percentage = percentage;
+  }
+  console.log("skillItem :", skillItem);
+  skillList.push(skillItem);
+}
+function onClickSkillSave() {
+  if ($querystring.split("=")[1] == null) {
+    return;
+  }
+  if ($querystring.split("=")[1] === "") {
+    return;
+  }
+  if (skillList.length === 0) {
+    return;
+  }
+  let req: CrateSkillRequest = {
+    user_id: $querystring.split("=")[1],
+    tech: skillList,
+  };
+  aboutStore
+    .crateSkill(req)
+    .then(() => {
+      alert("저장완료");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
 function resetSkill() {
   skillName = "";
   percentage = 0;
+}
+
+function onClickProjectSave() {}
+function onClickProjectAdd() {}
+async function onClickStackAdd() {
+  console.log(pjStack, projectStackList);
+  if (pjStack.trim() === "") {
+    return;
+  }
+
+  projectStackList.push(pjStack);
+  await tick();
+  projectStackList = projectStackList;
 }
 function onClickRouter() {
   popupStore.open({
@@ -151,6 +217,45 @@ function onClickRouter() {
             </ul>
             <button type="button" on:click="{onClickSkillAdd}">추가</button>
             <button type="button" on:click="{onClickSkillSave}">저장</button>
+          </div>
+          <div class="sub-about-edit">
+            <h2>Project</h2>
+            <ul>
+              <li style="display: flex;align-items: center;">
+                <span>개인작업 여부:</span>
+                <div class="switch">
+                  <input type="checkbox" id="switch" />
+                  <label for="switch" class="switch_label">
+                    <span class="switch_btn"></span>
+                  </label>
+                </div>
+              </li>
+              <li>
+                <span>시작일:</span>
+                <input type="text" bind:value="{pjStartDate}" />
+              </li>
+              <li>
+                <span>종료일:</span>
+                <input type="text" bind:value="{pjEndDate}" />
+              </li>
+              <li>
+                <span>프로젝트명:</span>
+                <input type="text" bind:value="{projectName}" />
+              </li>
+              <li>
+                <span>프로젝트 설명:</span>
+                <input type="text" bind:value="{pjDescription}" />
+              </li>
+              <li>
+                <span>사용 스텍:</span>
+                <input type="text" bind:value="{pjStack}" />
+                <button type="button" on:click="{onClickStackAdd}"
+                  >스텍 추가</button>
+                {projectStackList}
+              </li>
+            </ul>
+            <button type="button" on:click="{onClickProjectAdd}">추가</button>
+            <button type="button" on:click="{onClickProjectSave}">저장</button>
           </div>
         </div>
         <div class="sub-about-edit-action">

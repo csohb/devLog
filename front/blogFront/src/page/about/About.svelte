@@ -1,5 +1,5 @@
 <script lang="ts">
-import { beforeUpdate, onMount } from "svelte";
+import { beforeUpdate, onDestroy, onMount } from "svelte";
 import Career from "../../components/about/Career.svelte";
 import Introduce from "../../components/about/Introduce.svelte";
 import Knowledges from "../../components/about/Knowledges.svelte";
@@ -46,6 +46,10 @@ beforeUpdate(() => {
     aboutStore.setIntroduce(currentTab);
   }
 });
+
+onDestroy(() => {
+  aboutStore.resetAbout();
+});
 </script>
 
 <Header />
@@ -68,7 +72,7 @@ beforeUpdate(() => {
         <div class="sub-about-contents">
           <Introduce />
           <div class="sub-about-career">
-            <Career isEditMode="{isEditMode}" />
+            <Career isEditMode="{isEditMode}" currentTab="{currentTab}" />
           </div>
           <div class="sub-about-project">
             <Project />
@@ -80,7 +84,7 @@ beforeUpdate(() => {
             <Knowledges />
           </div>
         </div>
-        {#if $authStore.loginNick !== ""}
+        {#if $authStore.loginNick !== "" && $authStore.loginNick === currentTab}
           <div class="sub-about-action">
             <a href="/about/edit?writer={currentTab}" use:link>등록</a>
             <button

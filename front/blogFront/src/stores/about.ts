@@ -34,6 +34,7 @@ const aboutStore = () => {
       await fetchIntroduce(name)
         .then((resp) => {
           update((state) => {
+            state.description = resp.profile.description;
             state.info = resp.profile;
             state.careers = resp.careers;
             state.skills = resp.skills;

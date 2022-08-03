@@ -6,7 +6,7 @@ import aboutStore from "../../stores/about";
 import popupStore from "../../stores/popup";
 import authStore from "../../stores/auth";
 import type { CrateSkillRequest, SkillListType } from "../../api/types/about";
-import { onMount } from "svelte";
+import { onMount, tick } from "svelte";
 
 let careerList = [];
 let company = "";
@@ -18,6 +18,14 @@ let jobDetail = "";
 let skillList: SkillListType[] = [];
 let skillName = "";
 let percentage: number | null = null;
+
+let projectList = [];
+let pjStartDate = "";
+let pjEndDate = "";
+let projectName = "";
+let pjDescription = "";
+let pjStack = "";
+let projectStackList = [];
 
 onMount(() => {
   if ($authStore.loginNick === "") {
@@ -131,6 +139,19 @@ function resetSkill() {
   skillName = "";
   percentage = 0;
 }
+
+function onClickProjectSave() {}
+function onClickProjectAdd() {}
+async function onClickStackAdd() {
+  console.log(pjStack, projectStackList);
+  if (pjStack.trim() === "") {
+    return;
+  }
+
+  projectStackList.push(pjStack);
+  await tick();
+  projectStackList = projectStackList;
+}
 function onClickRouter() {
   popupStore.open({
     title: `${$querystring.split("=")[1]}소개 수정`,
@@ -196,6 +217,45 @@ function onClickRouter() {
             </ul>
             <button type="button" on:click="{onClickSkillAdd}">추가</button>
             <button type="button" on:click="{onClickSkillSave}">저장</button>
+          </div>
+          <div class="sub-about-edit">
+            <h2>Project</h2>
+            <ul>
+              <li style="display: flex;align-items: center;">
+                <span>개인작업 여부:</span>
+                <div class="switch">
+                  <input type="checkbox" id="switch" />
+                  <label for="switch" class="switch_label">
+                    <span class="switch_btn"></span>
+                  </label>
+                </div>
+              </li>
+              <li>
+                <span>시작일:</span>
+                <input type="text" bind:value="{pjStartDate}" />
+              </li>
+              <li>
+                <span>종료일:</span>
+                <input type="text" bind:value="{pjEndDate}" />
+              </li>
+              <li>
+                <span>프로젝트명:</span>
+                <input type="text" bind:value="{projectName}" />
+              </li>
+              <li>
+                <span>프로젝트 설명:</span>
+                <input type="text" bind:value="{pjDescription}" />
+              </li>
+              <li>
+                <span>사용 스텍:</span>
+                <input type="text" bind:value="{pjStack}" />
+                <button type="button" on:click="{onClickStackAdd}"
+                  >스텍 추가</button>
+                {projectStackList}
+              </li>
+            </ul>
+            <button type="button" on:click="{onClickProjectAdd}">추가</button>
+            <button type="button" on:click="{onClickProjectSave}">저장</button>
           </div>
         </div>
         <div class="sub-about-edit-action">

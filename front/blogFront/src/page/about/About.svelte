@@ -1,5 +1,5 @@
 <script lang="ts">
-import { beforeUpdate, onMount } from "svelte";
+import { beforeUpdate, onDestroy, onMount } from "svelte";
 import Career from "../../components/about/Career.svelte";
 import Introduce from "../../components/about/Introduce.svelte";
 import Knowledges from "../../components/about/Knowledges.svelte";
@@ -45,6 +45,10 @@ beforeUpdate(() => {
   if (currentTab !== "") {
     aboutStore.setIntroduce(currentTab);
   }
+});
+
+onDestroy(() => {
+  aboutStore.resetAbout();
 });
 </script>
 

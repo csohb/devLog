@@ -170,7 +170,7 @@ func (app ServiceIntroduce) ApiName() interface{} {
 }
 
 func (app ServiceIntroduce) IsRequiredAuth() bool {
-	return true
+	return false
 }
 
 func ProcessGetIntroduce(c echo.Context) error {

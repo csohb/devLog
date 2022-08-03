@@ -40,13 +40,6 @@ type AuthHandler struct {
 	LoginDate time.Time
 }
 
-/*func (a AuthHandler) SetUserInfo(c echo.Context, data interface{}) error {
-	sess, err := session.Get(sessionKey, c)
-	if err != nil {
-		return err
-	}
-}*/
-
 func (a AuthHandler) SetAuthInfoInContext(data interface{}) {
 	a = data.(AuthHandler)
 }
@@ -75,11 +68,6 @@ func (a AuthHandler) ParseAuthorization(c echo.Context) *api_context.CommonRespo
 		return api_context.FailureJSON(http.StatusInternalServerError, "세션 생성 실패")
 	}
 
-	return nil
-}
-
-func (a AuthHandler) ErrorHandler() error {
-	//TODO error handler
 	return nil
 }
 
@@ -128,28 +116,10 @@ func (a AuthHandler) Create(c echo.Context, data interface{}) error {
 	return sess.Save(c.Request(), c.Response())
 }
 
-func (a AuthHandler) CreateUserID(c echo.Context, userID string) error {
-	sess, err := session.Get(idSessionKey, c)
-	if err != nil {
-		return err
-	}
-	a.SetUserID(sess, userID)
-	return sess.Save(c.Request(), c.Response())
-}
-
 func (a AuthHandler) SetSessionAuth(sess *sessions.Session, auth AuthHandler) {
 	auth.LoginDate = time.Now()
 	b, _ := json.Marshal(&auth)
 	sess.Values["auth"] = b
-	sess.Options = &sessions.Options{
-		Path:     "/api/v1",
-		MaxAge:   3600,
-		HttpOnly: false,
-	}
-}
-
-func (a AuthHandler) SetUserID(sess *sessions.Session, userID string) {
-	sess.Values["user_id"] = userID
 	sess.Options = &sessions.Options{
 		Path:     "/api/v1",
 		MaxAge:   3600,

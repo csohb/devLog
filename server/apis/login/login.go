@@ -95,9 +95,9 @@ func (app *ServiceLogin) Service() *api_context.CommonResponse {
 		UserId:    app.req.UserID,
 		LoginDate: time.Now(),
 	}
-	if err := app.AuthInfo.Create(app.Context, authInfo); err != nil {
+	/*if err := app.AuthInfo.Create(app.Context, authInfo); err != nil {
 		logrus.WithError(err).Error("AuthInfo Create Error")
-	}
+	}*/
 
 	if err := app.AuthInfo.SetCookie(app.Context, app.req.UserID); err != nil {
 		logrus.WithError(err).Error("Create User Error")
@@ -105,7 +105,7 @@ func (app *ServiceLogin) Service() *api_context.CommonResponse {
 
 	fmt.Println("authInfo : ", authInfo)
 
-	sessionAuthInfo, err := auth.CreateSession(app.Context, app.req.UserID)
+	_, err := auth.CreateSession(app.Context, app.req.UserID)
 	if err != nil {
 		app.Log.WithError(err).Error("session create failed.")
 		return api_context.FailureJSON(http.StatusInternalServerError, "세션 생성 실패")
@@ -116,9 +116,8 @@ func (app *ServiceLogin) Service() *api_context.CommonResponse {
 	//app.AuthInfo.ParseAuthorization(app.Context)
 
 	resp := ResponseLogin{}
-	resp.UserID = sessionAuthInfo.UserID
+	resp.UserID = app.req.UserID
 
-	fmt.Println("login id : ", sessionAuthInfo.UserID)
 	return api_context.SuccessJSON(&resp)
 }
 

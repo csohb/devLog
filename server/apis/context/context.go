@@ -136,6 +136,17 @@ func (a AuthHandler) SetCookie(c echo.Context, userID string) error {
 	return nil
 }
 
+func (a AuthHandler) ExpireCookie(c echo.Context) error {
+	cookie, err := c.Cookie("user_id")
+	if err != nil {
+		logrus.WithError(err).Error("no cookie with user_id")
+		return err
+	}
+	cookie.Expires = time.Now()
+	c.SetCookie(cookie)
+	return nil
+}
+
 func (a AuthHandler) GetSessionID(c echo.Context) string {
 	sess, err := session.Get(sessionKey, c)
 	if err != nil {

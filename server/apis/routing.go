@@ -18,6 +18,7 @@ func RoutingForDevLog(grp *echo.Group) {
 
 	// login
 	grp.POST("/login", login.ProcessLogin)
+	grp.POST("/logout", login.ProcessLogout)
 
 	// career
 	grp.POST("/career/save", career.ProcessSaveCareer)

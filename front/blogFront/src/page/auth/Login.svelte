@@ -12,6 +12,7 @@ function loginHandler() {
     .postLogin(id, pw)
     .then((resp: any) => {
       authStore.setNick(resp.user_id);
+      setCookie(resp.user_id);
       id = "";
       pw = "";
       push("/");
@@ -22,6 +23,16 @@ function loginHandler() {
       pw = "";
       alert("로그인 실패");
     });
+}
+
+function setCookie(value: string) {
+  let date = new Date();
+  date.setDate(date.getDate() + 1);
+  document.cookie =
+    encodeURIComponent("user_id") +
+    "=" +
+    encodeURIComponent(value) +
+    (!1 ? "" : "; expires=" + date.toUTCString());
 }
 </script>
 

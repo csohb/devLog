@@ -4,6 +4,7 @@ import Header from "../../components/Header.svelte";
 import { link } from "svelte-spa-router";
 import { unlike, like } from "../../icon/Icon";
 import authStore from "../../stores/auth";
+import { onMount } from "svelte";
 
 let isLike = false;
 let likeCount = 0;
@@ -11,6 +12,10 @@ let likeCount = 0;
 export let params = {
   id: "",
 };
+
+onMount(() => {
+  getCookie();
+});
 
 function onClickLike() {
   isLike = !isLike;
@@ -22,6 +27,15 @@ function onClickLike() {
 }
 
 function onClickDelete() {}
+
+function getCookie() {
+  if ($authStore.loginNick === "") {
+    let loginNick = authStore.getCookie("user_id");
+    if (loginNick != null) {
+      authStore.setNick(loginNick);
+    }
+  }
+}
 </script>
 
 <Header />

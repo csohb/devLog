@@ -26,7 +26,17 @@ function onClickTab(type: string) {
 
 onMount(() => {
   init();
+  getCookie();
 });
+
+function getCookie() {
+  if ($authStore.loginNick === "") {
+    let loginNick = authStore.getCookie("user_id");
+    if (loginNick != null) {
+      authStore.setNick(loginNick);
+    }
+  }
+}
 
 function init() {
   // 처음 tab name 지정

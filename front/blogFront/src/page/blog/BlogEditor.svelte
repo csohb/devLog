@@ -30,7 +30,12 @@ onMount(() => {
     return;
   }
   if ($authStore.loginNick === "") {
-    push("/login");
+    let loginNick = authStore.getCookie("user_id");
+    if (loginNick == null) {
+      push("/login");
+    } else {
+      authStore.setNick(loginNick);
+    }
     return;
   }
   // writer 설정 필요

@@ -29,7 +29,12 @@ let projectStackList = [];
 
 onMount(() => {
   if ($authStore.loginNick === "") {
-    push("/about");
+    let loginNick = authStore.getCookie("user_id");
+    if (loginNick == null) {
+      push("/about");
+    } else {
+      authStore.setNick(loginNick);
+    }
   }
 });
 

@@ -4,6 +4,20 @@ import Header from "../../components/Header.svelte";
 import List from "../../components/story/List.svelte";
 import { link } from "svelte-spa-router";
 import authStore from "../../stores/auth";
+import { onMount } from "svelte";
+
+onMount(() => {
+  getCookie();
+});
+
+function getCookie() {
+  if ($authStore.loginNick === "") {
+    let loginNick = authStore.getCookie("user_id");
+    if (loginNick != null) {
+      authStore.setNick(loginNick);
+    }
+  }
+}
 </script>
 
 <Header />

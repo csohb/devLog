@@ -19,6 +19,7 @@ onMount(() => {
     return;
   }
   blogStore.setBlogDetail(params.id);
+  getCookie();
 });
 
 function setTags(tagList: string[]): any {
@@ -65,6 +66,15 @@ function onClickHeart(isAdd: boolean) {
   blogStore.heartCount(params.id, isAdd).finally(() => {
     heartClick = false;
   });
+}
+
+function getCookie() {
+  if ($authStore.loginNick === "") {
+    let loginNick = authStore.getCookie("user_id");
+    if (loginNick != null) {
+      authStore.setNick(loginNick);
+    }
+  }
 }
 
 onDestroy(() => {

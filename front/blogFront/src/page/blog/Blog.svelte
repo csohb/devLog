@@ -5,14 +5,28 @@ import Header from "../../components/Header.svelte";
 import { link } from "svelte-spa-router";
 import blogStore from "../../stores/blog";
 import authStore from "../../stores/auth";
+import { onMount } from "svelte";
 
 let page: number = 1;
 let count: number = 10;
+
+onMount(() => {
+  getCookie();
+});
 
 function onClickTag(tag: string) {
   page = 1;
   count = 10;
   blogStore.setTagList(tag, page, count);
+}
+
+function getCookie() {
+  if ($authStore.loginNick === "") {
+    let loginNick = authStore.getCookie("user_id");
+    if (loginNick != null) {
+      authStore.setNick(loginNick);
+    }
+  }
 }
 </script>
 

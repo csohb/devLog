@@ -27,6 +27,11 @@ let pjDescription = "";
 let pjStack = "";
 let projectStackList = [];
 
+// 기본정보
+let intro = "";
+let address = "";
+let mail = "";
+
 onMount(() => {
   if ($authStore.loginNick === "") {
     let loginNick = authStore.getCookie("user_id");
@@ -61,6 +66,8 @@ function onClickCareerAdd() {
     job_title: jobTitle,
     job_detail: jobDetail,
   });
+
+  careerList = careerList;
 
   if (listCount !== careerList.length) {
     popupStore.open({
@@ -112,10 +119,11 @@ function onClickSkillAdd() {
   };
   console.log("percentage :", percentage);
   if (percentage != null) {
-    skillItem.percentage = percentage;
+    skillItem.percentage = Number(percentage);
   }
-  console.log("skillItem :", skillItem);
   skillList.push(skillItem);
+  // 반응성을 위해 추가
+  skillList = skillList;
 }
 function onClickSkillSave() {
   if ($querystring.split("=")[1] == null) {
@@ -160,7 +168,7 @@ async function onClickStackAdd() {
 function onClickRouter() {
   popupStore.open({
     title: `${$querystring.split("=")[1]}소개 수정`,
-    text: "확인하시면 작성하신 내용이 사라집니다.<br />페이지를 이동하시겠습니까?",
+    text: "확인하시면 작성하신 내용이 사라집니다.<br />내용을 저장하시려면 저장 버튼을 눌러주세요.<br />페이지를 이동하시겠습니까?",
     type: "confirm",
     btn: "확인",
     isShow: false,
@@ -182,11 +190,31 @@ function onClickRouter() {
         {$querystring.split("=")[1]}
         <div class="sub-about-edit-wrap">
           <div class="sub-about-edit">
+            <h2>기본정보</h2>
+            <ul>
+              <li>
+                <span>소개말 :</span>
+                <input type="text" bind:value="{intro}" />
+              </li>
+              <li>
+                <span>주소 :</span>
+                <input type="text" bind:value="{address}" />
+              </li>
+              <li>
+                <span>이메일 :</span>
+                <input type="text" bind:value="{mail}" />
+              </li>
+            </ul>
+          </div>
+          <div class="sub-about-edit">
             <h2>CAREER</h2>
             <ul>
               <li>
                 <span>취업일:</span>
-                <input type="text" bind:value="{startDate}" />
+                <input
+                  type="text"
+                  bind:value="{startDate}"
+                  placeholder="####-##-##" />
               </li>
               <li>
                 <span>퇴사일:</span>
@@ -205,6 +233,11 @@ function onClickRouter() {
                 <input type="text" bind:value="{jobDetail}" />
               </li>
             </ul>
+            <ul>
+              {#each careerList as career}
+                회사명: {career.company}
+              {/each}
+            </ul>
             <button type="button" on:click="{onClickCareerAdd}">추가</button>
             <button type="button" on:click="{onClickCareerSave}">저장</button>
           </div>
@@ -219,6 +252,15 @@ function onClickRouter() {
                 <span>percentage :</span>
                 <input type="number" min="0" bind:value="{percentage}" />
               </li>
+            </ul>
+
+            <ul>
+              {#each skillList as skill}
+                <li>
+                  name: {skill.name} <br />
+                  %: {skill.percentage}
+                </li>
+              {/each}
             </ul>
             <button type="button" on:click="{onClickSkillAdd}">추가</button>
             <button type="button" on:click="{onClickSkillSave}">저장</button>

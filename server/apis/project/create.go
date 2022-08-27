@@ -8,13 +8,14 @@ import (
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"time"
 )
 
 type Project struct {
 	Name        string   `json:"name"`
 	IsPersonal  bool     `json:"is_personal"`
 	StartDate   string   `json:"start_date"`
-	EndDate     string   `json:"end_date"`
+	EndDate     string   `json:"end_date,omitempty"`
 	Description string   `json:"description"`
 	Stack       []string `json:"stack"`
 }
@@ -35,9 +36,12 @@ func (app *ServiceCreateProject) Service() *api_context.CommonResponse {
 		if err != nil {
 			return api_context.FailureJSON(http.StatusBadRequest, "not valid startDate")
 		}
-		endTime, err := utils.StringToTime(v.EndDate)
-		if err != nil {
-			return api_context.FailureJSON(http.StatusBadRequest, "not valid endDate")
+		var endTime time.Time
+		if v.EndDate != "" {
+			endTime, err = utils.StringToTime(v.EndDate)
+			if err != nil {
+				return api_context.FailureJSON(http.StatusBadRequest, "not valid endDate")
+			}
 		}
 
 		stack := make([]database.TBStack, len(v.Stack))

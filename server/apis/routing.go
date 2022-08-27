@@ -7,6 +7,7 @@ import (
 	"devLog/server/apis/login"
 	"devLog/server/apis/mainpage"
 	"devLog/server/apis/project"
+	"devLog/server/apis/story"
 	"devLog/server/apis/tech"
 	"github.com/labstack/echo/v4"
 )
@@ -46,5 +47,13 @@ func RoutingForDevLog(grp *echo.Group) {
 	grp.POST("/introduce/project/create", project.ProcessCreateProject)
 	grp.DELETE("/introduce/project/delete/:id", project.ProcessDeleteProject)
 	grp.PUT("/introduce/project/update", project.ProcessUpdateProject)
+
+	// story
+	grp.GET("/story/get/:id", story.ProcessGetStory)
+	grp.GET("/story/list", story.ProcessFindStory)
+	grp.DELETE("/story/delete/:id", story.ProcessDeleteStory)
+	grp.PUT("/story/update", story.ProcessUpdateStory)
+	grp.PUT("/story/view/:id", story.ProcessViewStory)
+	grp.POST("/story/save", story.ProcessSaveStory)
 
 }

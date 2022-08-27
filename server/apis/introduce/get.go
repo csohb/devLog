@@ -4,7 +4,6 @@ import (
 	"devLog/common/api_context"
 	"devLog/database"
 	"devLog/server/apis/context"
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -71,7 +70,6 @@ type ServiceIntroduce struct {
 }
 
 func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
-	fmt.Println("user id 제발 좀 나와라 ㅅㅂ : ", app.AuthInfo.GetUserID(app.Context))
 	resp := GetIntroduceResponse{}
 	tb := database.TBUser{}
 	ret, err := tb.GetIntroduce(app.DB, app.req.ID)

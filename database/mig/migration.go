@@ -15,7 +15,8 @@ func main() {
 	//db.AutoMigrate(&database.TBUser{}, &database.TBCareer{}, &database.TBProject{}, &database.TBTech{}, &database.TBIntroduce{})
 	//db.AutoMigrate(&database.TBBlog{})
 	//db.AutoMigrate(&database.TBTech{})
-	db.AutoMigrate(&database.TBProject{})
+	//db.AutoMigrate(&database.TBProject{})
 	//db.AutoMigrate(&database.TBUser{})
 	//db.AutoMigrate(&database.TBCareer{})
+	db.AutoMigrate(&database.TBStory{})
 }

@@ -3,6 +3,7 @@ package database
 import (
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
+	"strconv"
 )
 
 const TBNameStory = "STORY"
@@ -38,3 +39,47 @@ func (t TBStory) Find(db *gorm.DB, page, count int) ([]TBStory, int64, error) {
 	return list, total, nil
 }
 
+func (t TBStory) Get(db *gorm.DB, id string) error {
+	bid, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
+	return db.Model(&t).Take("id = ?", bid).Error
+}
+
+func (t *TBStory) Save(db *gorm.DB) error {
+	return db.Model(&t).Create(&t).Error
+}
+
+func (t *TBStory) Delete(db *gorm.DB, id string) error {
+	bid, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
+	return db.Model(&t).Delete("id = ?", bid).Error
+}
+
+func (t *TBStory) Update(db *gorm.DB) error {
+	return db.Model(&t).Updates(map[string]interface{}{
+		"title":       t.Title,
+		"content":     t.Content,
+		"description": t.Description,
+	}).Error
+}
+
+func (t *TBStory) UpdateView(db *gorm.DB, id string) error {
+	bid, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
+
+	t.ID = uint(bid)
+
+	if err = db.Model(&t).Updates(map[string]interface{}{
+		"view": gorm.Expr("view + ?", 1),
+	}).Error; err != nil {
+		return err
+	}
+
+	return nil
+}

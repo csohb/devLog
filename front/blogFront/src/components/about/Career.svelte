@@ -27,7 +27,7 @@ async function onClickEdit(id: string) {
       if (currentTab !== "") {
         aboutStore.setIntroduce(currentTab);
       } else {
-        alert("삭제 성공! 새로고침을 눌러주세요.");
+        alert("수정 성공! 새로고침을 눌러주세요.");
       }
     })
     .finally(() => {

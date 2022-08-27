@@ -11,3 +11,5 @@ web:
   public_path: '/Users/yeong/blog/devLog/front/blogFront/public'
   session_timeout:
   download_directory:
+
+

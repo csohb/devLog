@@ -1,12 +1,20 @@
 import { writable } from "svelte/store";
 import {
   fetchCrateCareer,
+  fetchCrateProject,
   fetchCrateSkill,
   fetchDeleteCareer,
+  fetchDeleteProject,
   fetchIntroduce,
+  fetchUpdate,
   fetchUpdateCareer,
+  fetchUpdateProject,
 } from "../api/about";
-import type { CareerListType, CrateSkillRequest } from "../api/types/about";
+import type {
+  CareerListType,
+  CrateProjectsReq,
+  CrateSkillRequest,
+} from "../api/types/about";
 import type { AboutType } from "./types/about";
 
 const aboutStore = () => {
@@ -43,6 +51,9 @@ const aboutStore = () => {
             Object.assign(state.careers, {
               isEditMode: false,
             });
+            Object.assign(state.project, {
+              isEditMode: false,
+            });
             return state;
           });
         })
@@ -50,6 +61,22 @@ const aboutStore = () => {
           console.log("about err:", err);
           this.resetAbout();
         });
+    },
+    async updateIntroduce(
+      name: string,
+      intro: string,
+      email: string,
+      addr: string
+    ): Promise<any> {
+      let requestData = {
+        user_id: name,
+        profile: {
+          intro,
+          email,
+          addr,
+        },
+      };
+      return await fetchUpdate(requestData);
     },
     careerEditMode(idx: number) {
       update((state) => {
@@ -74,6 +101,31 @@ const aboutStore = () => {
     },
     async deleteCareer(id: string): Promise<any> {
       return await fetchDeleteCareer(id);
+    },
+    projectEditMode(idx: number) {
+      update((state) => {
+        if (!state.project[idx].isEditMode) {
+          state.project.map((val) => {
+            val.isEditMode = false;
+          });
+        }
+        state.project[idx].isEditMode = !state.project[idx].isEditMode;
+        return state;
+      });
+    },
+    async crateProject(id: string, list: CrateProjectsReq[]) {
+      // 프로젝트 추가
+      let request = {
+        id,
+        projects: list,
+      };
+      return await fetchCrateProject(request);
+    },
+    async updateProject(id: string, req: CrateProjectsReq) {
+      return await fetchUpdateProject(id, req);
+    },
+    async deleteProject(id: string) {
+      return await fetchDeleteProject(id);
     },
     async crateSkill(req: CrateSkillRequest): Promise<any> {
       return await fetchCrateSkill(req);

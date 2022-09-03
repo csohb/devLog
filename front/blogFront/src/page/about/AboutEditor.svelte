@@ -26,11 +26,7 @@ let projectName = "";
 let pjDescription = "";
 let pjStack = "";
 let projectStackList = [];
-
-// 기본정보
-let intro = "";
-let address = "";
-let mail = "";
+let pjIsPersonal = false;
 
 onMount(() => {
   if ($authStore.loginNick === "") {
@@ -44,6 +40,7 @@ onMount(() => {
 });
 
 function onClickCareerAdd() {
+  // api 등록전 커리어 추가
   if (company.trim() === "") {
     alert("회사명을 입력해주세요.");
     return;
@@ -91,10 +88,7 @@ function resetCareer() {
   jobTitle = "";
 }
 function onClickCareerSave() {
-  if ($querystring.split("=")[1] == null) {
-    return;
-  }
-  if ($querystring.split("=")[1] === "") {
+  if (!validationQuery()) {
     return;
   }
   if (careerList.length === 0) {
@@ -117,7 +111,7 @@ function onClickSkillAdd() {
   let skillItem: SkillListType = {
     name: skillName,
   };
-  console.log("percentage :", percentage);
+
   if (percentage != null) {
     skillItem.percentage = Number(percentage);
   }
@@ -125,11 +119,17 @@ function onClickSkillAdd() {
   // 반응성을 위해 추가
   skillList = skillList;
 }
-function onClickSkillSave() {
+function validationQuery(): boolean {
   if ($querystring.split("=")[1] == null) {
-    return;
+    return false;
   }
   if ($querystring.split("=")[1] === "") {
+    return false;
+  }
+  return true;
+}
+function onClickSkillSave() {
+  if (!validationQuery()) {
     return;
   }
   if (skillList.length === 0) {
@@ -153,8 +153,69 @@ function resetSkill() {
   percentage = 0;
 }
 
-function onClickProjectSave() {}
-function onClickProjectAdd() {}
+function onClickProjectSave() {
+  if (!validationQuery()) {
+    return;
+  }
+  if (projectList.length === 0) {
+    return;
+  }
+  aboutStore
+    .crateProject($querystring.split("=")[1], projectList)
+    .then(() => {
+      alert("프로젝트 저장완료");
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+}
+
+function onClickProjectAdd() {
+  if (projectName.trim() === "") {
+    alert("프로젝트명을 입력해주세요.");
+    return;
+  }
+  if (pjStartDate.trim() === "") {
+    // TODO: 2022-05-03 형식으로만 입력할 수 있도록 수정 필요
+    alert("프로젝트 시작일을 입력해주세요.");
+    return;
+  }
+
+  const listCount = projectList.length;
+
+  projectList.push({
+    name: projectName,
+    is_personal: pjIsPersonal,
+    start_date: pjStartDate,
+    end_date: pjEndDate,
+    description: pjDescription,
+    stack: projectStackList,
+  });
+  projectList = projectList;
+
+  if (listCount !== projectList.length) {
+    popupStore.open({
+      title: "프로젝트 추가",
+      text: "추가되었습니다.",
+      type: "alert",
+      isShow: false,
+      action: () => {
+        resetProject();
+      },
+    });
+  } else {
+    alert("저장 실패!");
+  }
+}
+function resetProject() {
+  projectName = "";
+  pjIsPersonal = false;
+  pjStartDate = "";
+  pjEndDate = "";
+  pjDescription = "";
+  pjStack = "";
+  projectStackList = [];
+}
 async function onClickStackAdd() {
   console.log(pjStack, projectStackList);
   if (pjStack.trim() === "") {
@@ -164,6 +225,7 @@ async function onClickStackAdd() {
   projectStackList.push(pjStack);
   await tick();
   projectStackList = projectStackList;
+  pjStack = "";
 }
 function onClickRouter() {
   popupStore.open({
@@ -189,23 +251,6 @@ function onClickRouter() {
         <h1 class="sub-page-title">About Me</h1>
         {$querystring.split("=")[1]}
         <div class="sub-about-edit-wrap">
-          <div class="sub-about-edit">
-            <h2>기본정보</h2>
-            <ul>
-              <li>
-                <span>소개말 :</span>
-                <input type="text" bind:value="{intro}" />
-              </li>
-              <li>
-                <span>주소 :</span>
-                <input type="text" bind:value="{address}" />
-              </li>
-              <li>
-                <span>이메일 :</span>
-                <input type="text" bind:value="{mail}" />
-              </li>
-            </ul>
-          </div>
           <div class="sub-about-edit">
             <h2>CAREER</h2>
             <ul>
@@ -271,7 +316,10 @@ function onClickRouter() {
               <li style="display: flex;align-items: center;">
                 <span>개인작업 여부:</span>
                 <div class="switch">
-                  <input type="checkbox" id="switch" />
+                  <input
+                    type="checkbox"
+                    id="switch"
+                    bind:checked="{pjIsPersonal}" />
                   <label for="switch" class="switch_label">
                     <span class="switch_btn"></span>
                   </label>
@@ -301,6 +349,15 @@ function onClickRouter() {
                 {projectStackList}
               </li>
             </ul>
+            {#if projectList.length !== 0}
+              <ul>
+                {#each projectList as item}
+                  <li>개인작업 여부 :{item.is_personal}</li>
+                  <li>프로젝트명: {item.name}</li>
+                  <li>시작일 : {item.start_date}</li>
+                {/each}
+              </ul>
+            {/if}
             <button type="button" on:click="{onClickProjectAdd}">추가</button>
             <button type="button" on:click="{onClickProjectSave}">저장</button>
           </div>

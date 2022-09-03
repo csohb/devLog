@@ -80,12 +80,12 @@ onDestroy(() => {
           {/each}
         </ul>
         <div class="sub-about-contents">
-          <Introduce />
+          <Introduce bind:isEditMode currentTab="{currentTab}" />
           <div class="sub-about-career">
             <Career isEditMode="{isEditMode}" currentTab="{currentTab}" />
           </div>
           <div class="sub-about-project">
-            <Project />
+            <Project isEditMode="{isEditMode}" currentTab="{currentTab}" />
           </div>
           <div class="sub-about-skills">
             <Skills />

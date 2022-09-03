@@ -37,11 +37,11 @@ export function fetchCrateSkill(request: CrateSkillRequest): Promise<any> {
 }
 
 export function fetchUpdate(request: UpdateProfile): Promise<any> {
-  return reqresApi.put("introduce/update", request);
+  return reqresApi.put("/introduce/update", request);
 }
 
 export function fetchCrateProject(request: CrateProjectRequest): Promise<any> {
-  return reqresApi.post("introduce/project/create", request);
+  return reqresApi.post("/introduce/project/create", request);
 }
 
 export function fetchDeleteProject(id: string): Promise<any> {

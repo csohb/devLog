@@ -1,6 +1,7 @@
 <script lang="ts">
 import { onMount } from "svelte";
 import { link } from "svelte-spa-router";
+import { fetchLogout } from "../api/auth";
 import authStore from "../stores/auth";
 
 onMount(() => {
@@ -16,9 +17,10 @@ function getCookie() {
   }
 }
 
-function onClickLogout() {
+async function onClickLogout() {
   authStore.setNick("");
   deleteCookie();
+  await fetchLogout();
 }
 
 function deleteCookie() {

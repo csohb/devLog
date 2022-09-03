@@ -21,6 +21,7 @@ type Story struct {
 	CreatedAt   string `json:"created_at"`
 	Title       string `json:"title"`
 	Content     string `json:"content"`
+	Image       string `json:"image"`
 	Description string `json:"description"`
 	Writer      string `json:"writer"`
 	View        int    `json:"view"`
@@ -54,6 +55,7 @@ func (app *ServiceFindStory) Service() *api_context.CommonResponse {
 			CreatedAt:   v.CreatedAt.Format("2006-01-02"),
 			Title:       v.Title,
 			Content:     v.Content,
+			Image:       v.Image,
 			Description: v.Description,
 			Writer:      v.Writer,
 			View:        v.View,

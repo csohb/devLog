@@ -1,6 +1,8 @@
 <script lang="ts">
 import Pagination from "../Pagination.svelte";
 import { link } from "svelte-spa-router";
+import { onMount } from "svelte";
+import storyStore from "../../stores/story";
 
 let page: number = 1;
 let count: number = 10;
@@ -11,6 +13,9 @@ function setPagination(e: any) {
   // 페이지 이동 버튼 클릭 시 이벤트
   page = e.detail + 1;
 }
+onMount(() => {
+  storyStore.setStoryList(1, 10);
+});
 </script>
 
 <ul class="sub-story-list">

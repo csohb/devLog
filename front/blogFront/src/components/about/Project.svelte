@@ -154,7 +154,7 @@ function onClickStackAdd() {
                   type="checkbox"
                   id="switch"
                   bind:checked="{isPersonal}" />
-                <label for="switch" class="switch_label">
+                <label for="switch" class="switch_label project">
                   <span class="switch_btn"></span>
                 </label>
                 <!-- </div> -->

@@ -110,6 +110,9 @@
 .switch_label:hover {
   background: #efefef;
 }
+.switch_label.project {
+  transform: translateY(-20px);
+}
 .switch_btn {
   position: absolute;
   top: 2px;

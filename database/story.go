@@ -1,6 +1,7 @@
 package database
 
 import (
+	"fmt"
 	"github.com/sirupsen/logrus"
 	"gorm.io/gorm"
 	"strconv"
@@ -25,26 +26,27 @@ func (t TBStory) Find(db *gorm.DB, page, count int) ([]TBStory, int64, error) {
 	var total int64
 	var list []TBStory
 
-	if err := db.Model(&t).Count(&total).Error; err != nil {
+	engine := db.Model(&t)
+	if err := engine.Count(&total).Error; err != nil {
 		logrus.WithError(err).Error("list count err")
 		return nil, 0, err
 	}
 
-	if err := db.Model(&t).Order("created_at DESC").
-		Offset(page * count).Limit(count).Find(&list).Error; err != nil {
+	if err := engine.Order("created_at DESC").Find(&list).Error; err != nil {
 		logrus.WithError(err).Error("list find err")
 		return nil, 0, err
 	}
 
+	fmt.Println("list : ", list)
 	return list, total, nil
 }
 
-func (t TBStory) Get(db *gorm.DB, id string) error {
+func (t *TBStory) Get(db *gorm.DB, id string) error {
 	bid, err := strconv.Atoi(id)
 	if err != nil {
 		return err
 	}
-	return db.Model(&t).Take("id = ?", bid).Error
+	return db.Model(&t).Take(t, "id = ?", bid).Error
 }
 
 func (t *TBStory) Save(db *gorm.DB) error {

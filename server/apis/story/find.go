@@ -4,6 +4,7 @@ import (
 	"devLog/common/api_context"
 	"devLog/database"
 	"devLog/server/apis/context"
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -38,7 +39,7 @@ type ServiceFindStory struct {
 func (app *ServiceFindStory) Service() *api_context.CommonResponse {
 
 	tb := database.TBStory{}
-	ret, total, err := tb.Find(app.DB, app.req.Page, app.req.Count)
+	ret, total, err := tb.Find(app.DB, app.req.Page-1, app.req.Count)
 	if err != nil {
 		logrus.WithError(err).Error("find story err")
 		return api_context.FailureJSON(http.StatusInternalServerError, "find data err")
@@ -47,6 +48,7 @@ func (app *ServiceFindStory) Service() *api_context.CommonResponse {
 	resp := FindStoryResponse{}
 	resp.List = make([]Story, len(ret))
 	for i, v := range ret {
+		fmt.Println("v : ", v)
 		resp.List[i] = Story{
 			ID:          strconv.Itoa(int(v.ID)),
 			CreatedAt:   v.CreatedAt.Format("2006-01-02"),

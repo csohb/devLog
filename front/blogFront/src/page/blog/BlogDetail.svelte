@@ -45,7 +45,6 @@ function onClickDelete() {
       await fetchBlogDelete(params.id)
         .then((resp) => {
           push("/blog");
-          console.log(resp);
         })
         .catch((err) => {
           console.log("blog delete err:", err);

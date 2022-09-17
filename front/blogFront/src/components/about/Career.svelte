@@ -13,7 +13,6 @@ let jobDetail = "";
 
 async function onClickEdit(id: string) {
   // career 에 get 에는 id 가 따로 없는데 index를 의미하는 건지 확인 필요
-  console.log("수정 id:", id);
   let req: CareerListType = {
     company,
     start_date: startDate,

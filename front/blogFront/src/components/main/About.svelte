@@ -18,8 +18,6 @@ function imgError(idx: number) {
 function onClickAboutPage(name: string) {
   push(`/about?name=${name}`);
 }
-
-$: console.log("data", $mainStore);
 </script>
 
 <div class="inner">

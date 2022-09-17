@@ -1,22 +1,190 @@
-<script lang="ts">
+<script>
+/* 에디터 라이브러리 때문에 타입스크립트를 적용할 수 없음 @ */
 import Footer from "../../components/Footer.svelte";
 import Header from "../../components/Header.svelte";
 import { link, push } from "svelte-spa-router";
+import { fetchStoryUpdate, fetchStorySave } from "../../api/story";
+import Editor from "cl-editor/src/Editor.svelte";
+import storyStore from "../../stores/story";
+import authStore from "../../stores/auth";
+import popupStore from "../../stores/popup";
+import { onMount, tick } from "svelte";
+import FilePond, { registerPlugin } from "svelte-filepond";
+import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orientation";
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond/dist/filepond.css";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+
+registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
+
+const positions = [
+  { val: "Backend", text: "Backend" },
+  { val: "Frontend", text: "Frontend" },
+];
+let positionSelected = "Backend";
+let writer = "";
+let title = "";
+let date = "";
+let contents = "";
+let description = "";
 
 export let params = {
   id: "",
 };
 
-function onClickSave() {}
+onMount(() => {
+  if ($authStore.loginNick === "") {
+    // 만약 닉네임이 없으면
+    let loginNick = authStore.getCookie("user_id");
+    if (loginNick == null) {
+      // 쿠키에 없으면 로그인 페이지로 이동
+      push("/login");
+      return;
+    }
+    authStore.setNick(loginNick);
+  }
+  // 진입 파라미터가 수정이면 init
+  if (params.id !== "register") {
+    init();
+    return;
+  }
+  // 신규 등록일 경우
 
-function onClickUpdate() {}
+  // 작성자 필요
+  writer = $authStore.loginNick;
+  contents = "<p>내용을 입력해주세요.</p>";
+  // 현재 날짜 필요
+  setToday();
+});
+
+function changePosition() {
+  // backend, frontend 선택
+  console.log("change:::", positionSelected);
+}
+
+async function init() {
+  // 수정하기 전에 정보값 불러오기
+  await storyStore.setStoryDetail(params.id);
+  await tick();
+  title = $storyStore.storyDetail.title;
+  writer = $storyStore.storyDetail.writer;
+  date = $storyStore.storyDetail.created_at;
+  description = $storyStore.storyDetail.description;
+  contents = `${$storyStore.storyDetail.content}`;
+}
+
+function setToday() {
+  // 신규 등록일 설정
+  const today = new Date();
+  date = `${today.getFullYear()}년 ${
+    today.getMonth() + 1
+  }월 ${today.getDate()}일`;
+}
+
+async function onClickSave() {
+  // 신규 등록
+  if (params.id !== "register") {
+    return;
+  }
+  if (title.trim() === "") {
+    alert("제목을 등록해주세요.");
+    return;
+  }
+
+  if (contents.trim() === "" || contents === "<p><br></p>") {
+    alert("내용이 없습니다.");
+    return;
+  }
+
+  let request = {
+    title,
+    content: contents,
+    description,
+  };
+
+  await fetchStorySave(request).then((resp) => {
+    console.log("등록 완료:::", resp);
+    push("/story");
+  });
+}
+
+async function onClickUpdate() {
+  // 수정
+  if (params.id === "register") {
+    return;
+  }
+  let request = {
+    id: params.id,
+    title: title,
+    content: contents,
+    description,
+  };
+
+  await fetchStoryUpdate(request)
+    .then((resp) => {
+      resetValue();
+      init();
+      popupStore.open({
+        title: "STORY",
+        text: "수정이 완료되었습니다<br />목록으로 이동하시겠습니까?",
+        btn: "목록으로 이동하기",
+        type: "confirm",
+        isShow: false,
+        action: () => {
+          push(`/story/${params.id}`);
+        },
+      });
+    })
+    .catch(() => {
+      push(`/story/${params.id}`);
+    });
+}
 
 function onClickCancel() {
+  let btn = "";
   if (params.id === "register") {
-    push("/story");
+    btn = "목록으로 이동하기";
   } else {
-    push(`/story/${params.id}`);
+    btn = "페이지로 돌아가기";
   }
+
+  // 수정 취소
+  popupStore.open({
+    title: "STORY",
+    text: "취소하시겠습니까?<br />취소하면 입력한 데이터가 사라집니다.",
+    btn,
+    type: "confirm",
+    isShow: false,
+    action: () => {
+      resetValue();
+      if (params.id === "register") {
+        // 신규 등록
+        push("/story");
+        return;
+      }
+      push(`/story/${params.id}`);
+    },
+  });
+}
+
+function resetValue() {
+  // 변수값 초기화
+  contents = "";
+  title = "";
+  date = "";
+  writer = "";
+  positionSelected = "Backend";
+}
+
+/* 이미지 업로드 */
+function handleInit() {
+  // FilePond 인스턴스가 생성되어 준비되었습니다.
+  console.log("FilePond has initialised");
+}
+
+function handleAddFile(err, fileItem) {
+  // 오류가 없으면 파일이 성공적으로 로드된 것입니다.
+  console.log("A file has been added", fileItem);
 }
 </script>
 
@@ -27,18 +195,52 @@ function onClickCancel() {
       <div class="sub-story">
         <h1 class="sub-page-title">Story</h1>
         <div class="sub-story-detail-title">
-          <span> Backend </span>
-          <h2>제목</h2>
-          <p>devblog를 시작한 계기</p>
+          <span>
+            <!-- backend / frontend 선택 -->
+            <select
+              bind:value="{positionSelected}"
+              on:change="{changePosition}">
+              {#each positions as item}
+                <option value="{item.val}">
+                  {item.text}
+                </option>
+              {/each}
+            </select>
+          </span>
+          <h2><input type="text" placeholder="제목" bind:value="{title}" /></h2>
+          <p>
+            홈 화면에서만 보일 간단한 글
+            <textarea
+              type="text"
+              placeholder="description"
+              bind:value="{description}"></textarea>
+          </p>
+          <p>
+            {#if contents !== ""}
+              <Editor
+                on:change="{({ detail }) => (contents = detail)}"
+                html="{contents}"
+                height="{'200px'}" />
+            {/if}
+          </p>
           <div class="sub-story-detail-thumb">
-            <img
+            <!-- 이미지 업로드   server="/api" -->
+            <p>메인 이미지 등록</p>
+            <FilePond
+              name="메인이미지"
+              server="/api"
+              instantUpload="{false}"
+              allowMultiple="{true}"
+              oninit="{handleInit}"
+              onaddfile="{handleAddFile}" />
+            <!-- <img
               src="https://ridicorp.com/wp-content/uploads/2022/06/sf_1_thumb@0.5x.jpg"
-              alt="" />
+              alt="" /> -->
           </div>
           <div class="sub-story-detail-info">
-            <span>2022-07-24</span>
+            <span>{date}</span>
             <span>|</span>
-            <span>yeong</span>
+            <span>{writer}</span>
           </div>
         </div>
         <div class="sub-story-detail-contents">

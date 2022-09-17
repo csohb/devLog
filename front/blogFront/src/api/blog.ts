@@ -53,7 +53,6 @@ export function fetchBlogTag(
   if (tag !== "") {
     url += `&tag=${tag}`;
   }
-  console.log("tag url:", url);
   return reqresApi.get(url);
 }
 

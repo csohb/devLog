@@ -1,31 +1,45 @@
 <script lang="ts">
 import Pagination from "../Pagination.svelte";
 import { link } from "svelte-spa-router";
+import { onMount } from "svelte";
+import storyStore from "../../stores/story";
 
 let page: number = 1;
-let count: number = 10;
+let count: number = 9;
 
-const TOTAl: number = 100;
+onMount(() => {
+  storyStore.setStoryList(page, count);
+});
 
 function setPagination(e: any) {
   // 페이지 이동 버튼 클릭 시 이벤트
   page = e.detail + 1;
+  storyStore.setStoryList(page, count);
+}
+
+function onClickViewCount(id: string) {
+  // 글을 읽은 사람 체크
+  storyStore.viewCount(id);
 }
 </script>
 
 <ul class="sub-story-list">
-  {#each Array(5) as _, idx}
+  {#each $storyStore.storyList as item, idx}
     <li class="sub-story-item">
-      <a href="/story/{idx}" use:link>
+      <a
+        href="/story/{item.id}"
+        use:link
+        on:click="{() => {
+          onClickViewCount(item.id);
+        }}">
         <div class="sub-story-content-img">
-          <img
-            src="https://ridicorp.com/wp-content/uploads/2022/06/sf_1_thumb@0.5x.jpg"
-            alt="sample" />
+          <img src="{item.imgUrl}" alt="sample" />
         </div>
         <div class="sub-story-content-text">
-          <span>Backend</span>
-          <h2>제목</h2>
-          <p>devblog를 만들게 된 계기~</p>
+          <!-- TODO: 셀렉트박스로 선택할 수 있도록 하기 -->
+          <span>Backend/Frontend</span>
+          <h2>{item.title}</h2>
+          <p>{@html item.description}</p>
         </div>
       </a>
     </li>
@@ -34,6 +48,6 @@ function setPagination(e: any) {
 
 <Pagination
   bind:page
-  count="{TOTAl}"
+  count="{$storyStore.listTotal}"
   bind:pageSize="{count}"
   on:change="{setPagination}" />

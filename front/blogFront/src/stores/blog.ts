@@ -76,7 +76,6 @@ const blogStore = () => {
       let temp: BlogList[] = [];
       let total: number = 0;
       await fetchBlogTag(tag, page, count).then((resp) => {
-        console.log("tag resp:", resp);
         if (resp.list != null) {
           temp = resp.list;
           total = resp.total;

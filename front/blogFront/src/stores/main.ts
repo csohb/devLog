@@ -14,7 +14,6 @@ const mainStore = () => {
     async getProfiles() {
       let temp: Profiles[] = [];
       await fetchProfileList().then((resp: MainStore) => {
-        console.log("profiles:", resp);
         if (resp !== null) {
           temp = resp.profiles;
         }

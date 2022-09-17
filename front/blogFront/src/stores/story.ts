@@ -32,7 +32,6 @@ const storyStore = () => {
       let total: number = 0;
       await fetchStoryList(page, count)
         .then((resp) => {
-          console.log("story resp :", resp);
           if (resp !== null) {
             temp = resp.list;
             total = resp.total;
@@ -60,7 +59,6 @@ const storyStore = () => {
       let temp: any = {};
       await fetchStoryDetail(id)
         .then((resp: StoryRespDetail) => {
-          console.log("story detail resp :", resp);
           if (resp !== null) {
             temp = resp;
           }

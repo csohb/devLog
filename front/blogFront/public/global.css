@@ -180,7 +180,7 @@ a {
   text-decoration: none;
 }
 pre {
-  white-space: pre-wrap;
+  white-space: pre-line;
 }
 button {
   cursor: pointer;

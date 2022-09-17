@@ -46,6 +46,7 @@
 .sub-about-contents > div {
   width: 50%;
   margin-bottom: 30px;
+  overflow-x: auto;
 }
 .sub-about-contents > div:nth-child(even) {
   padding-left: 30px;

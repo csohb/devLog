@@ -38,6 +38,8 @@ func NewS3Uploader(bucket, cfgFile, credential, profile string) *Uploader {
 		return nil
 	}
 
+	fmt.Println("cfg : ", cfg)
+
 	client := s3.NewFromConfig(cfg)
 	uploader := manager.NewUploader(client)
 	downloader := manager.NewDownloader(client)
@@ -48,6 +50,7 @@ func NewS3Uploader(bucket, cfgFile, credential, profile string) *Uploader {
 		client:     client,
 		uploader:   uploader,
 		downloader: downloader,
+		Region:     "ap-northeast-2",
 	}
 }
 

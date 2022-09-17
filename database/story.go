@@ -33,7 +33,7 @@ func (t TBStory) Find(db *gorm.DB, page, count int) ([]TBStory, int64, error) {
 		return nil, 0, err
 	}
 
-	if err := engine.Order("created_at DESC").Find(&list).Error; err != nil {
+	if err := engine.Order("created_at DESC").Offset(page * count).Limit(count).Find(&list).Error; err != nil {
 		logrus.WithError(err).Error("list find err")
 		return nil, 0, err
 	}

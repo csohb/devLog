@@ -130,7 +130,6 @@ async function onClickUpdate() {
       description: $blogStore.blogDetail.description,
     });
   }
-  console.log(req);
   await fetchBlogUpdate(req).then(() => {
     push(`/blog/${params.id}`);
   });

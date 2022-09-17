@@ -217,7 +217,6 @@ function resetProject() {
   projectStackList = [];
 }
 async function onClickStackAdd() {
-  console.log(pjStack, projectStackList);
   if (pjStack.trim() === "") {
     return;
   }

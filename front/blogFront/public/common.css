@@ -141,6 +141,11 @@
   background: #fff;
   box-shadow: 1px 2px 3px #00000020;
 }
+
+/* 이미지 파일 */
+.filepond--credits {
+  display: none;
+}
 @media screen and (max-width: 768px) {
   .sub-page {
     margin-top: 74px;

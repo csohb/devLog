@@ -33,7 +33,7 @@ export function fetchStoryDetail(id: string): Promise<StoryRespDetail | any> {
 export function fetchStoryUpdate(
   req: StoryUpdateRequest
 ): Promise<StoryUpdateResp | any> {
-  return reqresApi.put("/update", req);
+  return reqresApi.put("/story/update", req);
 }
 
 export function fetchStoryDelete(id: string): Promise<any> {

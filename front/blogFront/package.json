@@ -30,8 +30,12 @@
     "@okrad/svelte-progressbar": "^1.11.3",
     "axios": "^0.27.2",
     "cl-editor": "^2.3.0",
+    "filepond": "^4.30.4",
+    "filepond-plugin-image-exif-orientation": "^1.0.11",
+    "filepond-plugin-image-preview": "^4.6.11",
     "sirv-cli": "^2.0.0",
     "svelte-carousel": "^1.0.19",
+    "svelte-filepond": "^0.2.0",
     "svelte-spa-router": "^3.2.0"
   }
 }

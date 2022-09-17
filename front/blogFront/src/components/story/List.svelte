@@ -5,7 +5,7 @@ import { onMount } from "svelte";
 import storyStore from "../../stores/story";
 
 let page: number = 1;
-let count: number = 10;
+let count: number = 9;
 
 onMount(() => {
   storyStore.setStoryList(page, count);

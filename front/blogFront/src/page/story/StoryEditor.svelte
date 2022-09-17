@@ -26,6 +26,7 @@ let writer = "";
 let title = "";
 let date = "";
 let contents = "";
+let description = "";
 
 export let params = {
   id: "",
@@ -68,6 +69,7 @@ async function init() {
   title = $storyStore.storyDetail.title;
   writer = $storyStore.storyDetail.writer;
   date = $storyStore.storyDetail.created_at;
+  description = $storyStore.storyDetail.description;
   contents = `${$storyStore.storyDetail.content}`;
 }
 
@@ -97,7 +99,7 @@ async function onClickSave() {
   let request = {
     title,
     content: contents,
-    description: "",
+    description,
   };
 
   await fetchStorySave(request).then((resp) => {
@@ -115,7 +117,7 @@ async function onClickUpdate() {
     id: params.id,
     title: title,
     content: contents,
-    description: "",
+    description,
   };
 
   await fetchStoryUpdate(request)
@@ -206,6 +208,13 @@ function handleAddFile(err, fileItem) {
             </select>
           </span>
           <h2><input type="text" placeholder="제목" bind:value="{title}" /></h2>
+          <p>
+            홈 화면에서만 보일 간단한 글
+            <textarea
+              type="text"
+              placeholder="description"
+              bind:value="{description}"></textarea>
+          </p>
           <p>
             {#if contents !== ""}
               <Editor

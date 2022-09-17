@@ -12,6 +12,7 @@ import (
 
 type SaveStoryRequest struct {
 	Title       string `json:"title"`
+	Type        string `json:"type"`
 	Content     string `json:"content"`
 	Description string `json:"description"`
 }
@@ -27,6 +28,7 @@ func (app *ServiceSaveStory) Service() *api_context.CommonResponse {
 	fmt.Println("userId : ", userId)
 	tb := database.TBStory{
 		Title:       app.req.Title,
+		Type:        app.req.Type,
 		Content:     app.req.Content,
 		Description: app.req.Description,
 		Writer:      app.AuthInfo.GetUserID(app.Context),

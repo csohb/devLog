@@ -18,6 +18,7 @@ type GetStoryResponse struct {
 	ID          string `json:"id"`
 	CreatedAt   string `json:"created_at"`
 	Title       string `json:"title"`
+	Type        string `json:"type"`
 	Content     string `json:"content"`
 	Description string `json:"description"`
 	Writer      string `json:"writer"`
@@ -40,6 +41,7 @@ func (app *ServiceGetStory) Service() *api_context.CommonResponse {
 		ID:          strconv.Itoa(int(tb.ID)),
 		CreatedAt:   tb.CreatedAt.Format("2006-01-02"),
 		Title:       tb.Title,
+		Type:        tb.Type,
 		Content:     tb.Content,
 		Description: tb.Description,
 		Writer:      tb.Writer,

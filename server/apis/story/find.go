@@ -4,7 +4,6 @@ import (
 	"devLog/common/api_context"
 	"devLog/database"
 	"devLog/server/apis/context"
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -20,6 +19,7 @@ type Story struct {
 	ID          string `json:"id"`
 	CreatedAt   string `json:"created_at"`
 	Title       string `json:"title"`
+	Type        string `json:"type"`
 	Content     string `json:"content"`
 	Image       string `json:"image"`
 	Description string `json:"description"`
@@ -49,11 +49,19 @@ func (app *ServiceFindStory) Service() *api_context.CommonResponse {
 	resp := FindStoryResponse{}
 	resp.List = make([]Story, len(ret))
 	for i, v := range ret {
-		fmt.Println("v : ", v)
+		var work string
+		if v.Type == "F" {
+			work = "FrontEnd"
+		} else if v.Type == "B" {
+			work = "BackEnd"
+		} else {
+			work = ""
+		}
 		resp.List[i] = Story{
 			ID:          strconv.Itoa(int(v.ID)),
 			CreatedAt:   v.CreatedAt.Format("2006-01-02"),
 			Title:       v.Title,
+			Type:        work,
 			Content:     v.Content,
 			Image:       v.Image,
 			Description: v.Description,

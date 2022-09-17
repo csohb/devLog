@@ -14,6 +14,7 @@ import (
 type UpdateStoryRequest struct {
 	ID          string `json:"id"`
 	Title       string `json:"title"`
+	Type        string `json:"type"`
 	Content     string `json:"content"`
 	Description string `json:"description"`
 }
@@ -36,6 +37,7 @@ func (app *ServiceUpdateStory) Service() *api_context.CommonResponse {
 			ID: uint(sid),
 		},
 		Title:       app.req.Title,
+		Type:        app.req.Type,
 		Content:     app.req.Content,
 		Description: app.req.Description,
 	}

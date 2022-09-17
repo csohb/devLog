@@ -13,6 +13,7 @@ type TBStory struct {
 	gorm.Model
 	Title       string `gorm:"column:title;type:varchar(100);comment:글 제목"`
 	Content     string `gorm:"column:content;type:text;comment:content"`
+	Type        string `gorm:"column:type;type:varchar(1);comment:F-frontEnd, B-backEnd"`
 	Image       string `gorm:"column:image;type:varchar(200);comment:이미지 url":`
 	Description string `gorm:"column:description;type:varchar(100);comment:설명"`
 	Writer      string `gorm:"column:writer;type:varchar(20);comment:작성자"`
@@ -66,6 +67,7 @@ func (t *TBStory) Update(db *gorm.DB) error {
 	return db.Model(&t).Updates(map[string]interface{}{
 		"title":       t.Title,
 		"content":     t.Content,
+		"type":        t.Type,
 		"description": t.Description,
 		"image":       t.Image,
 	}).Error

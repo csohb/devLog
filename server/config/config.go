@@ -40,6 +40,13 @@ type Web struct {
 	DownloadDirectory string `yaml:"download_directory"`
 }
 
+type Email struct {
+	YeongEmail string `yaml:"yeong_email"`
+	YeongPwd   string `yaml:"yeong_pwd"`
+	YujinEmail string `yaml:"yujin_email"`
+	YujinPwd   string `yaml:"yujin_pwd"`
+}
+
 type Config struct {
 	ServerName string   `yaml:"server_name"`
 	Log        Log      `yaml:"log"`
@@ -48,6 +55,7 @@ type Config struct {
 	Redis      Redis    `yaml:"redis"`
 	Server     Server   `yaml:"server"`
 	Web        Web      `yaml:"web"`
+	Email      Email    `yaml:"email"`
 }
 
 type CDNInfo struct {

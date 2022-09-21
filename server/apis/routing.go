@@ -3,6 +3,7 @@ package apis
 import (
 	"devLog/server/apis/blog"
 	"devLog/server/apis/career"
+	"devLog/server/apis/email"
 	"devLog/server/apis/introduce"
 	"devLog/server/apis/login"
 	"devLog/server/apis/mainpage"
@@ -55,5 +56,8 @@ func RoutingForDevLog(grp *echo.Group) {
 	grp.PUT("/story/update", story.ProcessUpdateStory)
 	grp.PUT("/story/view/:id", story.ProcessViewStory)
 	grp.POST("/story/save", story.ProcessSaveStory)
+
+	// send mail
+	grp.POST("/email", email.ProcessSendEmail)
 
 }

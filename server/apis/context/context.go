@@ -29,6 +29,14 @@ type Context struct {
 	DB         *gorm.DB
 	httpClient *resty.Client
 	AuthInfo   AuthHandler
+	Emails     Email
+}
+
+type Email struct {
+	YeongAddress string
+	YeongPwd     string
+	YujinAddress string
+	YujinPwd     string
 }
 
 func (c Context) GetAuthHandler() api_context.AuthInterface {
@@ -170,9 +178,15 @@ func InitContext(e *echo.Echo, logger *logrus.Logger, db *gorm.DB, client *resty
 		return func(context echo.Context) error {
 			ctx := &Context{
 				Context:    api_context.NewContext(context, logger, AuthHandler{}),
+				Config:     cfg,
 				DB:         db,
 				httpClient: client,
-				Config:     cfg,
+				Emails: Email{
+					YeongAddress: cfg.Email.YeongEmail,
+					YeongPwd:     cfg.Email.YeongPwd,
+					YujinAddress: cfg.Email.YujinEmail,
+					YujinPwd:     cfg.Email.YujinPwd,
+				},
 			}
 			return next(ctx)
 		}

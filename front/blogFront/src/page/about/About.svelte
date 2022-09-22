@@ -40,15 +40,19 @@ function getCookie() {
 
 function init() {
   // 처음 tab name 지정
-  if ($querystring === "") {
-    let rand = Math.floor(Math.random() * TABLIST.length);
-    let rValue = TABLIST[rand];
-    currentTab = rValue.name;
-  } else if ($querystring === "name=yeong") {
+  if ($querystring === "name=yeong") {
     currentTab = "yeong";
-  } else {
-    currentTab = "yujin";
+    return;
   }
+
+  if ($querystring === "name=yujin") {
+    currentTab = "yujin";
+    return;
+  }
+
+  let rand = Math.floor(Math.random() * TABLIST.length);
+  let rValue = TABLIST[rand];
+  currentTab = rValue.name;
 }
 
 beforeUpdate(() => {

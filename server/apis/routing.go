@@ -10,6 +10,7 @@ import (
 	"devLog/server/apis/project"
 	"devLog/server/apis/story"
 	"devLog/server/apis/tech"
+	"devLog/server/apis/upload"
 	"github.com/labstack/echo/v4"
 )
 
@@ -59,5 +60,8 @@ func RoutingForDevLog(grp *echo.Group) {
 
 	// send mail
 	grp.POST("/email", email.ProcessSendEmail)
+
+	// image upload
+	grp.POST("/upload", upload.ProcessImageUpload)
 
 }

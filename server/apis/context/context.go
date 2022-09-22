@@ -30,6 +30,13 @@ type Context struct {
 	httpClient *resty.Client
 	AuthInfo   AuthHandler
 	Emails     Email
+	S3Info     S3
+}
+
+type S3 struct {
+	Bucket      string
+	CfgFile     string
+	Credentials string
 }
 
 type Email struct {
@@ -186,6 +193,11 @@ func InitContext(e *echo.Echo, logger *logrus.Logger, db *gorm.DB, client *resty
 					YeongPwd:     cfg.Email.YeongPwd,
 					YujinAddress: cfg.Email.YujinEmail,
 					YujinPwd:     cfg.Email.YujinPwd,
+				},
+				S3Info: S3{
+					Bucket:      cfg.S3.Bucket,
+					CfgFile:     cfg.S3.CfgFile,
+					Credentials: cfg.S3.Credentials,
 				},
 			}
 			return next(ctx)

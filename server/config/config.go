@@ -47,6 +47,12 @@ type Email struct {
 	YujinPwd   string `yaml:"yujin_pwd"`
 }
 
+type S3 struct {
+	Bucket      string `yaml:"bucket"`
+	CfgFile     string `yaml:"cfg_file"`
+	Credentials string `yaml:"credentials"`
+}
+
 type Config struct {
 	ServerName string   `yaml:"server_name"`
 	Log        Log      `yaml:"log"`
@@ -56,6 +62,7 @@ type Config struct {
 	Server     Server   `yaml:"server"`
 	Web        Web      `yaml:"web"`
 	Email      Email    `yaml:"email"`
+	S3         S3       `yaml:"s3"`
 }
 
 type CDNInfo struct {

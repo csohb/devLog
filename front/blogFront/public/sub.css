@@ -598,6 +598,54 @@
 .sub-story-detail-btn > button:hover {
   background-color: #551a8b;
 }
+
+/* contact */
+
+.sub-contact-wrap {
+  position: relative;
+  z-index: 1;
+  background-color: #f9f9f9;
+}
+.sub-contact {
+  padding-top: 60px;
+  padding-bottom: 60px;
+}
+.sub-contact-select {
+  font-size: 16px;
+  color: #2f3438;
+  padding: 15.5px 43px;
+  background-color: #f7f9fa;
+}
+.sub-contact-select::-ms-expand {
+  display: none;
+}
+.sub-contact-select {
+  -o-appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+.sub-contact-select-arrow {
+  position: relative;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  overflow: hidden;
+  vertical-align: middle;
+}
+.sub-contact-select-arrow:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 10px;
+  height: 10px;
+  -webkit-transform: translate(-50%, -50%) rotate(-135deg);
+  transform: translate(-50%, -50%) rotate(-135deg);
+  margin-top: 2px;
+  border-top: 1px solid #333;
+  border-left: 1px solid #333;
+}
 @media screen and (max-width: 768px) {
   /* about */
   .sub-about-contents > div {

@@ -17,11 +17,12 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
+// test
 const positions = [
-  { val: "Backend", text: "Backend" },
-  { val: "Frontend", text: "Frontend" },
+  { val: "B", text: "Backend" },
+  { val: "F", text: "Frontend" },
 ];
-let positionSelected = "Backend";
+let positionSelected = "B";
 let writer = "";
 let title = "";
 let date = "";
@@ -97,6 +98,7 @@ async function onClickSave() {
   }
 
   let request = {
+    type: positionSelected,
     title,
     content: contents,
     description,
@@ -228,7 +230,7 @@ function handleAddFile(err, fileItem) {
             <p>메인 이미지 등록</p>
             <FilePond
               name="메인이미지"
-              server="/api"
+              server="/api/v1/upload"
               instantUpload="{false}"
               allowMultiple="{true}"
               oninit="{handleInit}"

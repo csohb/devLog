@@ -79,7 +79,7 @@ onDestroy(() => {
         <h1 class="sub-page-title">Story</h1>
         <div class="sub-story-detail-title">
           <!-- 선택하는 셀렉트 박스 필요 -->
-          <span> Backend / Frontend </span>
+          <span> {$storyStore.storyDetail.type}</span>
           <h2>{$storyStore.storyDetail.title}</h2>
           <p>{$storyStore.storyDetail.description}</p>
           <div class="sub-story-detail-info">

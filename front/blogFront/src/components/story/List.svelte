@@ -37,7 +37,7 @@ function onClickViewCount(id: string) {
         </div>
         <div class="sub-story-content-text">
           <!-- TODO: 셀렉트박스로 선택할 수 있도록 하기 -->
-          <span>Backend/Frontend</span>
+          <span>{item.type ? item.type : "Etc"}</span>
           <h2>{item.title}</h2>
           <p>{@html item.description}</p>
         </div>

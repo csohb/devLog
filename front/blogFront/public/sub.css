@@ -612,9 +612,13 @@
 }
 .sub-contact-select {
   font-size: 16px;
+  border: 1px solid #eaedef;
+  border-radius: 4px;
+  box-shadow: 0 2px 5px 0 rgb(63 71 77 / 5%);
   color: #2f3438;
-  padding: 15.5px 43px;
-  background-color: #f7f9fa;
+  cursor: pointer;
+  padding: 15px 63px 15px 20px;
+  background-color: transparent;
 }
 .sub-contact-select::-ms-expand {
   display: none;
@@ -630,6 +634,8 @@
   display: inline-block;
   width: 30px;
   height: 30px;
+  z-index: -1;
+  transform: translate(-40px, -7px);
   overflow: hidden;
   vertical-align: middle;
 }
@@ -645,6 +651,134 @@
   margin-top: 2px;
   border-top: 1px solid #333;
   border-left: 1px solid #333;
+}
+.sub-contact-title {
+  margin: 40px 0;
+}
+.sub-contact-title p:first-child {
+  font-size: 24px;
+  font-weight: 700;
+}
+.sub-contact-title p:last-child {
+  margin-top: 15px;
+  color: #828c94;
+  font-size: 14px;
+  line-height: 1.4;
+}
+.sub-contact-form {
+  display: flex;
+  flex-direction: column;
+}
+
+.sub-contact-form input {
+  margin: 0 0 16px;
+  height: 44px;
+  padding: 10px 14px 11px;
+  font-size: 16px;
+  line-height: inherit;
+  letter-spacing: inherit;
+  background-color: transparent;
+  border: 1px solid #eaebef;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+.sub-contact-form input:focus {
+  background-color: #fff;
+}
+.sub-contact-form input:hover {
+  background-color: #f7f8fa;
+}
+.sub-contact-form textarea {
+  padding: 10px 14px 11px;
+  font-size: 16px;
+  line-height: inherit;
+  letter-spacing: inherit;
+  border: 1px solid #eaebef;
+  background-color: transparent;
+  border-radius: 4px;
+  box-sizing: border-box;
+  overflow: hidden;
+  overflow-wrap: break-word;
+  overflow-y: auto;
+  resize: none;
+  height: 160px;
+  line-height: 1.4;
+}
+
+.sub-contact-form textarea + span {
+  display: block;
+  margin-top: 7px;
+  font-size: 12px;
+  color: #828c94;
+  text-align: right;
+}
+.filebox {
+  margin: 16px 0;
+}
+
+/* input file */
+.filebox input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.filebox label {
+  display: inline-block;
+  padding: 10px 36.922px 10.5px;
+  color: #551a8b;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  cursor: pointer;
+  border: 1px solid #551a8b;
+  border-radius: 4px;
+  margin-left: 10px;
+}
+
+.filebox label:hover {
+  background-color: #551a8b17;
+}
+
+/* named upload */
+.filebox .upload-name {
+  display: inline-block;
+  font-size: inherit;
+  font-family: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: transparent;
+  border: 1px solid #eaebef;
+  border-radius: 4px;
+  -webkit-appearance: none; /* 네이티브 외형 감추기 */
+  -moz-appearance: none;
+  appearance: none;
+  margin-bottom: 0;
+}
+
+.sub-contact-action button {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: none;
+  font: inherit;
+  width: 100%;
+  height: 50px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 700;
+  border-radius: 4px;
+  background-color: #551a8b;
+  width: 343px;
+}
+.sub-contact-action button:hover {
+  background-color: #4b0a87;
 }
 @media screen and (max-width: 768px) {
   /* about */
@@ -732,6 +866,20 @@
   }
   .sub-story-item a {
     padding: 0;
+  }
+
+  /* contact */
+  .filebox .upload-name {
+    width: 100%;
+  }
+  .filebox label {
+    margin-left: 0;
+    margin-top: 5px;
+    width: 100%;
+    text-align: center;
+  }
+  .sub-contact-action button {
+    width: 100%;
   }
 }
 @media screen and (max-width: 350px) {

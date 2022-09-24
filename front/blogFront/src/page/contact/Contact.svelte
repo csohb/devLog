@@ -109,7 +109,6 @@ $: onChangeFile(files);
                 bind:this="{fileinputEl}"
                 bind:files />
               <!--    accept="text/plain,.pdf" -->
-              <img src="{src}" alt="" />
             </div>
           </div>
           <div class="sub-contact-action">

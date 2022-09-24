@@ -18,10 +18,10 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
 const positions = [
-  { val: "Backend", text: "Backend" },
-  { val: "Frontend", text: "Frontend" },
+  { val: "B", text: "Backend" },
+  { val: "F", text: "Frontend" },
 ];
-let positionSelected = "Backend";
+let positionSelected = "B";
 let writer = "";
 let title = "";
 let date = "";
@@ -97,6 +97,7 @@ async function onClickSave() {
   }
 
   let request = {
+    type: positionSelected,
     title,
     content: contents,
     description,

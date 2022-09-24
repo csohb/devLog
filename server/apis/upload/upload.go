@@ -1,15 +1,16 @@
 package upload
 
 import (
+	"bytes"
 	"devLog/common/api_context"
 	"devLog/server/apis/context"
 	"devLog/server/s3"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"os"
 )
 
 type ImageUploadRequest struct {
-	FilePath string `json:"file_path"`
 	FileName string `json:"file_name"`
 	DirName  string `json:"dir_name"`
 }
@@ -44,26 +45,31 @@ func (app *ServiceImageUpload) Service() *api_context.CommonResponse {
 
 	file := files[0]
 
-	src, err := file.Open()
+	f, err := file.Open()
 	if err != nil {
 		app.Log.WithError(err).Error("FileUpload src file open failure")
 		return api_context.InternalServerErrorJSON("파일을 여는데 실패하였습니다.")
 	}
-	defer src.Close()
+	defer f.Close()
+	fileInfo, _ := f.(*os.File).Stat()
+	size := fileInfo.Size()
+	buffer := make([]byte, size)
+	f.Read(buffer)
+	fileBytes := bytes.NewReader(buffer)
 
 	if err != nil {
 		app.Log.Error("cannot open file")
 		return api_context.FailureJSON(http.StatusInternalServerError, "file open failed.")
 	}
 
-	/*result, err := s3Manager.UploadFile(app.req.DirName, app.req.FileName, "image/jpeg", file, false)
+	result, err := s3Manager.UploadFile(app.req.DirName, app.req.FileName, "image/jpeg", fileBytes, false)
 	if err != nil {
 		app.Log.Error("cannot upload file to s3 : ", err)
 		return api_context.FailureJSON(http.StatusInternalServerError, "파일 업로드 실패")
 	}
-	*/
+
 	resp := ImageUploadResponse{
-		FileUrl: "",
+		FileUrl: result,
 	}
 
 	return api_context.SuccessJSON(&resp)

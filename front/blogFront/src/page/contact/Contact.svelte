@@ -5,8 +5,8 @@ import Header from "../../components/Header.svelte";
 
 let receiver = "";
 const RECEIVERS = [
-  { val: "yeong", text: "김영지" },
-  { val: "yujin", text: "권유진" },
+  { val: "yeong", text: "yeongJi" },
+  { val: "yujin", text: "yujin" },
 ];
 let fileinputEl: HTMLInputElement;
 let files: any;
@@ -31,11 +31,25 @@ function changeReceiver() {}
 function onKeyupTextKeyword() {
   textCount = contents.length;
 }
-
+let src: any = "";
 function onChangeFile(file: any) {
   if (file === undefined) {
     return;
   }
+
+  let fReader = new FileReader();
+  fReader.readAsDataURL(fileinputEl.files[0]);
+  fReader.onloadend = function (event) {
+    console.log("file", event.target.result);
+    src = event.target.result;
+  };
+
+  console.log("file", fileinputEl.value);
+
+  let formData = new FormData();
+  formData.append("filename", file[0]);
+
+  console.log("formData:", formData);
 
   fileName = file[0].name;
 }
@@ -92,9 +106,10 @@ $: onChangeFile(files);
               <input
                 type="file"
                 id="ex_filename"
-                accept="text/plain,.pdf"
                 bind:this="{fileinputEl}"
                 bind:files />
+              <!--    accept="text/plain,.pdf" -->
+              <img src="{src}" alt="" />
             </div>
           </div>
           <div class="sub-contact-action">

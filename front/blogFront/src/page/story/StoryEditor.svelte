@@ -229,7 +229,7 @@ function handleAddFile(err, fileItem) {
             <p>메인 이미지 등록</p>
             <FilePond
               name="메인이미지"
-              server="/api"
+              server="/api/v1/upload"
               instantUpload="{false}"
               allowMultiple="{true}"
               oninit="{handleInit}"

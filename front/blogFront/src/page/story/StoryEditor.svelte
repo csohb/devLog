@@ -17,6 +17,7 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
+// test
 const positions = [
   { val: "B", text: "Backend" },
   { val: "F", text: "Frontend" },

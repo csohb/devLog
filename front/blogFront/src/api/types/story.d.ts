@@ -18,6 +18,7 @@ export type StoryRespDetail = {
   created_at: string;
   description: string;
   id: string;
+  type: string;
   title: string;
   view: number;
   writer: string;

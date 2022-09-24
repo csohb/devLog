@@ -15,6 +15,7 @@ const storyStore = () => {
     listTotal: 0,
     storyDetail: {
       id: "",
+      type: "",
       view: 0,
       content: "",
       created_at: "",
@@ -69,6 +70,15 @@ const storyStore = () => {
 
       update((state) => {
         state.storyDetail = temp;
+        if (state.storyDetail.type === "F") {
+          state.storyDetail.type = "FrontEnd";
+        }
+        if (state.storyDetail.type === "B") {
+          state.storyDetail.type = "BackEnd";
+        }
+        if (!state.storyDetail.type) {
+          state.storyDetail.type = "Etc";
+        }
         return state;
       });
     },
@@ -95,6 +105,7 @@ const storyStore = () => {
       update((state) => {
         state.storyDetail = {
           id: "",
+          type: "",
           view: 0,
           content: "",
           created_at: "",

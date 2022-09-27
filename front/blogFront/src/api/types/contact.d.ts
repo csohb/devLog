@@ -1,4 +1,8 @@
 export type ContactRequestBody = {
-  sender: string;
   receiver: string;
+  name: string;
+  email: string;
+  number: string;
+  title: string;
+  content: string;
 };

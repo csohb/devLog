@@ -780,6 +780,18 @@
 .sub-contact-action button:hover {
   background-color: #4b0a87;
 }
+.sub-contact-form input.warning {
+  border-color: red;
+}
+.sub-contact-form input:focus-visible.warning {
+  outline-color: red;
+}
+.sub-contact-form p.warning {
+  color: red;
+  margin-top: -8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+}
 @media screen and (max-width: 768px) {
   /* about */
   .sub-about-contents > div {

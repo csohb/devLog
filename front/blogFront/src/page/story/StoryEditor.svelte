@@ -14,6 +14,7 @@ import FilePondPluginImageExifOrientation from "filepond-plugin-image-exif-orien
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond/dist/filepond.css";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import { imgUpload } from "../../api/contact";
 
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 
@@ -28,6 +29,11 @@ let title = "";
 let date = "";
 let contents = "";
 let description = "";
+
+let fileinputEl;
+let files;
+let fileName = "";
+let src = "";
 
 export let params = {
   id: "",
@@ -57,6 +63,35 @@ onMount(() => {
   // 현재 날짜 필요
   setToday();
 });
+
+function onChangeFile(file) {
+  if (file === undefined) {
+    return;
+  }
+  fileName = file[0].name;
+
+  let info = {
+    file_name: "digimon",
+    dir_name: "blog",
+  };
+
+  let formData = new FormData();
+  formData.append("filename", file[0]);
+  formData.append(
+    "key",
+    new Blob([JSON.stringify(info)], { type: "application/json" })
+  );
+
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ", " + JSON.stringify(pair[1]));
+  }
+
+  imgUpload(formData).then((resp) => {
+    console.log("upload:", resp);
+  });
+}
+
+$: onChangeFile(files);
 
 function changePosition() {
   // backend, frontend 선택
@@ -228,6 +263,7 @@ function handleAddFile(err, fileItem) {
           <div class="sub-story-detail-thumb">
             <!-- 이미지 업로드   server="/api" -->
             <p>메인 이미지 등록</p>
+            <!-- 
             <FilePond
               name="메인이미지"
               server="/api/v1/upload"
@@ -235,9 +271,26 @@ function handleAddFile(err, fileItem) {
               allowMultiple="{true}"
               oninit="{handleInit}"
               onaddfile="{handleAddFile}" />
+            -->
             <!-- <img
               src="https://ridicorp.com/wp-content/uploads/2022/06/sf_1_thumb@0.5x.jpg"
               alt="" /> -->
+
+            <div class="filebox">
+              <input
+                class="upload-name"
+                value="{fileName}"
+                placeholder="txt, pdf 첨부 가능"
+                disabled />
+
+              <label for="ex_filename">첨부파일</label>
+              <input
+                type="file"
+                id="ex_filename"
+                bind:this="{fileinputEl}"
+                bind:files />
+              <!--    accept="text/plain,.pdf" -->
+            </div>
           </div>
           <div class="sub-story-detail-info">
             <span>{date}</span>

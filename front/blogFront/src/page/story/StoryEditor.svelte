@@ -68,6 +68,8 @@ function onChangeFile(file) {
   if (file === undefined) {
     return;
   }
+
+  console.log("file", file);
   fileName = file[0].name;
 
   let info = {

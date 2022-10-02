@@ -33,6 +33,8 @@ func SendEmail(receiver, sender, pwd string) error {
 	body := "빠른 시일 안에 문의 내용에 답변 드릴 수 있도록 하겠습니다."
 	msg := []byte(headerSubject + headerBlank + body)
 
+	fmt.Println("msg : ", string(msg))
+
 	err := smtp.SendMail("smtp.gmail.com:587", auth, from, to, msg)
 	if err != nil {
 		return err
@@ -46,10 +48,12 @@ func ReceiveMail(name, email, number, title, content string, receiver, pwd strin
 
 	to := []string{receiver}
 
-	headerSubject := fmt.Sprintf("문의 메일이 도착했습니다. 제목:%s", title)
+	headerSubject := fmt.Sprintf("Subject: 문의 메일이 도착했습니다. 제목:%s", title)
 	headerBlank := "\r\n"
-	body := fmt.Sprintf("문의자 이름: %s\n문의자 메일: %s\n 문의자 번호:%s\n 문의내용:%s\n", name, email, number, content)
+	body := fmt.Sprintf("문의자 이름: %s 문의자 메일: %s 문의자 번호:%s  문의내용:%s ", name, email, number, content)
 	msg := []byte(headerSubject + headerBlank + body)
+
+	fmt.Println("msg : ", string(msg))
 
 	err := smtp.SendMail("smtp.gmail.com:587", auth, from, to, msg)
 	if err != nil {
@@ -73,12 +77,14 @@ func (app *ServiceEmailSend) Service() *api_context.CommonResponse {
 		return api_context.FailureJSON(http.StatusBadRequest, "존재하는 아이디가 아닙니다.")
 	}
 
+	fmt.Println("email : ", email)
+
 	if err := ReceiveMail(app.req.Name, app.req.Email, app.req.Number, app.req.Title, app.req.Content, email, pwd); err != nil {
 		app.Log.WithError(err).Error("receive email err")
-		return api_context.FailureJSON(http.StatusInternalServerError, "이메일 전송 실패.")
+		return api_context.FailureJSON(http.StatusInternalServerError, "이메일 수신 실패.")
 	}
 
-	if err := SendEmail(app.req.Receiver, email, pwd); err != nil {
+	if err := SendEmail(app.req.Email, email, pwd); err != nil {
 		app.Log.WithError(err).Error("send email err")
 		return api_context.FailureJSON(http.StatusInternalServerError, "이메일 전송 실패.")
 	}

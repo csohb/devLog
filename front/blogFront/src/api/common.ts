@@ -49,6 +49,10 @@ reqresApi.interceptors.response.use((res) => {
 
 reqresApi.interceptors.request.use((req) => {
   // req.headers.authorization = TokenManager.accessToken; // jwt token
+  if (req.url === "/upload") {
+    req.headers.Accept = "multipart/form-data";
+  }
+  console.log("req", req);
   return req;
 });
 

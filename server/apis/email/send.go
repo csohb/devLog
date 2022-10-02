@@ -3,9 +3,11 @@ package email
 import (
 	"devLog/common/api_context"
 	"devLog/server/apis/context"
+	"encoding/base64"
 	"fmt"
 	"github.com/labstack/echo/v4"
 	"net/http"
+	"net/mail"
 	"net/smtp"
 )
 
@@ -44,23 +46,37 @@ func SendEmail(receiver, sender, pwd string) error {
 
 func ReceiveMail(name, email, number, title, content string, receiver, pwd string) error {
 	auth := smtp.PlainAuth("", receiver, pwd, "smtp.gmail.com")
-	from := receiver
+	from := mail.Address{
+		Name:    "yujin",
+		Address: receiver,
+	}
 
-	to := []string{receiver}
+	to := mail.Address{
+		Name:    "yujin",
+		Address: receiver,
+	}
 
-	headerSubject := fmt.Sprintf("Subject: 문의 메일이 도착했습니다. 제목:%s", title)
-	headerBlank := "\r\n"
-	body := fmt.Sprintf("문의자 이름: %s 문의자 메일: %s 문의자 번호:%s  문의내용:%s ", name, email, number, content)
-	msg := []byte(headerSubject + headerBlank + body)
+	body := fmt.Sprintf("문의자 이름:%s 문의자 메일:%s 문의자 번호:%s  문의내용:%s", name, email, number, content)
 
-	fmt.Println("msg : ", string(msg))
+	header := make(map[string]string)
+	header["From"] = from.String()
+	header["To"] = to.String()
+	header["Subject"] = fmt.Sprintf("문의 메일이 도착하였습니다. 제목[%s]", title)
 
-	err := smtp.SendMail("smtp.gmail.com:587", auth, from, to, msg)
+	header["MIME-Version"] = "1.0"
+	header["Content-Type"] = "text/plain; charset=\"utf-8\""
+	header["Content-Transfer-Encoding"] = "base64"
+
+	message := ""
+	for k, v := range header {
+		message += fmt.Sprintf("%s: %s\r\n", k, v)
+	}
+	message += "\r\n" + base64.StdEncoding.EncodeToString([]byte(body))
+	err := smtp.SendMail("smtp.gmail.com:587", auth, from.Address, []string{to.Address}, []byte(message))
 	if err != nil {
 		return err
 	}
 	return nil
-
 }
 
 func (app *ServiceEmailSend) Service() *api_context.CommonResponse {

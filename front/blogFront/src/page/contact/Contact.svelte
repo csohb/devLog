@@ -153,6 +153,23 @@ async function onClickSend() {
   console.log("request:", request);
   await fetchEmailSend(request).then((resp) => {
     console.log("email resp:", resp);
+    popupStore.open({
+      title: "CONTACT",
+      text: "메일 발송 완료",
+      type: "alert",
+      isShow: false,
+      action: () => {
+        contents = "";
+        textCount = 0;
+        sendName = "";
+        errorName = false;
+        sendEmail = "";
+        errorEmail = false;
+        sendTell = "";
+        errorTell = false;
+        sendTitle = "";
+      },
+    });
   });
 }
 

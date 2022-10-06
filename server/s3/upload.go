@@ -1,7 +1,6 @@
 package s3
 
 import (
-	"bytes"
 	"context"
 	"crypto/md5"
 	"encoding/hex"
@@ -11,6 +10,7 @@ import (
 	"github.com/aws/aws-sdk-go-v2/feature/s3/manager"
 	"github.com/aws/aws-sdk-go-v2/service/s3"
 	"github.com/sirupsen/logrus"
+	"io"
 	"strings"
 	"time"
 )
@@ -67,7 +67,7 @@ func (u *Uploader) GetBucketList() (ret []string, err error) {
 	return ret, nil
 }
 
-func (u *Uploader) UploadFile(dirName, fileName, contentType string, file *bytes.Reader, useOrgName bool) (url string, err error) {
+func (u *Uploader) UploadFile(dirName, fileName, contentType string, file io.Reader, useOrgName bool) (url string, err error) {
 	if useOrgName == false {
 		tmp := strings.Split(fileName, ".")
 		ext := "." + tmp[len(tmp)-1]

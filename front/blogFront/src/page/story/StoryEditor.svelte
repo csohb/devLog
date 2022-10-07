@@ -78,9 +78,9 @@ function onChangeFile(file) {
   };
 
   let formData = new FormData();
-  formData.append("filename", file[0]);
+  formData.append("pic_name", file[0]);
   formData.append(
-    "key",
+    "dir_name",
     new Blob([JSON.stringify(info)], { type: "application/json" })
   );
 

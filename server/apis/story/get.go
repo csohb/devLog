@@ -4,6 +4,7 @@ import (
 	"devLog/common/api_context"
 	"devLog/database"
 	"devLog/server/apis/context"
+	"encoding/json"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -15,14 +16,15 @@ type GetStoryRequest struct {
 }
 
 type GetStoryResponse struct {
-	ID          string `json:"id"`
-	CreatedAt   string `json:"created_at"`
-	Title       string `json:"title"`
-	Type        string `json:"type"`
-	Content     string `json:"content"`
-	Description string `json:"description"`
-	Writer      string `json:"writer"`
-	View        int    `json:"view"`
+	ID          string   `json:"id"`
+	CreatedAt   string   `json:"created_at"`
+	Title       string   `json:"title"`
+	Type        string   `json:"type"`
+	Content     string   `json:"content"`
+	Images      []string `json:"images"`
+	Description string   `json:"description"`
+	Writer      string   `json:"writer"`
+	View        int      `json:"view"`
 }
 
 type ServiceGetStory struct {
@@ -37,12 +39,20 @@ func (app *ServiceGetStory) Service() *api_context.CommonResponse {
 		return api_context.FailureJSON(http.StatusInternalServerError, "get db data err")
 	}
 
+	images := make([]string, 10)
+
+	if err := json.Unmarshal([]byte(tb.Image), &images); err != nil {
+		app.Log.WithError(err).Error("cannot unmarshal images")
+		return api_context.FailureJSON(http.StatusInternalServerError, "get db data err")
+	}
+
 	resp := GetStoryResponse{
 		ID:          strconv.Itoa(int(tb.ID)),
 		CreatedAt:   tb.CreatedAt.Format("2006-01-02"),
 		Title:       tb.Title,
 		Type:        tb.Type,
 		Content:     tb.Content,
+		Images:      images,
 		Description: tb.Description,
 		Writer:      tb.Writer,
 		View:        tb.View,

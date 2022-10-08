@@ -4,6 +4,7 @@ import (
 	"devLog/common/api_context"
 	"devLog/database"
 	"devLog/server/apis/context"
+	"encoding/json"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -19,6 +20,7 @@ type GetBlogResponse struct {
 	Title       string   `json:"title"`
 	Description string   `json:"description"`
 	Content     string   `json:"content"`
+	Images      []string `json:"images"`
 	Date        string   `json:"date"`
 	Writer      string   `json:"writer"`
 	View        int      `json:"view"`
@@ -42,11 +44,19 @@ func (app *ServiceGetBlog) Service() *api_context.CommonResponse {
 		return api_context.FailureJSON(http.StatusInternalServerError, "블로그 상세 정보 불러오기 실패")
 	}
 
+	images := make([]string, 10)
+
+	if err := json.Unmarshal([]byte(tb.Image), &images); err != nil {
+		app.Log.WithError(err).Error("cannot unmarshal images")
+		return api_context.FailureJSON(http.StatusInternalServerError, "get db data err")
+	}
+
 	resp := GetBlogResponse{
 		ID:          strconv.Itoa(int(tb.ID)),
 		Title:       tb.Title,
 		Description: tb.Description,
 		Content:     tb.Content,
+		Images:      images,
 		Writer:      tb.Writer,
 		Date:        tb.UpdatedAt.Format("2006-01-02"),
 		View:        tb.View,

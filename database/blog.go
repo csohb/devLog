@@ -141,6 +141,7 @@ func (t *TBBlog) Update(db *gorm.DB, tagList []TBTag) error {
 	if err := engine.Updates(map[string]interface{}{
 		"title":   t.Title,
 		"content": t.Content,
+		"image":   t.Image,
 	}).Error; err != nil {
 		return err
 	}

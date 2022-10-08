@@ -4,6 +4,7 @@ import (
 	"devLog/common/api_context"
 	"devLog/database"
 	"devLog/server/apis/context"
+	"encoding/json"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 	"net/http"
@@ -14,6 +15,7 @@ type SaveBlogRequest struct {
 	Title       string   `json:"title"`
 	Description string   `json:"description"`
 	Content     string   `json:"content"`
+	Images      []string `json:"images"`
 	Writer      string   `json:"writer"`
 	Tags        []string `json:"tags"`
 }
@@ -24,11 +26,17 @@ type ServiceSaveBlog struct {
 }
 
 func (app *ServiceSaveBlog) Service() *api_context.CommonResponse {
+	bytes, err := json.Marshal(app.req.Images)
+	if err != nil {
+		app.Log.WithError(err).Error("json marshal error")
+		return api_context.FailureJSON(http.StatusBadRequest, "cannot marshal images url")
+	}
 
 	tb := database.TBBlog{
 		Model:       gorm.Model{CreatedAt: time.Now()},
 		Title:       app.req.Title,
 		Content:     app.req.Content,
+		Image:       string(bytes),
 		Description: app.req.Description,
 		Writer:      app.req.Writer,
 		Tags:        make([]database.TBTag, len(app.req.Tags)),
@@ -39,7 +47,7 @@ func (app *ServiceSaveBlog) Service() *api_context.CommonResponse {
 		}
 	}
 
-	err := app.DB.Create(&tb).Error
+	err = app.DB.Create(&tb).Error
 	if err != nil {
 		app.Log.Errorf("Create blog err : %+v", err)
 		return api_context.FailureJSON(http.StatusInternalServerError, "db create err")

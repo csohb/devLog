@@ -72,16 +72,16 @@ function onChangeFile(file) {
   console.log("file", file);
   fileName = file[0].name;
 
-  let info = {
-    file_name: "digimon",
-    dir_name: "blog",
+  let fileInfo = {
+    pic_name: fileName,
+    dir_name: "story",
   };
 
   let formData = new FormData();
   formData.append("filename", file[0]);
   formData.append(
-    "key",
-    new Blob([JSON.stringify(info)], { type: "application/json" })
+    "file_info",
+    new Blob([JSON.stringify(fileInfo)], { type: "application/json" })
   );
 
   for (var pair of formData.entries()) {

@@ -10,8 +10,8 @@ import (
 )
 
 type ImageUploadRequest struct {
-	FileName string `json:"file_name"`
-	DirName  string `json:"dir_name"`
+	FileName string `form:"pic_name"`
+	DirName  string `form:"dir_name"`
 }
 
 type ImageUploadResponse struct {
@@ -37,6 +37,7 @@ func (app *ServiceImageUpload) Service() *api_context.CommonResponse {
 	}
 
 	files := form.File["filename"]
+
 	if len(files) == 0 {
 		return api_context.NotFoundJSON("첨부된 파일이 없습니다.")
 	}

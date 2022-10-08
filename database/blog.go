@@ -13,6 +13,7 @@ type TBBlog struct {
 	gorm.Model
 	Title       string  `gorm:"column:title;type:varchar(100);comment:글 제목"`
 	Content     string  `gorm:"column:content;type:text;comment:"`
+	Image       string  `gorm:"column:image;type:text;comment:이미지"`
 	Description string  `gorm:"column:description;type:varchar(100);comment:설명"`
 	Writer      string  `gorm:"column:writer;type:varchar(20);comment:작성자"`
 	View        int     `gorm:"column:view;type:int(10);comment:조회수"`

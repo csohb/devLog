@@ -35,6 +35,8 @@ let files;
 let fileName = "";
 let src = "";
 
+let imageUrlArr = [];
+
 export let params = {
   id: "",
 };
@@ -50,8 +52,14 @@ onMount(() => {
     }
     authStore.setNick(loginNick);
   }
-  // 진입 파라미터가 수정이면 init
+  if (localStorage.getItem("s3_img_url")) {
+    let storageImg = localStorage.getItem("s3_img_url");
+
+    imageUrlArr = JSON.parse(storageImg);
+  }
+  console.log("imageUrlArr:", imageUrlArr);
   if (params.id !== "register") {
+    // 진입 파라미터가 수정이면 init
     init();
     return;
   }
@@ -66,6 +74,12 @@ onMount(() => {
 
 function onChangeFile(file) {
   if (file === undefined) {
+    return;
+  }
+  if (file.length === 0) {
+    return;
+  }
+  if (imageUrlArr.length > 10) {
     return;
   }
 
@@ -90,6 +104,13 @@ function onChangeFile(file) {
 
   imgUpload(formData).then((resp) => {
     console.log("upload:", resp);
+    imageUrlArr.push({
+      url: resp.file_url,
+      name: fileInfo.pic_name,
+    });
+    localStorage.setItem("s3_img_url", JSON.stringify(imageUrlArr));
+    imageUrlArr = imageUrlArr;
+    document.getElementById("ex_filename").value = "";
   });
 }
 
@@ -134,15 +155,23 @@ async function onClickSave() {
     return;
   }
 
+  let images = imageUrlArr.map((val) => {
+    return val.url;
+  });
+
+  console.log("images:", images);
+
   let request = {
     type: positionSelected,
     title,
     content: contents,
     description,
+    image: images,
   };
 
   await fetchStorySave(request).then((resp) => {
     console.log("등록 완료:::", resp);
+    localStorage.removeItem("s3_img_url");
     push("/story");
   });
 }
@@ -292,6 +321,19 @@ function handleAddFile(err, fileItem) {
                 bind:this="{fileinputEl}"
                 bind:files />
               <!--    accept="text/plain,.pdf" -->
+            </div>
+            <div>
+              <ul>
+                {#each imageUrlArr as img, index}
+                  <li>
+                    <strong style="color:#551a8b;"
+                      >{index + 1} {img.name} :
+                    </strong>
+                    {img.url}
+                  </li>
+                  <br />
+                {/each}
+              </ul>
             </div>
           </div>
           <div class="sub-story-detail-info">

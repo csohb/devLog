@@ -27,10 +27,15 @@ type ServiceUpdateBlog struct {
 }
 
 func (app *ServiceUpdateBlog) Service() *api_context.CommonResponse {
-	bytes, err := json.Marshal(app.req.Images)
-	if err != nil {
-		app.Log.WithError(err).Error("json marshal error")
-		return api_context.FailureJSON(http.StatusBadRequest, "cannot marshal images url")
+	var err error
+	var imgBytes []byte
+
+	if len(app.req.Images) > 0 {
+		imgBytes, err = json.Marshal(app.req.Images)
+		if err != nil {
+			app.Log.WithError(err).Error("json marshal error")
+			return api_context.FailureJSON(http.StatusBadRequest, "cannot marshal images url")
+		}
 	}
 
 	id, err := strconv.Atoi(app.req.ID)
@@ -52,7 +57,7 @@ func (app *ServiceUpdateBlog) Service() *api_context.CommonResponse {
 		Title:       app.req.Title,
 		Description: app.req.Description,
 		Content:     app.req.Content,
-		Image:       string(bytes),
+		Image:       string(imgBytes),
 	}
 
 	if err = tb.Update(app.DB, tags); err != nil {

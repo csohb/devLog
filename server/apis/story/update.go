@@ -34,10 +34,14 @@ func (app *ServiceUpdateStory) Service() *api_context.CommonResponse {
 		return api_context.FailureJSON(http.StatusBadRequest, "not valid sid")
 	}
 
-	bytes, err := json.Marshal(app.req.Images)
-	if err != nil {
-		app.Log.WithError(err).Error("json marshal error")
-		return api_context.FailureJSON(http.StatusBadRequest, "cannot marshal images url")
+	var imgBytes []byte
+
+	if len(app.req.Images) > 0 {
+		imgBytes, err = json.Marshal(app.req.Images)
+		if err != nil {
+			app.Log.WithError(err).Error("json marshal error")
+			return api_context.FailureJSON(http.StatusBadRequest, "cannot marshal images url")
+		}
 	}
 
 	tb := database.TBStory{
@@ -47,7 +51,7 @@ func (app *ServiceUpdateStory) Service() *api_context.CommonResponse {
 		Title:       app.req.Title,
 		Type:        app.req.Type,
 		Content:     app.req.Content,
-		Image:       string(bytes),
+		Image:       string(imgBytes),
 		Description: app.req.Description,
 	}
 

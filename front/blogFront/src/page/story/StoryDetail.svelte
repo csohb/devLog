@@ -90,9 +90,7 @@ onDestroy(() => {
             <span>{$storyStore.storyDetail.view}</span>
           </div>
           <div class="sub-story-detail-thumb">
-            <img
-              src="https://ridicorp.com/wp-content/uploads/2022/06/sf_1_thumb@0.5x.jpg"
-              alt="" />
+            <img src="{$storyStore.storyDetail.images[0]}" alt="" />
           </div>
         </div>
         <div class="sub-story-detail-contents">

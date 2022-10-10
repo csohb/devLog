@@ -6,7 +6,7 @@ type StoryRespListItem = {
   title: string;
   view: number;
   writer: string;
-  imgUrl?: string;
+  images?: string[];
 };
 export type StoryResp = {
   list: StoryRespListItem[];
@@ -22,6 +22,7 @@ export type StoryRespDetail = {
   title: string;
   view: number;
   writer: string;
+  images: string[] | null;
 };
 
 export type StoryUpdateResp = {};

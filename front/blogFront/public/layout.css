@@ -131,6 +131,16 @@
   animation-fill-mode: forwards;
 }
 
+.upload-images span {
+  width: calc(100% - 150px);
+  display: inline-block;
+}
+.upload-images .thumb {
+  width: 100px;
+  border: 1px solid #eee;
+  vertical-align: middle;
+}
+
 @keyframes span-first-on {
   0% {
     transform: translate(-50%, -300%);
@@ -268,5 +278,10 @@
 
   .footer {
     padding: 41px 0;
+  }
+
+  .upload-images span {
+    overflow: hidden;
+    word-wrap: break-word;
   }
 }

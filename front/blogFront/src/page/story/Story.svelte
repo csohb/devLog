@@ -30,7 +30,12 @@ function getCookie() {
           <List />
         </div>
         {#if $authStore.loginNick !== ""}
-          <a href="/story/edit/register" use:link>등록하기</a>
+          <a
+            href="/story/edit/register"
+            on:click="{() => {
+              localStorage.removeItem('s3_img_url');
+            }}"
+            use:link>등록하기</a>
         {/if}
       </div>
     </div>

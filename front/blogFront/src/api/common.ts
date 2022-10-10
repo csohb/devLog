@@ -52,7 +52,6 @@ reqresApi.interceptors.request.use((req) => {
   if (req.url === "/upload") {
     req.headers.Accept = "multipart/form-data";
   }
-  console.log("req", req);
   return req;
 });
 

@@ -130,6 +130,17 @@ async function init() {
   date = $storyStore.storyDetail.created_at;
   description = $storyStore.storyDetail.description;
   contents = `${$storyStore.storyDetail.content}`;
+  if ($storyStore.storyDetail.images !== null) {
+    const temp = $storyStore.storyDetail.images;
+    temp.map((val) => {
+      imageUrlArr.push({
+        url: val,
+        name: "등록된 이미지 불러오기",
+      });
+    });
+    console.log(imageUrlArr);
+    imageUrlArr = imageUrlArr;
+  }
 }
 
 function setToday() {
@@ -166,7 +177,7 @@ async function onClickSave() {
     title,
     content: contents,
     description,
-    image: images,
+    images: images,
   };
 
   await fetchStorySave(request).then((resp) => {
@@ -227,6 +238,7 @@ function onClickCancel() {
       resetValue();
       if (params.id === "register") {
         // 신규 등록
+        localStorage.removeItem("s3_img_url");
         push("/story");
         return;
       }
@@ -293,7 +305,7 @@ function handleAddFile(err, fileItem) {
           </p>
           <div class="sub-story-detail-thumb">
             <!-- 이미지 업로드   server="/api" -->
-            <p>메인 이미지 등록</p>
+            <p>이미지 등록 [ 첫번째가 메인 이미지 ]</p>
             <!-- 
             <FilePond
               name="메인이미지"
@@ -306,30 +318,34 @@ function handleAddFile(err, fileItem) {
             <!-- <img
               src="https://ridicorp.com/wp-content/uploads/2022/06/sf_1_thumb@0.5x.jpg"
               alt="" /> -->
+            {#if params.id === "register"}
+              <div class="filebox">
+                <input
+                  class="upload-name"
+                  value="{fileName}"
+                  placeholder="txt, pdf 첨부 가능"
+                  disabled />
 
-            <div class="filebox">
-              <input
-                class="upload-name"
-                value="{fileName}"
-                placeholder="txt, pdf 첨부 가능"
-                disabled />
-
-              <label for="ex_filename">첨부파일</label>
-              <input
-                type="file"
-                id="ex_filename"
-                bind:this="{fileinputEl}"
-                bind:files />
-              <!--    accept="text/plain,.pdf" -->
-            </div>
-            <div>
+                <label for="ex_filename">첨부파일</label>
+                <input
+                  type="file"
+                  id="ex_filename"
+                  bind:this="{fileinputEl}"
+                  bind:files />
+                <!--    accept="text/plain,.pdf" -->
+              </div>
+            {/if}
+            <div class="upload-images">
               <ul>
                 {#each imageUrlArr as img, index}
                   <li>
-                    <strong style="color:#551a8b;"
-                      >{index + 1} {img.name} :
-                    </strong>
-                    {img.url}
+                    <span>
+                      <strong style="color:#551a8b;"
+                        >{index + 1} {img.name} :
+                      </strong>
+                      {img.url}
+                    </span>
+                    <img class="thumb" src="{img.url}" alt="{img.name}" />
                   </li>
                   <br />
                 {/each}

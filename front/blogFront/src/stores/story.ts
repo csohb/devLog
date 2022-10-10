@@ -22,6 +22,7 @@ const storyStore = () => {
       description: "",
       title: "",
       writer: "",
+      images: [],
     },
   };
 
@@ -112,6 +113,7 @@ const storyStore = () => {
           description: "",
           title: "",
           writer: "",
+          images: [],
         };
         return state;
       });

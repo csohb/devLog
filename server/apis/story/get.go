@@ -41,9 +41,11 @@ func (app *ServiceGetStory) Service() *api_context.CommonResponse {
 
 	images := make([]string, 10)
 
-	if err := json.Unmarshal([]byte(tb.Image), &images); err != nil {
-		app.Log.WithError(err).Error("cannot unmarshal images")
-		return api_context.FailureJSON(http.StatusInternalServerError, "get db data err")
+	if len(tb.Image) > 0 {
+		if err := json.Unmarshal([]byte(tb.Image), &images); err != nil {
+			app.Log.WithError(err).Error("cannot unmarshal images")
+			return api_context.FailureJSON(http.StatusInternalServerError, "get db data err")
+		}
 	}
 
 	resp := GetStoryResponse{

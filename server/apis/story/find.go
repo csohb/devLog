@@ -4,6 +4,7 @@ import (
 	"devLog/common/api_context"
 	"devLog/database"
 	"devLog/server/apis/context"
+	"encoding/json"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -57,18 +58,29 @@ func (app *ServiceFindStory) Service() *api_context.CommonResponse {
 		} else {
 			work = ""
 		}
+
+		images := make([]string, 10)
+		if len(v.Image) > 0 {
+			if err := json.Unmarshal([]byte(v.Image), &images); err != nil {
+				app.Log.WithError(err).Error("cannot unmarshal images : ", v.Image)
+				return api_context.FailureJSON(http.StatusInternalServerError, "get db data err")
+			}
+		}
+
 		resp.List[i] = Story{
 			ID:          strconv.Itoa(int(v.ID)),
 			CreatedAt:   v.CreatedAt.Format("2006-01-02"),
 			Title:       v.Title,
 			Type:        work,
 			Content:     v.Content,
-			Image:       v.Image,
+			Image:       images[0],
 			Description: v.Description,
 			Writer:      v.Writer,
 			View:        v.View,
 		}
 	}
+
+	//app.Log.Info("resp.List : ", resp.List)
 
 	resp.Total = int(total)
 	return api_context.SuccessJSON(&resp)

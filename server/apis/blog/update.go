@@ -4,6 +4,7 @@ import (
 	"devLog/common/api_context"
 	"devLog/database"
 	"devLog/server/apis/context"
+	"encoding/json"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 	"net/http"
@@ -15,6 +16,7 @@ type UpdateBlogRequest struct {
 	ID          string   `json:"id"`
 	Title       string   `json:"title"`
 	Content     string   `json:"content"`
+	Images      []string `json:"images"`
 	Description string   `json:"description"`
 	Tags        []string `json:"tags"`
 }
@@ -25,6 +27,11 @@ type ServiceUpdateBlog struct {
 }
 
 func (app *ServiceUpdateBlog) Service() *api_context.CommonResponse {
+	bytes, err := json.Marshal(app.req.Images)
+	if err != nil {
+		app.Log.WithError(err).Error("json marshal error")
+		return api_context.FailureJSON(http.StatusBadRequest, "cannot marshal images url")
+	}
 
 	id, err := strconv.Atoi(app.req.ID)
 	if err != nil {
@@ -45,6 +52,7 @@ func (app *ServiceUpdateBlog) Service() *api_context.CommonResponse {
 		Title:       app.req.Title,
 		Description: app.req.Description,
 		Content:     app.req.Content,
+		Image:       string(bytes),
 	}
 
 	if err = tb.Update(app.DB, tags); err != nil {

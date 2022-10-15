@@ -48,12 +48,30 @@ function validation(): boolean {
   }
   return true;
 }
+let fileName = "";
+let fileinputEl: HTMLElement;
+let files = "";
 </script>
 
 {#if isEditMode}
   <div class="sub-about-introduce">
     <span>소개말 :</span>
     <textarea bind:value="{intro}"></textarea>
+    <span>프로필 이미지 :</span>
+    <div class="filebox">
+      <input
+        class="upload-name"
+        value="{fileName}"
+        placeholder="txt, pdf 첨부 가능"
+        disabled />
+
+      <label for="introduce_filename">첨부파일</label>
+      <input
+        type="file"
+        id="introduce_filename"
+        bind:this="{fileinputEl}"
+        bind:files />
+    </div>
     <button type="button" on:click="{editHandler}">프로필 내용 수정버튼</button>
   </div>
 {:else}

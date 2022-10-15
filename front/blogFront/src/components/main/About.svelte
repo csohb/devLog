@@ -16,6 +16,7 @@ function imgError(idx: number) {
 }
 
 function onClickAboutPage(name: string) {
+  localStorage.removeItem("s3_img_url");
   push(`/about?name=${name}`);
 }
 </script>

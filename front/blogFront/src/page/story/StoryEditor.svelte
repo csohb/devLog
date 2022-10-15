@@ -323,13 +323,14 @@ function handleAddFile(err, fileItem) {
                 <input
                   class="upload-name"
                   value="{fileName}"
-                  placeholder="txt, pdf 첨부 가능"
+                  placeholder="이미지만 첨부 가능"
                   disabled />
 
                 <label for="ex_filename">첨부파일</label>
                 <input
                   type="file"
                   id="ex_filename"
+                  accept="image/*"
                   bind:this="{fileinputEl}"
                   bind:files />
                 <!--    accept="text/plain,.pdf" -->

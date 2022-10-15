@@ -48,6 +48,9 @@
   margin-bottom: 30px;
   overflow-x: auto;
 }
+.sub-about-contents > div > img {
+  width: 70%;
+}
 .sub-about-contents > div:nth-child(even) {
   padding-left: 30px;
 }

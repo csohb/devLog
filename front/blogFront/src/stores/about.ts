@@ -66,7 +66,8 @@ const aboutStore = () => {
       name: string,
       intro: string,
       email: string,
-      addr: string
+      addr: string,
+      img: string
     ): Promise<any> {
       let requestData = {
         user_id: name,
@@ -74,6 +75,7 @@ const aboutStore = () => {
           intro,
           email,
           addr,
+          img,
         },
       };
       return await fetchUpdate(requestData);

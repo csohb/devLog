@@ -1,6 +1,9 @@
 package database
 
-import "gorm.io/gorm"
+import (
+	"gorm.io/gorm"
+	"strconv"
+)
 
 const TBNameTech = "TECH"
 
@@ -17,4 +20,23 @@ func (t TBTech) TableName() string {
 
 func (t TBTech) Create(db *gorm.DB) error {
 	return db.Create(&t).Error
+}
+
+func (t TBTech) Update(db *gorm.DB) error {
+	err := db.Model(&t).Where("id = ?", t.ID).Updates(map[string]interface{}{
+		"name":       t.Name,
+		"percentage": t.Percentage,
+	}).Error
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (t TBTech) Delete(db *gorm.DB, id string) error {
+	tid, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
+	return db.Model(&t).Delete("id = ?", tid).Error
 }

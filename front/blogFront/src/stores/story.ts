@@ -46,13 +46,13 @@ const storyStore = () => {
       update((state) => {
         state.listTotal = total;
         state.storyList = temp;
-        // 이미지 추가 되기 전까지 하드코딩
-        state.storyList.map((val) => {
-          Object.assign(val, {
-            imgUrl:
-              "https://ridicorp.com/wp-content/uploads/2022/06/sf_1_thumb@0.5x.jpg",
-          });
-        });
+
+        // state.storyList.map((val) => {
+        //   Object.assign(val, {
+        //     image:
+        //       "https://ridicorp.com/wp-content/uploads/2022/06/sf_1_thumb@0.5x.jpg",
+        //   });
+        // });
 
         return state;
       });

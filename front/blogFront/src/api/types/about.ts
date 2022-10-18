@@ -20,6 +20,11 @@ export type CrateSkillRequest = {
   user_id: string;
   tech: SkillListType[];
 };
+export type UpdateSkillRequest = {
+  id: string;
+  name: string;
+  percentage?: number;
+};
 
 export type ProfileType = {
   intro: string;

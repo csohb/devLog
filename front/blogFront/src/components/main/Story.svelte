@@ -26,6 +26,7 @@ async function init() {
     loading = true;
     // TODO: 리스트가 다 불러와져서 5개만 추출
     storyMainList = resp.list.slice(0, 5);
+    console.log(storyMainList);
   });
 }
 
@@ -73,13 +74,16 @@ $: resize(x);
               onClickPageMove(item.id);
             }}">
             <div class="main-story-img">
-              <!-- TODO: 이미지 등록 시 적용 -->
               <img
-                src="https://ridicorp.com/wp-content/uploads/2022/03/main-rsz-1-940x627.png"
-                alt="프로필 사진" />
+                src="{item.image === ''
+                  ? 'https://picsum.photos/seed/picsum/536/536'
+                  : item.image}"
+                alt="{item.title} 이미지" />
             </div>
             <div class="main-story-text">
-              <p class="main-story-text-label">Backend/Frontend</p>
+              <p class="main-story-text-label">
+                {item.type ? item.type : "Etc"}
+              </p>
               <h3>{item.title}</h3>
               <p class="mian-story-text-description">
                 {item.description}

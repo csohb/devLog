@@ -61,7 +61,12 @@ function resizeHandler() {
     <nav>
       <ul class="navbar-menu" bind:this="{navbarEl}">
         <li>
-          <a href="/about" use:link>About</a>
+          <a
+            href="/about"
+            on:click="{() => {
+              localStorage.removeItem('s3_img_url');
+            }}"
+            use:link>About</a>
         </li>
         <li>
           <a href="/blog" use:link>Blog</a>

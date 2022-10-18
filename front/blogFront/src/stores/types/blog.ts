@@ -8,6 +8,7 @@ export type BlogList = {
   date?: string;
   writer: string;
   description?: string;
+  images: string[];
 };
 
 export type BlogStore = {

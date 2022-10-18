@@ -24,30 +24,40 @@ function onClickViewCount(id: string) {
 </script>
 
 <ul class="sub-story-list">
-  {#each $storyStore.storyList as item, idx}
-    <li class="sub-story-item">
-      <a
-        href="/story/{item.id}"
-        use:link
-        on:click="{() => {
-          onClickViewCount(item.id);
-        }}">
-        <div class="sub-story-content-img">
-          <img src="{item.imgUrl}" alt="sample" />
-        </div>
-        <div class="sub-story-content-text">
-          <!-- TODO: 셀렉트박스로 선택할 수 있도록 하기 -->
-          <span>{item.type ? item.type : "Etc"}</span>
-          <h2>{item.title}</h2>
-          <p>{@html item.description}</p>
-        </div>
-      </a>
-    </li>
-  {/each}
+  {#if $storyStore.storyList.length !== 0}
+    {#each $storyStore.storyList as item, idx}
+      <li class="sub-story-item">
+        <a
+          href="/story/{item.id}"
+          use:link
+          on:click="{() => {
+            onClickViewCount(item.id);
+          }}">
+          <div class="sub-story-content-img">
+            <img
+              src="{item.image === ''
+                ? 'https://picsum.photos/seed/picsum/536/536'
+                : item.image}"
+              alt="sample" />
+          </div>
+          <div class="sub-story-content-text">
+            <!-- TODO: 셀렉트박스로 선택할 수 있도록 하기 -->
+            <span>{item.type ? item.type : "Etc"}</span>
+            <h2>{item.title}</h2>
+            <p>{@html item.description}</p>
+          </div>
+        </a>
+      </li>
+    {/each}
+  {:else}
+    <li class="sub-story-item">등록된 내용이 없습니다.</li>
+  {/if}
 </ul>
 
-<Pagination
-  bind:page
-  count="{$storyStore.listTotal}"
-  bind:pageSize="{count}"
-  on:change="{setPagination}" />
+{#if $storyStore.storyList.length !== 0}
+  <Pagination
+    bind:page
+    count="{$storyStore.listTotal}"
+    bind:pageSize="{count}"
+    on:change="{setPagination}" />
+{/if}

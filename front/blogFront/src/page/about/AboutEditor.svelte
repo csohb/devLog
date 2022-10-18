@@ -294,7 +294,11 @@ function onClickRouter() {
               </li>
               <li>
                 <span>percentage :</span>
-                <input type="number" min="0" bind:value="{percentage}" />
+                <input
+                  type="number"
+                  min="0"
+                  max="100"
+                  bind:value="{percentage}" />
               </li>
             </ul>
 

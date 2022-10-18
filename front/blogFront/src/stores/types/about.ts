@@ -20,6 +20,7 @@ type CareerType = {
 type KeywordType = {
   id: string;
   name: string;
+  isEditMode: boolean;
 };
 type SkillType = {
   id: string;

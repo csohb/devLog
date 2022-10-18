@@ -358,6 +358,9 @@
   color: #212529;
   margin-top: 24px;
 }
+.sub-blog-detail-title .filebox .upload-name {
+  width: auto;
+}
 .sub-blog-detail-info {
   margin-top: 40px;
   font-size: 16px;
@@ -894,6 +897,9 @@
     text-align: center;
   }
   .sub-contact-action button {
+    width: 100%;
+  }
+  .sub-blog-detail-title .filebox .upload-name {
     width: 100%;
   }
 }

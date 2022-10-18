@@ -5,6 +5,7 @@ import {
   fetchCrateSkill,
   fetchDeleteCareer,
   fetchDeleteProject,
+  fetchDeleteSkill,
   fetchIntroduce,
   fetchUpdate,
   fetchUpdateCareer,
@@ -52,6 +53,9 @@ const aboutStore = () => {
               isEditMode: false,
             });
             Object.assign(state.project, {
+              isEditMode: false,
+            });
+            Object.assign(state.keywords, {
               isEditMode: false,
             });
             return state;
@@ -131,6 +135,29 @@ const aboutStore = () => {
     },
     async crateSkill(req: CrateSkillRequest): Promise<any> {
       return await fetchCrateSkill(req);
+    },
+    async deleteSkill(id: string): Promise<any> {
+      return await fetchDeleteSkill(id);
+    },
+    skillEditMode(idx: number) {
+      update((state) => {
+        if (!state.keywords[idx].isEditMode) {
+          state.keywords.map((val) => {
+            val.isEditMode = false;
+          });
+        }
+        state.keywords[idx].isEditMode = !state.keywords[idx].isEditMode;
+        return state;
+      });
+    },
+    getSkillPercentage(id: string) {
+      let percentage = 0;
+      state.skills.map((val) => {
+        if (val.id === id) {
+          percentage = val.percentage;
+        }
+      });
+      return percentage;
     },
     resetAbout() {
       update((state) => {

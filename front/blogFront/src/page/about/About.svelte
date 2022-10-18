@@ -95,7 +95,7 @@ onDestroy(() => {
             <Skills />
           </div>
           <div class="sub-about-keywords">
-            <Knowledges />
+            <Knowledges isEditMode="{isEditMode}" currentTab="{currentTab}" />
           </div>
         </div>
         {#if $authStore.loginNick !== "" && $authStore.loginNick === currentTab}

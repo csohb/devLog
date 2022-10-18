@@ -9,6 +9,7 @@ import { fetchBlogSave, fetchBlogUpdate } from "../../api/blog";
 import blogStore from "../../stores/blog";
 import popupStore from "../../stores/popup";
 import authStore from "../../stores/auth";
+import { imgUpload } from "../../api/contact";
 
 let title = "";
 let tag = "";
@@ -18,6 +19,11 @@ let isSave = false;
 let tagList = [];
 let writer = "";
 let date = "";
+
+let fileinputEl;
+let files;
+let fileName = "";
+let imageUrlArr = [];
 
 export let params = {
   id: "",
@@ -40,6 +46,11 @@ onMount(() => {
   }
   // writer 설정 필요
   writer = $authStore.loginNick;
+  if (localStorage.getItem("s3_img_url")) {
+    let storageImg = localStorage.getItem("s3_img_url");
+
+    imageUrlArr = JSON.parse(storageImg);
+  }
   setToday();
 });
 
@@ -53,6 +64,17 @@ async function init() {
   description = $blogStore.blogDetail.description;
   writer = $blogStore.blogDetail.writer;
   date = $blogStore.blogDetail.date;
+
+  if ($blogStore.blogDetail.images !== null) {
+    const temp = $blogStore.blogDetail.images;
+    temp.map((val) => {
+      imageUrlArr.push({
+        url: val,
+        name: "등록된 이미지 불러오기",
+      });
+    });
+    imageUrlArr = imageUrlArr;
+  }
 }
 
 function setToday() {
@@ -157,6 +179,10 @@ async function onClickSave() {
     return;
   }
 
+  let images = imageUrlArr.map((val) => {
+    return val.url;
+  });
+
   // writer 를 세션에서 가져와야 할 것 같은데,,
   await fetchBlogSave({
     title,
@@ -164,9 +190,11 @@ async function onClickSave() {
     writer,
     description,
     tags: tagList,
+    images,
   })
     .then(() => {
       alert("저장 완료!");
+      localStorage.removeItem("s3_img_url");
       isSave = true;
     })
     .catch((err) => {
@@ -183,6 +211,11 @@ function resetValue() {
   description = "";
   isSave = false;
   date = "";
+
+  // 파일
+  files = "";
+  fileName = "";
+  imageUrlArr = [];
 }
 
 function onClickCancel() {
@@ -209,6 +242,51 @@ function onClickCancel() {
     },
   });
 }
+
+// 이미지 업로드
+function onChangeFile(file) {
+  if (file === undefined) {
+    return;
+  }
+  if (file.length === 0) {
+    return;
+  }
+  if (imageUrlArr.length > 10) {
+    return;
+  }
+
+  console.log("file", file);
+  fileName = file[0].name;
+
+  let fileInfo = {
+    pic_name: fileName,
+    dir_name: "story",
+  };
+
+  let formData = new FormData();
+  formData.append("filename", file[0]);
+  formData.append(
+    "file_info",
+    new Blob([JSON.stringify(fileInfo)], { type: "application/json" })
+  );
+
+  for (var pair of formData.entries()) {
+    console.log(pair[0] + ", " + JSON.stringify(pair[1]));
+  }
+
+  imgUpload(formData).then((resp) => {
+    console.log("upload:", resp);
+    imageUrlArr.push({
+      url: resp.file_url,
+      name: fileInfo.pic_name,
+    });
+    localStorage.setItem("s3_img_url", JSON.stringify(imageUrlArr));
+    imageUrlArr = imageUrlArr;
+    document.getElementById("blog_filename").value = "";
+  });
+}
+
+$: onChangeFile(files);
 
 onDestroy(() => {
   resetValue();
@@ -244,6 +322,41 @@ onDestroy(() => {
               placeholder="블로그에 대한 간단한 내용을 적어주세요."
               style="resize: none;"></textarea>
           </p>
+          {#if params.id === "register"}
+            <div class="filebox">
+              <input
+                class="upload-name"
+                value="{fileName}"
+                placeholder="이미지만 첨부 가능"
+                disabled />
+
+              <label for="blog_filename">첨부파일</label>
+              <input
+                type="file"
+                id="blog_filename"
+                accept="image/*"
+                bind:this="{fileinputEl}"
+                bind:files />
+              <!--    accept="text/plain,.pdf" -->
+            </div>
+          {/if}
+          <div class="upload-images">
+            <ul>
+              {#each imageUrlArr as img, index}
+                <li>
+                  <span>
+                    <strong style="color:#551a8b;"
+                      >{index + 1} {img.name} :
+                    </strong>
+                    {img.url}
+                  </span>
+                  <img class="thumb" src="{img.url}" alt="{img.name}" />
+                </li>
+                <br />
+              {/each}
+            </ul>
+          </div>
+
           <div class="sub-blog-detail-info">
             <span>{date}</span>
             <span>|</span>

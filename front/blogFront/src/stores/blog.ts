@@ -22,6 +22,7 @@ const blogStore = () => {
       date: "",
       description: "",
       writer: "",
+      images: [],
     },
     tagList: [],
   };
@@ -119,6 +120,7 @@ const blogStore = () => {
           date: "",
           description: "",
           writer: "",
+          images: [],
         };
         return state;
       });

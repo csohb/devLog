@@ -128,9 +128,11 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 
 	var skillsNum int
 
+	app.Log.Info("tech", ret.Tech)
+
 	keywordList := make([]Keyword, len(ret.Tech))
 	for i, v := range ret.Tech {
-		if v.Percentage != 0 {
+		if v.Percentage > 0 {
 			skillsNum++
 		}
 		keywordList[i] = Keyword{
@@ -139,10 +141,15 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 		}
 	}
 
+	app.Log.Info("keywords", keywordList)
+	app.Log.Info("skillsNum:", skillsNum)
+
 	skillsList := make([]Skill, skillsNum)
-	for i, v := range ret.Tech {
-		if v.Percentage != 0 {
-			skillsList[i] = Skill{
+	var index int
+	for _, v := range ret.Tech {
+		if v.Percentage > 0 {
+			index++
+			skillsList[index-1] = Skill{
 				ID:         strconv.Itoa(int(v.ID)),
 				Name:       v.Name,
 				Percentage: v.Percentage,

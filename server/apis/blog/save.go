@@ -5,6 +5,7 @@ import (
 	"devLog/database"
 	"devLog/server/apis/context"
 	"encoding/json"
+	"fmt"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 	"net/http"
@@ -32,13 +33,16 @@ func (app *ServiceSaveBlog) Service() *api_context.CommonResponse {
 		return api_context.FailureJSON(http.StatusBadRequest, "cannot marshal images url")
 	}
 
+	userId := app.AuthInfo.GetUserID(app.Context)
+	fmt.Println("userId : ", userId)
+
 	tb := database.TBBlog{
 		Model:       gorm.Model{CreatedAt: time.Now()},
 		Title:       app.req.Title,
 		Content:     app.req.Content,
 		Image:       string(bytes),
 		Description: app.req.Description,
-		Writer:      app.req.Writer,
+		Writer:      app.AuthInfo.GetUserID(app.Context),
 		Tags:        make([]database.TBTag, len(app.req.Tags)),
 	}
 	for i, v := range app.req.Tags {

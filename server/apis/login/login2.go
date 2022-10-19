@@ -3,9 +3,7 @@ package login
 import (
 	"devLog/common/api_context"
 	"devLog/database"
-	"devLog/server/apis/auth"
 	"devLog/server/apis/context"
-	"fmt"
 	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 	"github.com/pkg/errors"
@@ -14,26 +12,34 @@ import (
 	"time"
 )
 
-type RequestLogin struct {
+type RequestLogin2 struct {
 	UserID   string `json:"id"`
 	Password string `json:"password"`
 }
 
-type ResponseLogin struct {
-	UserID string `json:"user_id"`
+type ResponseLogin2 struct {
+	Token string `json:"token"`
 }
 
-type ServiceLogin struct {
+type ServiceLogin2 struct {
 	*context.Context
 	req RequestLogin
 }
 
-type User struct {
+type Claim struct {
+	UserID string
+	jwt.StandardClaims
+}
+
+type User2 struct {
 	ID  string `json:"id"`
 	Pwd string `json:"pwd"`
 }
 
-func (u *User) GetJwtToken() (string, error) {
+var expirationTime = 30 * time.Minute
+var JwtKey = []byte("v_^.^_v")
+
+func (u *User2) GetJwtToken() (string, error) {
 	expire := time.Now().Add(expirationTime)
 	claims := &Claim{
 		UserID: u.ID,
@@ -51,8 +57,7 @@ func (u *User) GetJwtToken() (string, error) {
 	}
 }
 
-func (app *ServiceLogin) Service() *api_context.CommonResponse {
-
+func (app *ServiceLogin2) Service() *api_context.CommonResponse {
 	// id find
 	tb := database.TBUser{}
 	if err := tb.CheckID(app.DB, app.req.UserID); err != nil {
@@ -68,45 +73,24 @@ func (app *ServiceLogin) Service() *api_context.CommonResponse {
 		return api_context.FailureJSON(http.StatusBadRequest, "비밀번호가 일치하지 않습니다.")
 	}
 
-	// auth info create
-	authInfo := context.AuthHandler{
-		UserId:    app.req.UserID,
-		LoginDate: time.Now(),
-	}
-
-	if err := app.AuthInfo.SetCookie(app.Context, app.req.UserID); err != nil {
-		logrus.WithError(err).Error("Create User Error")
-	}
-
-	fmt.Println("authInfo : ", authInfo)
-
-	_, err := auth.CreateSession(app.Context, app.req.UserID)
-	if err != nil {
-		app.Log.WithError(err).Error("session create failed.")
-		return api_context.FailureJSON(http.StatusInternalServerError, "세션 생성 실패")
-	}
-
-	app.AuthInfo = authInfo
-
-	resp := ResponseLogin{}
-	resp.UserID = app.req.UserID
+	resp := ResponseLogin2{}
 
 	return api_context.SuccessJSON(&resp)
 }
 
-func (app *ServiceLogin) GetRequestData() interface{} {
+func (app *ServiceLogin2) GetRequestData() interface{} {
 	return &app.req
 }
 
-func (app ServiceLogin) ApiName() interface{} {
+func (app ServiceLogin2) ApiName() interface{} {
 	return "devLog-login"
 }
 
-func (app ServiceLogin) IsRequiredAuth() bool {
+func (app ServiceLogin2) IsRequiredAuth() bool {
 	return false
 }
 
-func ProcessLogin(c echo.Context) error {
+func ProcessLogin2(c echo.Context) error {
 	return api_context.Process(&ServiceLogin{
 		Context: c.(*context.Context),
 	})

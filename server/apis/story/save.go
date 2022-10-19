@@ -25,7 +25,6 @@ type ServiceSaveStory struct {
 }
 
 func (app *ServiceSaveStory) Service() *api_context.CommonResponse {
-
 	bytes, err := json.Marshal(app.req.Images)
 	if err != nil {
 		app.Log.WithError(err).Error("json marshal error")

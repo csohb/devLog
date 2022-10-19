@@ -2,18 +2,30 @@ package auth
 
 import (
 	"fmt"
+	"github.com/golang-jwt/jwt"
 	"github.com/gorilla/sessions"
 	"github.com/labstack/echo-contrib/session"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/sirupsen/logrus"
 	"net/http"
+	"strings"
+	"time"
 )
 
 const sessionKey = "auth"
 const sessionVerifyTime = 12 * 3600
+const TokenExpires = 24 * time.Hour * 90
+
+const secretKey = "devlog_jjang"
 
 type SessionAuthInfo struct {
 	UserID string `json:"user_id"`
+}
+
+type AdminToken struct {
+	UserID string `json:"user_id"`
+	jwt.StandardClaims
 }
 
 func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
@@ -46,4 +58,32 @@ func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
 
 	logrus.Debugf("session : %+v", sess)
 	return auth, nil
+}
+
+func CreateJwtToken(userId string) (string, int64) {
+	admin := &AdminToken{
+		UserID: userId,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(TokenExpires).Unix(),
+		},
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, admin)
+
+	signedToken, err := token.SignedString([]byte(secretKey))
+	if err != nil {
+		logrus.WithError(err).Errorf("token signed failure - admin:%v", admin)
+	}
+	return signedToken, admin.StandardClaims.ExpiresAt
+}
+
+func MiddlewareJWT() echo.MiddlewareFunc {
+	config := middleware.JWTConfig{
+		Skipper: func(c echo.Context) bool {
+			return strings.HasPrefix(c.Request().RequestURI, "/api/v1/admin")
+		},
+		SigningKey: []byte(secretKey),
+		Claims:     &AdminToken{},
+	}
+	return middleware.JWTWithConfig(config)
 }

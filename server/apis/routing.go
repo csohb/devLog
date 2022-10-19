@@ -1,6 +1,7 @@
 package apis
 
 import (
+	"devLog/server/apis/auth"
 	"devLog/server/apis/blog"
 	"devLog/server/apis/career"
 	"devLog/server/apis/email"
@@ -15,6 +16,8 @@ import (
 )
 
 func RoutingForDevLog(grp *echo.Group) {
+	grp.Use(auth.MiddlewareJWT())
+
 	// main page
 	grp.GET("/main/introduce", mainpage.ProcessProfileList)
 	grp.GET("/main/blog", mainpage.ProcessNewestBlogList)

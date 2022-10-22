@@ -37,10 +37,10 @@ export function fetchCrateSkill(request: CrateSkillRequest): Promise<any> {
   return reqresApi.post("/introduce/tech/create", request);
 }
 export function fetchUpdateSkill(request: UpdateSkillRequest): Promise<any> {
-  return reqresApi.put("introduce/tech/update", request);
+  return reqresApi.put("/introduce/tech/update", request);
 }
 export function fetchDeleteSkill(id: string): Promise<any> {
-  return reqresApi.delete(`introduce/tech/delete/${id}`);
+  return reqresApi.delete(`/introduce/tech/delete/${id}`);
 }
 
 export function fetchUpdate(request: UpdateProfile): Promise<any> {

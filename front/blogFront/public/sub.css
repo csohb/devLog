@@ -798,6 +798,12 @@
   margin-bottom: 8px;
   font-size: 12px;
 }
+@media screen and (max-width: 1055px) {
+  /* about / skills */
+  .progress-bar-item {
+    font-size: 12px;
+  }
+}
 @media screen and (max-width: 768px) {
   /* about */
   .sub-about-contents > div {
@@ -902,10 +908,11 @@
   .sub-blog-detail-title .filebox .upload-name {
     width: 100%;
   }
-}
-@media screen and (max-width: 350px) {
   /* about / skills */
   .progress-bar-item {
     width: 50%;
+    font-size: 15px;
   }
+}
+@media screen and (max-width: 350px) {
 }

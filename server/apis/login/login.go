@@ -6,9 +6,7 @@ import (
 	"devLog/server/apis/auth"
 	"devLog/server/apis/context"
 	"fmt"
-	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
-	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 	"net/http"
 	"time"
@@ -33,7 +31,7 @@ type User struct {
 	Pwd string `json:"pwd"`
 }
 
-func (u *User) GetJwtToken() (string, error) {
+/*func (u *User) GetJwtToken() (string, error) {
 	expire := time.Now().Add(expirationTime)
 	claims := &Claim{
 		UserID: u.ID,
@@ -49,7 +47,7 @@ func (u *User) GetJwtToken() (string, error) {
 	} else {
 		return tokenString, nil
 	}
-}
+}*/
 
 func (app *ServiceLogin) Service() *api_context.CommonResponse {
 

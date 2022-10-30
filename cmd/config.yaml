@@ -1,0 +1,24 @@
+server_name: 'devLog-server'
+
+log:
+  path: '/Users/yeong/blog/devLog/bin/log'
+  level: 'debug'
+  name: 'server-log'
+
+web:
+  base_url: 'http://localhost:8081'
+  app: 'template/index.html'
+  public_path: '/Users/yeong/blog/devLog/front/blogFront/public'
+  session_timeout:
+  download_directory:
+
+email:
+  yeong_email: 'kyj210@gmail.com'
+  yeong_pwd: 'pcbvcrcqepncgfcp'
+  yujin_email: 'contact.youjinkwon@gmail.com'
+  yujin_pwd: 'tkkrzchbpqldhobo'
+
+s3:
+  bucket: 'yj-devlog'
+  cfg_file: '/Users/yeong/blog/devLog/bin/aws/config'
+  credentials: '/Users/yeong/blog/devLog/bin/aws/credentials'

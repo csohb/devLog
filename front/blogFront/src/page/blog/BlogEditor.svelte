@@ -193,9 +193,17 @@ async function onClickSave() {
     images,
   })
     .then(() => {
-      alert("저장 완료!");
-      localStorage.removeItem("s3_img_url");
-      isSave = true;
+      popupStore.open({
+        title: "Blog",
+        text: "저장완료!",
+        type: "alert",
+        isShow: false,
+        action: () => {
+          localStorage.removeItem("s3_img_url");
+          isSave = true;
+          push("/blog");
+        },
+      });
     })
     .catch((err) => {
       console.log("blog save err :", err);

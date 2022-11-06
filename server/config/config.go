@@ -26,7 +26,8 @@ type Redis struct {
 }
 
 type Server struct {
-	Listen string `yaml:"listen"`
+	Host   string `yaml:"host"`
+	Port   string `yaml:"port"`
 	SSLUse bool   `yaml:"ssl_use"`
 	SSLKey string `yaml:"ssl_key"`
 	SSLCrt string `yaml:"ssl_crt"`

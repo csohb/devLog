@@ -1,6 +1,6 @@
-!/bin/
-/bin/
 !/aws/
 !/aws/
 !/aws/config
 !/aws/credentials
+bin/log/
+bin/config/

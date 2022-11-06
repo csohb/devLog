@@ -85,7 +85,7 @@ func main() {
 	request := resty.New()
 	context.InitContext(e, logrus.StandardLogger(), db, request, cfg)
 
-	e.Start("localhost:8081")
+	e.Start(":8081")
 
 }
 

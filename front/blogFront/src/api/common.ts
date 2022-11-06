@@ -24,9 +24,13 @@ interface CustomInstance extends AxiosInstance {
   patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
 }
 
+//const url: any = __devlog.env.baseUrl;
+const url = process.env.BASE_URL;
+// console.log("env:", url);
+
 // axios 객체 하나만들어두고 재사용하기
 const reqresApi: CustomInstance = axios.create({
-  baseURL: "http://localhost:8081/api/v1", // Url 나중에 env 로 빼기
+  baseURL: `${url}/api/v1`, // Url 나중에 env 로 빼기
   timeout: 15000, // timeout 15초
 });
 

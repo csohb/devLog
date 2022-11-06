@@ -3,16 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "rollup -c",
-    "dev": "rollup -c -w",
+    "build": "rollup -c --environment MODE:dev",
+    "dev": "rollup -c -w --environment MODE:local",
     "start": "sirv public --no-clear",
     "check": "svelte-check --tsconfig ./tsconfig.json"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-node-resolve": "^11.0.0",
+    "@rollup/plugin-replace": "^5.0.1",
     "@rollup/plugin-typescript": "^8.0.0",
     "@tsconfig/svelte": "^2.0.0",
+    "dotenv": "^16.0.3",
     "prettier": "^2.7.1",
     "prettier-plugin-svelte": "^2.7.0",
     "rollup": "^2.3.4",

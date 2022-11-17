@@ -84,7 +84,10 @@ func (t *TBUser) GetIntroduceForMainPage(db *gorm.DB) (ret []TBUser, err error) 
 }
 
 func (t *TBUser) GetIntroduce(db *gorm.DB, userID string) (ret TBUser, err error) {
-	if err = db.Model(&t).Preload("Introduce").Preload("Project").Preload("Career").Preload("Tech").
+	if err = db.Model(&t).Preload("Introduce").
+		Preload("Project").
+		Preload("Career").
+		Preload("Tech").
 		Take(&ret, "id = ?", userID).Error; err != nil {
 		return ret, err
 	}

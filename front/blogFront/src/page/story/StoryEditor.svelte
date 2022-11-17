@@ -22,6 +22,7 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview);
 const positions = [
   { val: "B", text: "Backend" },
   { val: "F", text: "Frontend" },
+  { val: "", text: "Etc" },
 ];
 let positionSelected = "B";
 let writer = "";
@@ -276,7 +277,6 @@ function handleAddFile(err, fileItem) {
         <h1 class="sub-page-title">Story</h1>
         <div class="sub-story-detail-title">
           <span>
-            <!-- backend / frontend 선택 -->
             <select
               bind:value="{positionSelected}"
               on:change="{changePosition}">
@@ -286,6 +286,7 @@ function handleAddFile(err, fileItem) {
                 </option>
               {/each}
             </select>
+            <i class="sub-story-select-arrow down" role="img"></i>
           </span>
           <h2><input type="text" placeholder="제목" bind:value="{title}" /></h2>
           <p>
@@ -296,12 +297,10 @@ function handleAddFile(err, fileItem) {
               bind:value="{description}"></textarea>
           </p>
           <p>
-            {#if contents !== ""}
-              <Editor
-                on:change="{({ detail }) => (contents = detail)}"
-                html="{contents}"
-                height="{'200px'}" />
-            {/if}
+            <Editor
+              on:change="{({ detail }) => (contents = detail)}"
+              html="{contents}"
+              height="{'200px'}" />
           </p>
           <div class="sub-story-detail-thumb">
             <!-- 이미지 업로드   server="/api" -->
@@ -360,7 +359,7 @@ function handleAddFile(err, fileItem) {
           </div>
         </div>
         <div class="sub-story-detail-contents">
-          {#if params.id === "register"}등록{:else}수정{/if}
+          {#if params.id === "register"}등록중...{:else}수정중...{/if}
         </div>
         <div class="sub-story-detail-btn">
           {#if params.id === "register"}

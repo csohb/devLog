@@ -200,7 +200,7 @@ $: validateCheckTell(sendTell);
         </div>
         <div class="sub-contact-contents">
           <div class="sub-contact-title">
-            <p>ㅁㅁㅁ 문의</p>
+            <p>메일 문의하기</p>
             <p>문의사항에 대한 답변은 일주일 안에 회신드리겠습니다.</p>
           </div>
           <div class="sub-contact-form">

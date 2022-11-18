@@ -85,7 +85,8 @@ func main() {
 	request := resty.New()
 	context.InitContext(e, logrus.StandardLogger(), db, request, cfg)
 
-	e.Start(":8081")
+	port := cfg.Server.Port
+	e.Start(port)
 
 }
 

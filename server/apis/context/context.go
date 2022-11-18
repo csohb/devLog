@@ -69,8 +69,11 @@ func (a AuthHandler) ParseAuthorization(c echo.Context) *api_context.CommonRespo
 
 	sess.Options = &sessions.Options{
 		Path:     SessionPath,
+		Domain:   ".yjproject.blog",
 		MaxAge:   MaxAge,
-		HttpOnly: true,
+		Secure:   false,
+		HttpOnly: false,
+		SameSite: http.SameSiteDefaultMode,
 	}
 
 	if val, has := sess.Values["auth"]; has == false {
@@ -143,10 +146,22 @@ func (a AuthHandler) SetSessionAuth(sess *sessions.Session, auth AuthHandler) {
 }
 
 func (a AuthHandler) SetCookie(c echo.Context, userID string) error {
-	cookie := new(http.Cookie)
-	cookie.Name = "user_id"
-	cookie.Value = userID
-	cookie.Expires = time.Now().Add(24 * time.Hour)
+	/*cookie := new(http.Cookie)
+	  cookie.Name = "user_id"
+	  cookie.Value = userID
+	  cookie.Expires = time.Now().Add(24 * time.Hour)
+	  cookie.Domain = ".yjproject.blog"
+	  cookie.HttpOnly = false*/
+	cookie := &http.Cookie{
+		Name:     "user_id",
+		Value:    userID,
+		Path:     "/",
+		Domain:   ".yjproject.blog",
+		Expires:  time.Now().Add(24 * time.Hour),
+		HttpOnly: false,
+		SameSite: http.SameSiteLaxMode,
+	}
+
 	c.SetCookie(cookie)
 	return nil
 }

@@ -41,9 +41,10 @@ func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
 
 	sess.Options = &sessions.Options{
 		Path:     "/api/v1",
+		Domain:   ".yjproject.blog",
 		MaxAge:   sessionVerifyTime,
-		Secure:   false,
-		HttpOnly: true,
+		Secure:   true,
+		HttpOnly: false,
 		SameSite: http.SameSiteDefaultMode,
 	}
 

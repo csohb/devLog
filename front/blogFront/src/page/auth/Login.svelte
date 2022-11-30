@@ -2,17 +2,19 @@
 import Footer from "../../components/Footer.svelte";
 import Header from "../../components/Header.svelte";
 import authStore from "../../stores/auth";
+import popupStore from "../../stores/popup";
 import { push } from "svelte-spa-router";
 
 let id: string = "";
 let pw: string = "";
+let inputEnter: boolean = false;
 
 function loginHandler() {
   authStore
     .postLogin(id, pw)
     .then((resp: any) => {
       authStore.setNick(resp.user_id);
-      setCookie(resp.user_id);
+      // setCookie(resp.user_id);
       id = "";
       pw = "";
       push("/");
@@ -21,7 +23,16 @@ function loginHandler() {
       authStore.setNick("");
       id = "";
       pw = "";
-      alert("로그인 실패");
+      popupStore.open({
+        title: "LOGIN",
+        text: "로그인에 실패하였습니다.",
+        btn: "확인",
+        type: "alert",
+        isShow: false,
+        action: () => {
+          inputEnter = false;
+        },
+      });
     });
 }
 
@@ -52,6 +63,15 @@ function setCookie(value: string) {
             type="password"
             name="password"
             bind:value="{pw}"
+            on:keypress="{(e) => {
+              if (inputEnter) {
+                return;
+              }
+              if (e.code == 'Enter') {
+                inputEnter = true;
+                loginHandler();
+              }
+            }}"
             placeholder="비밀번호를 입력해주세요." />
           <button type="button" on:click="{loginHandler}">로그인 하기</button>
         </form>

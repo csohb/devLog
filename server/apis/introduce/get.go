@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 )
 
 type GetIntroduceRequest struct {
@@ -26,6 +27,15 @@ type Profi struct {
 	Birthday    string `json:"birthday"`
 }
 
+type CareerDB struct {
+	ID        string    `json:"id"`
+	Company   string    `json:"company"`
+	StartDate time.Time `json:"start_date"`
+	EndDate   time.Time `json:"end_date"`
+	JobTitle  string    `json:"job_title"`
+	JobDetail string    `json:"job_detail"`
+}
+
 type Career struct {
 	ID        string `json:"id"`
 	Company   string `json:"company"`
@@ -33,6 +43,16 @@ type Career struct {
 	EndDate   string `json:"end_date"`
 	JobTitle  string `json:"job_title"`
 	JobDetail string `json:"job_detail"`
+}
+
+type ProjectDB struct {
+	ID          string    `json:"id"`
+	Name        string    `json:"name"`
+	IsPersonal  bool      `json:"is_personal"`
+	StartDate   time.Time `json:"start_date"`
+	EndDate     time.Time `json:"end_date"`
+	Description string    `json:"description"`
+	Stack       []string  `json:"stack"`
 }
 
 type Project struct {
@@ -69,6 +89,26 @@ type ServiceIntroduce struct {
 	req GetIntroduceRequest
 }
 
+func sorttime(dat []ProjectDB) {
+	for i := 0; i < len(dat); i++ {
+		for j := i + 1; j < len(dat); j++ {
+			if dat[i].StartDate.Unix() > dat[j].StartDate.Unix() {
+				dat[i], dat[j] = dat[j], dat[i]
+			}
+		}
+	}
+}
+
+func sortCareer(dat []CareerDB) {
+	for i := 0; i < len(dat); i++ {
+		for j := i + 1; j < len(dat); j++ {
+			if dat[i].StartDate.Unix() > dat[j].StartDate.Unix() {
+				dat[i], dat[j] = dat[j], dat[i]
+			}
+		}
+	}
+}
+
 func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 	resp := GetIntroduceResponse{}
 	tb := database.TBUser{}
@@ -95,11 +135,24 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 		Email:       ret.Email,
 		Birthday:    ret.Birthday.Format("2006-01-02"),
 	}
-	careerList := make([]Career, len(ret.Career))
+	careerList := make([]CareerDB, len(ret.Career))
 	for i, v := range ret.Career {
-		careerList[i] = Career{
+		careerList[i] = CareerDB{
 			ID:        strconv.Itoa(int(v.ID)),
 			Company:   v.CompanyName,
+			StartDate: v.StartDate,
+			EndDate:   v.EndDate,
+			JobTitle:  v.JobTitle,
+			JobDetail: v.JobDetail,
+		}
+	}
+	sortCareer(careerList)
+
+	careerResp := make([]Career, len(careerList))
+	for i, v := range careerList {
+		careerResp[i] = Career{
+			ID:        v.ID,
+			Company:   v.Company,
 			StartDate: v.StartDate.Format("2006-01-02"),
 			EndDate:   v.EndDate.Format("2006-01-02"),
 			JobTitle:  v.JobTitle,
@@ -107,7 +160,7 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 		}
 	}
 
-	projectList := make([]Project, len(ret.Project))
+	projectList := make([]ProjectDB, len(ret.Project))
 	for i, v := range ret.Project {
 		tb := database.TBProject{}
 		tb.Get(app.DB, v.ID)
@@ -115,14 +168,29 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 		for j, k := range tb.Stack {
 			stack[j] = k.Name
 		}
-		projectList[i] = Project{
+		projectList[i] = ProjectDB{
 			ID:          strconv.Itoa(int(v.ID)),
+			Name:        v.Name,
+			IsPersonal:  v.IsPersonal,
+			StartDate:   v.StartDate,
+			EndDate:     v.EndDate,
+			Description: v.Description,
+			Stack:       stack,
+		}
+	}
+
+	sorttime(projectList)
+
+	proResp := make([]Project, len(projectList))
+	for i, v := range projectList {
+		proResp[i] = Project{
+			ID:          v.ID,
 			Name:        v.Name,
 			IsPersonal:  v.IsPersonal,
 			StartDate:   v.StartDate.Format("2006-01-02"),
 			EndDate:     v.EndDate.Format("2006-01-02"),
 			Description: v.Description,
-			Stack:       stack,
+			Stack:       v.Stack,
 		}
 	}
 
@@ -158,8 +226,8 @@ func (app *ServiceIntroduce) Service() *api_context.CommonResponse {
 	}
 
 	resp.Profile = profi
-	resp.Careers = careerList
-	resp.Project = projectList
+	resp.Careers = careerResp
+	resp.Project = proResp
 	resp.Keywords = keywordList
 	resp.Skills = skillsList
 

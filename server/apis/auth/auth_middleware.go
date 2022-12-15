@@ -21,6 +21,7 @@ const secretKey = "devlog_jjang"
 
 type SessionAuthInfo struct {
 	UserID string `json:"user_id"`
+	//Auth   interface{} `json:"auth"`
 }
 
 type AdminToken struct {
@@ -40,12 +41,13 @@ func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
 	logrus.Debugf("session get : %+v", sess)
 
 	sess.Options = &sessions.Options{
-		Path:     "/api/v1",
-		Domain:   ".yjproject.blog",
+		Path:   "/api/v1",
+		Domain: ".yjproject.blog:3000",
+		//Domain:   "localhost:3000",
 		MaxAge:   sessionVerifyTime,
 		Secure:   true,
 		HttpOnly: false,
-		SameSite: http.SameSiteDefaultMode,
+		SameSite: http.SameSiteLaxMode,
 	}
 
 	//b, _ := json.Marshal(&auth)
@@ -58,6 +60,8 @@ func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
 	fmt.Println("session : ", sess)
 
 	logrus.Debugf("session : %+v", sess)
+
+	//auth.Auth = sess.Values["auth"]
 	return auth, nil
 }
 

@@ -63,7 +63,7 @@ func main() {
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		Skipper:          nil,
-		AllowOrigins:     []string{"*"},
+		AllowOrigins:     []string{"http://yjproject.blog"},
 		AllowMethods:     []string{"POST", "GET", "DELETE", "OPTION", "PUT", "HEAD"},
 		AllowHeaders:     []string{"*"},
 		AllowCredentials: true,

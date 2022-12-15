@@ -60,33 +60,41 @@ func (a AuthHandler) SetAuthInfoInContext(data interface{}) {
 }
 
 func (a AuthHandler) ParseAuthorization(c echo.Context) *api_context.CommonResponse {
-	sess, err := session.Get(sessionKey, c)
+	/*sess, err := session.Get(sessionKey, c)
+	  if err != nil {
+	  	return api_context.FailureJSON(http.StatusUnauthorized, "세션 정보를 찾을 수 없습니다.")
+	  }
+
+	  logrus.Info("sess : ", sess)
+
+	  sess.Options = &sessions.Options{
+	  	Path:     SessionPath,
+	  	Domain:   ".yjproject.blog",
+	  	MaxAge:   MaxAge,
+	  	Secure:   false,
+	  	HttpOnly: false,
+	  	SameSite: http.SameSiteDefaultMode,
+	  }
+
+	  if val, has := sess.Values["auth"]; has == false {
+	  	return api_context.FailureJSON(http.StatusUnauthorized, "세션 정보를 찾을 수 없습니다.")
+	  } else {
+	  	a.UserId = val.(string)
+	  }
+
+	  if err = sess.Save(c.Request(), c.Response()); err != nil {
+	  	return api_context.FailureJSON(http.StatusInternalServerError, "세션 생성 실패")
+	  }
+
+	  return nil*/
+	cookie, err := c.Cookie("user_id")
 	if err != nil {
-		return api_context.FailureJSON(http.StatusUnauthorized, "세션 정보를 찾을 수 없습니다.")
+		return api_context.FailureJSON(http.StatusInternalServerError, "get cookie failed")
 	}
 
-	logrus.Info("sess : ", sess)
+	fmt.Println("cookie:", cookie.Name)
+	return api_context.SuccessJSON(nil)
 
-	sess.Options = &sessions.Options{
-		Path:     SessionPath,
-		Domain:   ".yjproject.blog",
-		MaxAge:   MaxAge,
-		Secure:   false,
-		HttpOnly: false,
-		SameSite: http.SameSiteDefaultMode,
-	}
-
-	if val, has := sess.Values["auth"]; has == false {
-		return api_context.FailureJSON(http.StatusUnauthorized, "세션 정보를 찾을 수 없습니다.")
-	} else {
-		a.UserId = val.(string)
-	}
-
-	if err = sess.Save(c.Request(), c.Response()); err != nil {
-		return api_context.FailureJSON(http.StatusInternalServerError, "세션 생성 실패")
-	}
-
-	return nil
 }
 
 func (a AuthHandler) GetUserID(c echo.Context) string {

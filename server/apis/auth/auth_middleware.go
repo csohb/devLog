@@ -21,6 +21,7 @@ const secretKey = "devlog_jjang"
 
 type SessionAuthInfo struct {
 	UserID string `json:"user_id"`
+	//Auth   interface{} `json:"auth"`
 }
 
 type AdminToken struct {
@@ -40,11 +41,13 @@ func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
 	logrus.Debugf("session get : %+v", sess)
 
 	sess.Options = &sessions.Options{
-		Path:     "/api/v1",
+		Path:   "/api/v1",
+		Domain: ".yjproject.blog:3000",
+		//Domain:   "localhost",
 		MaxAge:   sessionVerifyTime,
-		Secure:   false,
-		HttpOnly: true,
-		SameSite: http.SameSiteDefaultMode,
+		Secure:   true,
+		HttpOnly: false,
+		SameSite: http.SameSiteLaxMode,
 	}
 
 	//b, _ := json.Marshal(&auth)
@@ -57,7 +60,25 @@ func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
 	fmt.Println("session : ", sess)
 
 	logrus.Debugf("session : %+v", sess)
+
+	//auth.Auth = sess.Values["auth"]
 	return auth, nil
+}
+
+func ExpireSession(c echo.Context) error {
+	sess, err := session.Get(sessionKey, c)
+	if err != nil {
+		fmt.Errorf("session get failure : %s", err)
+		return err
+	}
+
+	sess.Options = &sessions.Options{
+		Path:     "/api/v1",
+		MaxAge:   -1,
+		HttpOnly: true,
+	}
+	sess.Values["auth"] = false
+	return nil
 }
 
 func CreateJwtToken(userId string) (string, int64) {

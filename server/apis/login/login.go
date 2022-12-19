@@ -5,7 +5,6 @@ import (
 	"devLog/database"
 	"devLog/server/apis/auth"
 	"devLog/server/apis/context"
-	"fmt"
 	"github.com/labstack/echo/v4"
 	"github.com/sirupsen/logrus"
 	"net/http"
@@ -72,11 +71,9 @@ func (app *ServiceLogin) Service() *api_context.CommonResponse {
 		LoginDate: time.Now(),
 	}
 
-	if err := app.AuthInfo.SetCookie(app.Context, app.req.UserID); err != nil {
+	/*if err := app.AuthInfo.SetCookie(app.Context, app.req.UserID); err != nil {
 		logrus.WithError(err).Error("Create User Error")
-	}
-
-	fmt.Println("authInfo : ", authInfo)
+	}*/
 
 	_, err := auth.CreateSession(app.Context, app.req.UserID)
 	if err != nil {
@@ -86,8 +83,9 @@ func (app *ServiceLogin) Service() *api_context.CommonResponse {
 
 	app.AuthInfo = authInfo
 
-	resp := ResponseLogin{}
-	resp.UserID = app.req.UserID
+	resp := ResponseLogin{
+		UserID: app.req.UserID,
+	}
 
 	return api_context.SuccessJSON(&resp)
 }

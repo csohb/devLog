@@ -63,7 +63,7 @@ func main() {
 
 	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
 		Skipper:          nil,
-		AllowOrigins:     []string{"*"},
+		AllowOrigins:     []string{"http://yjproject.blog"},
 		AllowMethods:     []string{"POST", "GET", "DELETE", "OPTION", "PUT", "HEAD"},
 		AllowHeaders:     []string{"*"},
 		AllowCredentials: true,
@@ -85,7 +85,8 @@ func main() {
 	request := resty.New()
 	context.InitContext(e, logrus.StandardLogger(), db, request, cfg)
 
-	e.Start(":8081")
+	port := cfg.Server.Port
+	e.Start(port)
 
 }
 

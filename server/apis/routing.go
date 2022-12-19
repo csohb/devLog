@@ -12,10 +12,15 @@ import (
 	"devLog/server/apis/tech"
 	"devLog/server/apis/upload"
 	"github.com/labstack/echo/v4"
+	"net/http"
 )
 
 func RoutingForDevLog(grp *echo.Group) {
 	//grp.Use(auth.MiddlewareJWT())
+
+	grp.GET("/", func(c echo.Context) error {
+		return c.JSON(http.StatusOK, "OK")
+	})
 
 	// main page
 	grp.GET("/main/introduce", mainpage.ProcessProfileList)

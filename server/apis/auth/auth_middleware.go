@@ -43,7 +43,7 @@ func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
 	sess.Options = &sessions.Options{
 		Path:   "/api/v1",
 		Domain: ".yjproject.blog:3000",
-		//Domain:   "localhost:3000",
+		//Domain:   "localhost",
 		MaxAge:   sessionVerifyTime,
 		Secure:   true,
 		HttpOnly: false,
@@ -63,6 +63,22 @@ func CreateSession(c echo.Context, userID string) (SessionAuthInfo, error) {
 
 	//auth.Auth = sess.Values["auth"]
 	return auth, nil
+}
+
+func ExpireSession(c echo.Context) error {
+	sess, err := session.Get(sessionKey, c)
+	if err != nil {
+		fmt.Errorf("session get failure : %s", err)
+		return err
+	}
+
+	sess.Options = &sessions.Options{
+		Path:     "/api/v1",
+		MaxAge:   -1,
+		HttpOnly: true,
+	}
+	sess.Values["auth"] = false
+	return nil
 }
 
 func CreateJwtToken(userId string) (string, int64) {

@@ -19,6 +19,7 @@ const (
 	sessionKey    = "auth"
 	idSessionKey  = "user_id"
 	SessionPath   = "/api/v1"
+	SessionDomain = ".yjproject.blog"
 	SessionSecret = "devLog-session-secret"
 	MaxAge        = 3600
 )
@@ -60,41 +61,33 @@ func (a AuthHandler) SetAuthInfoInContext(data interface{}) {
 }
 
 func (a AuthHandler) ParseAuthorization(c echo.Context) *api_context.CommonResponse {
-	/*sess, err := session.Get(sessionKey, c)
-	  if err != nil {
-	  	return api_context.FailureJSON(http.StatusUnauthorized, "세션 정보를 찾을 수 없습니다.")
-	  }
-
-	  logrus.Info("sess : ", sess)
-
-	  sess.Options = &sessions.Options{
-	  	Path:     SessionPath,
-	  	Domain:   ".yjproject.blog",
-	  	MaxAge:   MaxAge,
-	  	Secure:   false,
-	  	HttpOnly: false,
-	  	SameSite: http.SameSiteDefaultMode,
-	  }
-
-	  if val, has := sess.Values["auth"]; has == false {
-	  	return api_context.FailureJSON(http.StatusUnauthorized, "세션 정보를 찾을 수 없습니다.")
-	  } else {
-	  	a.UserId = val.(string)
-	  }
-
-	  if err = sess.Save(c.Request(), c.Response()); err != nil {
-	  	return api_context.FailureJSON(http.StatusInternalServerError, "세션 생성 실패")
-	  }
-
-	  return nil*/
-	cookie, err := c.Cookie("user_id")
+	sess, err := session.Get(sessionKey, c)
 	if err != nil {
-		return api_context.FailureJSON(http.StatusInternalServerError, "get cookie failed")
+		return api_context.FailureJSON(http.StatusUnauthorized, "세션 정보를 찾을 수 없습니다.")
 	}
 
-	fmt.Println("cookie:", cookie.Name)
-	return api_context.SuccessJSON(nil)
+	logrus.Info("sess : ", sess)
 
+	sess.Options = &sessions.Options{
+		Path:     SessionPath,
+		Domain:   ".yjproject.blog",
+		MaxAge:   MaxAge,
+		Secure:   false,
+		HttpOnly: false,
+		SameSite: http.SameSiteDefaultMode,
+	}
+
+	if val, has := sess.Values["auth"]; has == false {
+		return api_context.FailureJSON(http.StatusUnauthorized, "세션 정보를 찾을 수 없습니다.")
+	} else {
+		a.UserId = val.(string)
+	}
+
+	if err = sess.Save(c.Request(), c.Response()); err != nil {
+		return api_context.FailureJSON(http.StatusInternalServerError, "세션 생성 실패")
+	}
+
+	return nil
 }
 
 func (a AuthHandler) GetUserID(c echo.Context) string {

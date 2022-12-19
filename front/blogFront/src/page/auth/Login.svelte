@@ -14,7 +14,7 @@ function loginHandler() {
     .postLogin(id, pw)
     .then((resp: any) => {
       authStore.setNick(resp.user_id);
-      // setCookie(resp.user_id);
+      setCookie(resp.user_id);
       id = "";
       pw = "";
       push("/");

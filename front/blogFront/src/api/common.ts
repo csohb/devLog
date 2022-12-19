@@ -7,6 +7,7 @@ import axios, {
 
 import type { CustomResponseFormat } from "./types/common";
 import popupStore from "../stores/popup";
+// import https from "https";
 
 interface CustomInstance extends AxiosInstance {
   interceptors: {
@@ -32,6 +33,8 @@ const url = process.env.BASE_URL;
 const reqresApi: CustomInstance = axios.create({
   baseURL: `${url}/api/v1`, // Url 나중에 env 로 빼기
   timeout: 15000, // timeout 15초
+  withCredentials: true, // cors error
+  // httpsAgent: new https.Agent({ rejectUnauthorized: false }), // ssl 인증 무시하기... 나중에 삭제
 });
 
 // Axios 에는 interceptors 라는 기능이 있다. 이를 통해서 request / response 에 선행,후행 처리를 커스텀
